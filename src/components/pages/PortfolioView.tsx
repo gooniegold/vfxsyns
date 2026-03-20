@@ -33,43 +33,49 @@ import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { SYN_VIDEO_BASE_STYLE, VIDEO_LOADING_LAZY } from "@/lib/video-presentation";
 import { cn } from "@/lib/utils";
 
+/** Tab labels; project `category` must use these exact strings (indices 1–3) for filtering. */
+const FILTERS: readonly PortfolioFilter[] = [
+  "ALL",
+  "MUSIC VIDEO",
+  "COLOR GRADE",
+  "3D VFX",
+];
+
 const PROJECTS = [
   {
     title: "Video 1",
-    category: "MUSIC VIDEO" as const,
+    category: FILTERS[1],
     videoSrc: PORTFOLIO_VIDEO_1_MUSIC,
   },
   {
     title: "Video 2",
-    category: "MUSIC VIDEO" as const,
+    category: FILTERS[1],
     videoSrc: PORTFOLIO_VIDEO_2_MUSIC,
   },
   {
     title: "Color Grade 1",
-    category: "COLOR GRADE" as const,
+    category: FILTERS[2],
     videoSrc: PORTFOLIO_VIDEO_3_COLOR,
   },
   {
     title: "Color Grade 2",
-    category: "COLOR GRADE" as const,
+    category: FILTERS[2],
     videoSrc: PORTFOLIO_VIDEO_4_COLOR,
   },
   {
     title: "Showcase 1",
-    category: "3D VFX" as const,
+    category: FILTERS[3],
     videoSrc: PORTFOLIO_VIDEO_5_3D,
   },
   {
     title: "Showcase 2",
-    category: "3D VFX" as const,
+    category: FILTERS[3],
     videoSrc: PORTFOLIO_VIDEO_6_3D,
   },
 ].map((p) => ({
   ...p,
   desc: `Premium finish built for the track. ${p.title} pairs contrast, motion, and texture for a cinematic result.`,
 }));
-
-const FILTERS = ["ALL", "MUSIC VIDEO", "COLOR GRADE", "3D VFX"] as const satisfies readonly PortfolioFilter[];
 
 function ModalVideo({ src, title }: { src: string; title: string }) {
   const [failed, setFailed] = useState(false);
@@ -251,9 +257,9 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
 
       <div className="sticky top-[calc(120px+env(safe-area-inset-top,0px))] z-[40] border-b border-[var(--glass-border)] bg-[rgba(6,6,8,0.72)] backdrop-blur-[20px]">
         <div className="mx-auto flex max-w-[1400px] flex-wrap gap-3 px-6 py-4 md:px-10">
-          {FILTERS.map((f) => (
+          {FILTERS.map((f, i) => (
             <GlassButton
-              key={f}
+              key={`portfolio-filter-${i}-${f}`}
               variant={filter === f ? "outline" : "glass"}
               onClick={() => setFilter(f)}
               size="sm"

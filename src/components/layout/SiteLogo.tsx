@@ -7,7 +7,13 @@ export function SiteLogo() {
     <Link
       href="/"
       data-cursor="hover"
-      className="fixed left-8 top-[max(1.25rem,env(safe-area-inset-top,0px))] z-[125] font-display text-[18px] tracking-[0.1em] text-[var(--gold)] transition-opacity hover:opacity-90 md:left-8"
+      className="font-display text-[18px] tracking-[0.1em] text-[var(--gold)] transition-opacity hover:opacity-90"
+      style={{
+        position: "fixed",
+        top: 24,
+        left: 32,
+        zIndex: 9999,
+      }}
     >
       VFXSYN
     </Link>

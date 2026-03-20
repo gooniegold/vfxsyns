@@ -33,16 +33,17 @@ export function AppDock() {
 
   return (
     <nav
-      className="pointer-events-none flex w-auto justify-end"
+      className="flex w-auto justify-end"
       style={{
         position: "fixed",
         top: 20,
         right: 32,
         zIndex: 9999,
+        pointerEvents: "auto",
       }}
       aria-label="Primary navigation"
     >
-      <div className="pointer-events-auto h-16 w-auto md:h-[72px]">
+      <div className="h-16 w-auto md:h-[72px]">
         <Dock
           gapPx={compact ? 8 : 12}
           horizontalPaddingPx={compact ? 24 : 32}
