@@ -37,6 +37,10 @@ const PRISM_PROPS = {
   scale: 3.4,
 };
 
+/** Solid fill only — no WebGL, no Three.js, no shaders. */
+const STATIC_FALLBACK_CLASS =
+  "pointer-events-none absolute inset-0 h-full w-full min-h-full bg-[#050505]";
+
 function PortfolioBgLayer({
   activeFilter,
   staticOnly,
@@ -45,21 +49,23 @@ function PortfolioBgLayer({
   staticOnly: boolean;
 }) {
   if (staticOnly) {
-    return <div className={`${FILL} bg-[#050505]`} />;
+    return <div className={STATIC_FALLBACK_CLASS} aria-hidden />;
   }
   switch (activeFilter) {
     case "ALL":
       return (
         <>
           <div className={`${FILL} z-0 bg-[#050505]`} />
-          <HeroBackground position="fixed" canvasOpacity={0.45} />
+          <div key={activeFilter} className={`${FILL} z-[1]`}>
+            <HeroBackground position="fixed" canvasOpacity={0.45} />
+          </div>
         </>
       );
     case "MUSIC VIDEO":
       return (
         <>
           <div className={`${FILL} z-0 bg-[#050505]`} />
-          <div className={`${FILL} z-[1]`}>
+          <div key={activeFilter} className={`${FILL} z-[1]`}>
             <ColorBends
               colors={["#B8BEC7", "#181818", "#6B7280", "#111111", "#D4D9E0"]}
               speed={0.14}
@@ -79,7 +85,7 @@ function PortfolioBgLayer({
       return (
         <>
           <div className={`${FILL} z-0 bg-[#050505]`} />
-          <div className={`${FILL} z-[1]`}>
+          <div key={activeFilter} className={`${FILL} z-[1]`}>
             <Aurora {...AURORA_PROPS} />
           </div>
         </>
@@ -88,7 +94,7 @@ function PortfolioBgLayer({
       return (
         <>
           <div className={`${FILL} z-0 bg-[#050505]`} />
-          <div className={`${FILL} z-[1]`}>
+          <div key={activeFilter} className={`${FILL} z-[1]`}>
             <Prism {...PRISM_PROPS} />
           </div>
         </>
@@ -108,7 +114,7 @@ export function PortfolioPageBackground({
 }) {
   return (
     <div className={FIXED} aria-hidden style={{ pointerEvents: "none" }}>
-      <AnimatePresence mode="sync" initial={false}>
+      <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={activeFilter}
           className={FILL}

@@ -216,6 +216,7 @@ function GridCard({
 }
 
 export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
   const [filter, setFilter] = useState<PortfolioFilter>("ALL");
   const [openId, setOpenId] = useState<string | null>(null);
   const [ambientVideoSessions, setAmbientVideoSessions] = useState(0);
@@ -241,6 +242,10 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
   });
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     if (typeof window === "undefined" || typeof window.addEventListener !== "function") return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpenId(null);
@@ -249,11 +254,7 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  if (typeof window !== "undefined") {
-    console.log("activeFilter:", filter);
-    console.log("filtered count:", filtered.length);
-    console.log("project categories:", PROJECTS.map((p) => p.category));
-  }
+  if (!mounted) return null;
 
   return (
     <div className="relative z-[5] text-[var(--text-primary)]">
