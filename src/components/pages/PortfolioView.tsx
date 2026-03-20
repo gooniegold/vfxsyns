@@ -219,12 +219,9 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
   const [mounted, setMounted] = useState(false);
   const [filter, setFilter] = useState<PortfolioFilter>("ALL");
   const [openId, setOpenId] = useState<string | null>(null);
-  const [ambientVideoSessions, setAmbientVideoSessions] = useState(0);
   const showreelRef = useRef<HTMLVideoElement>(null);
 
-  const onAmbientPreviewChange = useCallback((playing: boolean) => {
-    setAmbientVideoSessions((n) => Math.max(0, n + (playing ? 1 : -1)));
-  }, []);
+  const onAmbientPreviewChange = useCallback((_playing: boolean) => {}, []);
 
   const filtered = useMemo(() => {
     if (filter === "ALL") return PROJECTS;
@@ -233,7 +230,7 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
 
   const active = PROJECTS.find((p) => p.title === openId) ?? null;
   const previewsLocked = active != null;
-  const suppressAmbientAnimations = ambientVideoSessions > 0 || previewsLocked;
+  const suppressAmbientAnimations = false;
 
   useInViewVideoPlayback(showreelRef, {
     threshold: 0.3,
@@ -318,7 +315,7 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
                 muted
                 loop
                 playsInline
-                preload="none"
+                preload="auto"
                 {...VIDEO_LOADING_LAZY}
                 style={SYN_VIDEO_BASE_STYLE}
               />

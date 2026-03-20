@@ -18,8 +18,6 @@ const FIXED =
 const FILL =
   "pointer-events-none absolute inset-0 h-full w-full min-h-full [pointer-events:none]";
 
-const CROSSFADE = { duration: 0.6, ease: "easeInOut" as const };
-
 const AURORA_PROPS = {
   colorStops: ["#B8BEC7", "#6B7280", "#D4D9E0"],
   amplitude: 0.42,
@@ -114,15 +112,15 @@ export function PortfolioPageBackground({
 }) {
   return (
     <div className={FIXED} aria-hidden style={{ pointerEvents: "none" }}>
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence mode="wait">
         <motion.div
           key={activeFilter}
           className={FILL}
           style={{ pointerEvents: "none" }}
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={CROSSFADE}
+          exit={{ opacity: 1 }}
+          transition={{ duration: 0, delay: 0 }}
         >
           <PortfolioBgLayer activeFilter={activeFilter} staticOnly={suppressAmbientAnimations} />
         </motion.div>
