@@ -4,7 +4,6 @@ import { GoldArrowTrail } from "./GoldArrowTrail";
 import { SiteLogo } from "./SiteLogo";
 import { Footer } from "./Footer";
 import { PageTransition } from "./PageTransition";
-import { SmoothScroll } from "./SmoothScroll";
 import { GlobalLines } from "./GlobalLines";
 import { GoldGlowBlob } from "./GoldGlowBlob";
 import { SiteIntroLoader } from "./SiteIntroLoader";
@@ -16,7 +15,6 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       <SiteIntroLoader />
       <GoldGlowBlob />
       <GlobalLines />
-      <SmoothScroll />
       <ScrollProgress />
       <FilmGrain />
       <GoldArrowTrail />
