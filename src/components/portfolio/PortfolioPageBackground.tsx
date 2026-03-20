@@ -21,7 +21,7 @@ const FILL =
 const CROSSFADE = { duration: 0.6, ease: "easeInOut" as const };
 
 const AURORA_PROPS = {
-  colorStops: ["#BFA06A", "#7A5C2E", "#D4B87A"],
+  colorStops: ["#B8BEC7", "#6B7280", "#D4D9E0"],
   amplitude: 0.42,
   blend: 0.62,
   speed: 0.28,
@@ -61,7 +61,7 @@ function PortfolioBgLayer({
           <div className={`${FILL} z-0 bg-[#050505]`} />
           <div className={`${FILL} z-[1]`}>
             <ColorBends
-              colors={["#BFA06A", "#181818", "#7A5C2E", "#111111", "#D4B87A"]}
+              colors={["#B8BEC7", "#181818", "#6B7280", "#111111", "#D4D9E0"]}
               speed={0.14}
               rotation={40}
               scale={1.15}

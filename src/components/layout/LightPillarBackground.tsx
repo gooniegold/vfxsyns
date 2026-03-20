@@ -28,7 +28,7 @@ export function LightPillarBackground() {
             opacity: b.opacity,
             filter: `blur(${b.blur}px)`,
             background:
-              "linear-gradient(to bottom, transparent 0%, rgba(191,160,106,0.15) 35%, rgba(212,184,122,0.08) 55%, rgba(191,160,106,0.04) 78%, transparent 100%)",
+              "linear-gradient(to bottom, transparent 0%, rgba(184,190,199,0.15) 35%, rgba(212,217,224,0.08) 55%, rgba(184,190,199,0.04) 78%, transparent 100%)",
             animation: `pillarDrift ${b.duration}s ease-in-out ${b.delay}s infinite`,
           }}
         />

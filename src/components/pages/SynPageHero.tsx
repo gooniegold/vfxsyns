@@ -33,8 +33,8 @@ export function SynPageHero({
       ) : null}
       <motion.div
         className={cn("motion-gpu-hint relative z-[1] max-w-[1400px]", innerClassName)}
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={MOTION_TRANSITION}
       >
         {eyebrow}

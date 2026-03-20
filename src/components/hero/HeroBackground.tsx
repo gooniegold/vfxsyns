@@ -14,7 +14,7 @@ function Particles() {
     const pos = new Float32Array(COUNT * 3);
     const col = new Float32Array(COUNT * 3);
     const vel = new Float32Array(COUNT * 3);
-    const gold = new THREE.Color("#BFA06A");
+    const gold = new THREE.Color("#B8BEC7");
     const mist = new THREE.Color("#F2EFE8");
 
     for (let i = 0; i < COUNT; i++) {

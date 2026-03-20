@@ -75,14 +75,14 @@ export function WhyChooseUsSection({ id = "why" }: { id?: string }) {
                   className="h-full min-h-[200px] rounded-[16px]"
                   tiltClassName="h-full min-h-[200px] rounded-[16px] [transform-style:preserve-3d]"
                   tiltAmount={7}
-                  glareColor="rgba(191,160,106,0.14)"
+                  glareColor="rgba(184,190,199,0.14)"
                 >
                   <StarBorder
                     className="h-full min-h-0 w-full !block rounded-[16px]"
                     innerClassName="group relative flex h-full min-h-0 flex-col rounded-[16px] border border-[var(--border-subtle)] bg-[var(--bg-card)] p-8 transition-[border-color,box-shadow] duration-300 hover:border-[var(--border-gold)] hover:shadow-[var(--shadow-gold)]"
                   >
                     <item.icon
-                      className="h-7 w-7 text-[var(--text-secondary)] transition-all duration-300 ease-out group-hover:scale-[1.2] group-hover:rotate-[10deg] group-hover:text-[var(--gold)] group-hover:[filter:drop-shadow(0_0_8px_rgba(191,160,106,0.6))]"
+                      className="h-7 w-7 text-[var(--text-secondary)] transition-all duration-300 ease-out group-hover:scale-[1.2] group-hover:rotate-[10deg] group-hover:text-[var(--gold)] group-hover:[filter:drop-shadow(0_0_8px_rgba(184,190,199,0.6))]"
                       strokeWidth={1.25}
                       aria-hidden
                     />

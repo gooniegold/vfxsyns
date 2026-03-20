@@ -71,7 +71,7 @@ function HeroSection() {
       <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
       <HeroBackground />
       <div
-        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(191,160,106,0.06)_0%,transparent_70%)]"
+        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(184,190,199,0.06)_0%,transparent_70%)]"
         aria-hidden
       />
       <div
@@ -169,7 +169,7 @@ function MarqueeStrip() {
   return (
     <ScrollReveal>
       <section
-        className="group border-y border-[var(--border-gold)] bg-[rgba(191,160,106,0.04)] py-5"
+        className="group border-y border-[var(--border-gold)] bg-[rgba(184,190,199,0.04)] py-5"
         aria-label="Ticker"
       >
         <div className="syn-curved-marquee overflow-hidden">
@@ -345,7 +345,7 @@ function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: numbe
               }}
               aria-hidden
             />
-            <div className="pointer-events-none absolute inset-0 z-[2] rounded-[inherit] bg-gradient-to-br from-[rgba(191,160,106,0.04)_0%,transparent_50%] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="pointer-events-none absolute inset-0 z-[2] rounded-[inherit] bg-gradient-to-br from-[rgba(184,190,199,0.04)_0%,transparent_50%] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <div className="relative w-full overflow-hidden bg-[#0c0c0c]">
               <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden" }}>
                 {!videoFailed ? (
@@ -466,7 +466,7 @@ function PacksTeaser() {
               <TiltGlare
                 className="w-full rounded-[16px]"
                 tiltAmount={7}
-                glareColor="rgba(191,160,106,0.12)"
+                glareColor="rgba(184,190,199,0.12)"
                 tiltClassName="rounded-[16px] shadow-[0_12px_42px_rgba(0,0,0,0.48)] [transform-style:preserve-3d]"
               >
                 <StarBorder

@@ -24,7 +24,8 @@ function RouteGoldSweep({ pathname }: { pathname: string }) {
   return (
     <div
       ref={hostRef}
-      className="pointer-events-none fixed left-0 right-0 top-1/2 z-[99990] h-[2px] -translate-y-1/2 motion-gpu-hint"
+      className="pointer-events-none fixed left-0 right-0 z-[99990] h-[2px]"
+      style={{ top: "50%", marginTop: -1 }}
       aria-hidden
     >
       <div className="syn-route-sweep-inner" />

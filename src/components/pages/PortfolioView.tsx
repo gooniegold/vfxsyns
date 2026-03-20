@@ -250,7 +250,7 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
   }, []);
 
   return (
-    <div className="relative z-[5] bg-[var(--bg-base)] text-[var(--text-primary)]">
+    <div className="relative z-[5] text-[var(--text-primary)]">
       <PortfolioPageBackground activeFilter={filter} suppressAmbientAnimations={suppressAmbientAnimations} />
 
       {pageHeader}
@@ -265,7 +265,7 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
               size="sm"
               className={cn(
                 "syn-filter-chip min-h-[44px] font-ui uppercase tracking-[0.12em]",
-                filter === f && "syn-filter-active text-gradient border-[var(--gold)] bg-[rgba(191,160,106,0.08)]",
+                filter === f && "syn-filter-active text-gradient border-[var(--gold)] bg-[rgba(184,190,199,0.08)]",
               )}
             >
               {f}

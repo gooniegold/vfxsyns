@@ -14,7 +14,7 @@ const sizes: Record<Size, string> = {
 };
 
 const goldStyle: React.CSSProperties = {
-  backgroundImage: "linear-gradient(135deg, #BFA06A, #D4B87A, #7A5C2E)",
+  backgroundImage: "linear-gradient(135deg, #B8BEC7, #D4D9E0, #6B7280)",
   backgroundSize: "300% 300%",
   animation: "gradientShift 3s ease infinite",
 };
@@ -46,16 +46,16 @@ export function GlassButton({
 
   const variants: Record<Variant, string> = {
     glass:
-      "rounded-[50px] border border-[var(--border-subtle)] bg-[rgba(17,17,17,0.75)] text-[var(--text-primary)] backdrop-blur-[12px] hover:border-[var(--gold-border)] hover:shadow-[0_0_24px_rgba(191,160,106,0.2),inset_0_0_24px_rgba(191,160,106,0.05)]",
-    gold: "rounded-[50px] border-none text-[#050505] shadow-none hover:scale-[1.04] hover:shadow-[0_8px_32px_rgba(191,160,106,0.4)]",
+      "rounded-[50px] border border-[var(--border-subtle)] bg-[rgba(17,17,17,0.75)] text-[var(--text-primary)] backdrop-blur-[12px] hover:border-[var(--gold-border)] hover:shadow-[0_0_24px_rgba(184,190,199,0.2),inset_0_0_24px_rgba(184,190,199,0.05)]",
+    gold: "rounded-[50px] border-none text-[#050505] shadow-none hover:scale-[1.04] hover:shadow-[0_8px_32px_rgba(184,190,199,0.4)]",
     outline:
-      "rounded-[50px] border border-[var(--gold-border)] bg-transparent text-[var(--gold)] hover:border-[var(--gold-border)] hover:bg-[rgba(17,17,17,0.85)] hover:shadow-[0_0_20px_rgba(191,160,106,0.15)]",
+      "rounded-[50px] border border-[var(--gold-border)] bg-transparent text-[var(--gold)] hover:border-[var(--gold-border)] hover:bg-[rgba(17,17,17,0.85)] hover:shadow-[0_0_20px_rgba(184,190,199,0.15)]",
   };
 
   const inner = (
     <>
       {variant === "glass" ? (
-        <span className="pointer-events-none absolute inset-0 rounded-[inherit] bg-gradient-to-br from-[rgba(191,160,106,0.12)] to-[rgba(122,92,46,0.06)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        <span className="pointer-events-none absolute inset-0 rounded-[inherit] bg-gradient-to-br from-[rgba(184,190,199,0.12)] to-[rgba(107,114,128,0.06)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       ) : null}
       <span className="relative z-[1]">{children}</span>
     </>

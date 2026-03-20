@@ -68,7 +68,7 @@ export function FAQSection({ id = "faq" }: { id?: string }) {
                     data-cursor="hover"
                     className={cn(
                       "group border transition-colors duration-[250ms] ease-out",
-                      "hover:bg-[rgba(191,160,106,0.04)]",
+                      "hover:bg-[rgba(184,190,199,0.04)]",
                       isOpen ? "border-[var(--border-gold)] shadow-[var(--shadow-gold)]" : "border-[var(--border-subtle)] hover:border-[var(--border-gold)]",
                     )}
                   >

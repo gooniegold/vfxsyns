@@ -18,7 +18,7 @@ export function FuzzyComingSoon() {
       >
         <span
           className="relative z-[1] inline-block transition-[filter,transform] duration-300 group-hover:blur-[2px] group-hover:brightness-110"
-          style={{ textShadow: "0 0 40px rgba(191,160,106,0.35)" }}
+          style={{ textShadow: "0 0 40px rgba(184,190,199,0.35)" }}
         >
           COMING SOON
         </span>

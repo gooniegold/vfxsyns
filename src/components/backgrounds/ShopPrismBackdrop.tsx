@@ -15,7 +15,7 @@ export function ShopPrismBackdrop() {
       style={{
         pointerEvents: "none",
         backgroundColor: "#050505",
-        backgroundImage: "radial-gradient(ellipse at top, rgba(191,160,106,0.08) 0%, transparent 60%)",
+        backgroundImage: "radial-gradient(ellipse at top, rgba(184,190,199,0.08) 0%, transparent 60%)",
       }}
       aria-hidden
     >

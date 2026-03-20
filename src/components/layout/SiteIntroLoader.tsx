@@ -52,13 +52,13 @@ export function SiteIntroLoader() {
               <motion.p
                 className="motion-gpu-hint font-hero text-[var(--gold)]"
                 style={{ fontSize: "clamp(80px, 16vw, 200px)" }}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={MOTION_TRANSITION}
               >
                 VFXSYN
               </motion.p>
-              <div className="mt-10 h-px w-[220px] max-w-[70vw] overflow-hidden bg-[rgba(191,160,106,0.25)]">
+              <div className="mt-10 h-px w-[220px] max-w-[70vw] overflow-hidden bg-[rgba(184,190,199,0.25)]">
                 <motion.div
                   className="motion-gpu-hint hero-gold-line h-full w-full bg-[var(--gold)]"
                   initial={{ scaleX: 0 }}

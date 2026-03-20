@@ -144,7 +144,7 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
                       fontWeight={400}
                       fontFamily="var(--font-display), serif"
                       gradient={null}
-                      color="#BFA06A"
+                      color="#B8BEC7"
                       enableHover
                       baseIntensity={0.14}
                       hoverIntensity={0.45}

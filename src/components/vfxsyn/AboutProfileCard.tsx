@@ -18,7 +18,7 @@ export function AboutProfileCard() {
       className="h-full min-h-0 w-full rounded-[8px]"
       tiltClassName="h-full min-h-0 rounded-[8px] [transform-style:preserve-3d]"
       tiltAmount={7}
-      glareColor="rgba(191,160,106,0.18)"
+      glareColor="rgba(184,190,199,0.18)"
     >
       <StarBorder
         className="h-full min-h-0 w-full !block rounded-[8px]"

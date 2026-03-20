@@ -88,8 +88,6 @@ function DockItem({
       style={{
         width: magnification,
         height: magnification,
-        willChange: "transform",
-        transform: "translateZ(0)",
       }}
     >
       <motion.div
@@ -97,7 +95,6 @@ function DockItem({
           width: baseItemSize,
           height: baseItemSize,
           scale,
-          willChange: "transform",
         }}
         className={`relative inline-flex shrink-0 items-center justify-center rounded-full border-2 shadow-md ${className}`}
         onHoverStart={() => {
@@ -146,11 +143,11 @@ function DockLabel({ children, className = "", isHovered }: DockLabelProps) {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 4, x: "-50%" }}
-          animate={{ opacity: 1, y: 0, x: "-50%" }}
-          exit={{ opacity: 0, y: 4, x: "-50%" }}
+          initial={{ opacity: 0, x: "-50%" }}
+          animate={{ opacity: 1, x: "-50%" }}
+          exit={{ opacity: 0, x: "-50%" }}
           transition={MOTION_TRANSITION}
-          className={`motion-gpu-hint ${className} font-ui pointer-events-none absolute left-1/2 top-full z-20 mt-2 w-fit whitespace-pre px-0 py-0 text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)] will-change-[transform,opacity]`}
+          className={`motion-gpu-hint ${className} font-ui pointer-events-none absolute left-1/2 top-full z-20 mt-2 w-fit whitespace-pre px-0 py-0 text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]`}
           role="tooltip"
         >
           {children}
@@ -168,9 +165,7 @@ type DockIconProps = {
 
 function DockIcon({ children, className = "" }: DockIconProps) {
   return (
-    <div
-      className={`flex size-full items-center justify-center will-change-transform [transform:translateZ(0)] ${className}`}
-    >
+    <div className={`flex size-full items-center justify-center ${className}`}>
       {children}
     </div>
   );
@@ -207,8 +202,6 @@ export default function Dock({
       style={{
         height: maxHeight,
         minHeight: maxHeight,
-        willChange: "transform",
-        transform: "translateZ(0)",
       }}
     >
       <motion.div
@@ -220,7 +213,7 @@ export default function Dock({
           isHovered.set(0);
           mouseX.set(Infinity);
         }}
-        className={`${className} relative flex shrink-0 items-center justify-center rounded-2xl border-2 border-neutral-700 py-2 will-change-transform [transform:translateZ(0)]`}
+        className={`${className} relative flex shrink-0 items-center justify-center rounded-2xl border-2 border-neutral-700 py-2`}
         style={{
           height: Math.max(panelHeight, magnification),
           minWidth: trackWidthPx,

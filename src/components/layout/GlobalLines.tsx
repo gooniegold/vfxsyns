@@ -22,7 +22,7 @@ export function GlobalLines() {
           y1={l.y1}
           x2={l.x2}
           y2={l.y2}
-          stroke="rgba(191,160,106,0.03)"
+          stroke="rgba(184,190,199,0.03)"
           strokeWidth={1}
           vectorEffect="non-scaling-stroke"
           className="syn-line-dash"

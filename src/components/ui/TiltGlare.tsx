@@ -9,7 +9,7 @@ export function TiltGlare({
   className = "",
   tiltClassName = "",
   tiltStyle,
-  glareColor = "rgba(191,160,106,0.15)",
+  glareColor = "rgba(184,190,199,0.15)",
   tiltAmount = 8,
 }: {
   children: ReactNode;

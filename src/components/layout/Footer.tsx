@@ -34,8 +34,8 @@ export function Footer() {
             <motion.div
               key={item.href}
               className="motion-gpu-hint"
-              initial={{ opacity: 0, y: 10 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
               transition={motionTransition(i * 0.08)}
             >
               <Link

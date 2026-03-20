@@ -97,7 +97,7 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
             className="pointer-events-none absolute right-0 top-[5%] hidden h-[90%] w-[2px] overflow-hidden rounded-full lg:block"
             style={{
               background:
-                "linear-gradient(180deg, transparent, #D4B87A, #BFA06A, #7A5C2E, transparent)",
+                "linear-gradient(180deg, transparent, #D4D9E0, #B8BEC7, #6B7280, transparent)",
               backgroundSize: "100% 300%",
               animation: "saberRotate 3.5s linear infinite",
             }}

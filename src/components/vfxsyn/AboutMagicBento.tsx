@@ -16,7 +16,7 @@ import { INSTAGRAM_URL } from "@/lib/constants";
 import { SYN_GOLD_GRADIENT } from "@/lib/syn-styles";
 import "@/components/MagicBento.css";
 
-const BENTO_GLOW_RGB = "191, 160, 106";
+const BENTO_GLOW_RGB = "184, 190, 199";
 
 const PROFILE_QUOTE =
   "Born in Egypt, raised with a vision. I picked up editing in 2019 and never stopped. What started as curiosity became a craft — and that craft became VFXSYN. Six years of building, experimenting, and pushing visuals to places they have never been. From Cairo to Atlanta, every project carries that hunger. 3D animation, color grading, music videos — this is not just work. This is the language I speak.";
