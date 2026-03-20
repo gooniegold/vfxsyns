@@ -8,7 +8,6 @@ import { SmoothScroll } from "./SmoothScroll";
 import { GlobalLines } from "./GlobalLines";
 import { GoldGlowBlob } from "./GoldGlowBlob";
 import { SiteIntroLoader } from "./SiteIntroLoader";
-import { AppDock } from "./AppDock";
 import { LogoLoopStrip } from "./LogoLoopStrip";
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
@@ -27,7 +26,6 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       </main>
       <LogoLoopStrip />
       <Footer />
-      <AppDock />
     </>
   );
 }
