@@ -3,8 +3,7 @@
 import { motion } from "framer-motion";
 import { Music, Package, Timer, Zap } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-
-const ease = [0.16, 1, 0.3, 1] as const;
+import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 
 const ITEMS = [
   {
@@ -40,11 +39,11 @@ export function WhyChooseUsSection({ id = "why" }: { id?: string }) {
             <span className="text-gradient">● WHY VFXSYN</span>
           </p>
           <motion.h2
-            className="font-display text-gradient relative z-[1] mt-4 text-[clamp(56px,8vw,120px)] tracking-[0.05em]"
+            className="motion-gpu-hint font-display text-gradient relative z-[1] mt-4 text-[clamp(56px,8vw,120px)] tracking-[0.05em]"
             initial={{ clipPath: "inset(0 100% 0 0)" }}
             whileInView={{ clipPath: "inset(0 0% 0 0)" }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.9, ease }}
+            transition={MOTION_TRANSITION}
           >
             THE DIFFERENCE
           </motion.h2>
@@ -55,8 +54,8 @@ export function WhyChooseUsSection({ id = "why" }: { id?: string }) {
               <motion.div
                 data-cursor="hover"
                 whileHover={{ y: -4 }}
-                transition={{ duration: 0.3, ease }}
-                className="group border border-[var(--border-subtle)] bg-[var(--bg-card)] p-8 transition-[border-color,box-shadow] hover:border-[var(--border-gold)] hover:shadow-[var(--shadow-gold)]"
+                transition={MOTION_TRANSITION}
+                className="motion-gpu-hint group border border-[var(--border-subtle)] bg-[var(--bg-card)] p-8 transition-[border-color,box-shadow] hover:border-[var(--border-gold)] hover:shadow-[var(--shadow-gold)]"
               >
                 <item.icon className="h-7 w-7 text-[var(--gold)]" strokeWidth={1.25} />
                 <h3 className="font-ui text-gradient mt-5 text-[22px] uppercase tracking-wide">{item.title}</h3>

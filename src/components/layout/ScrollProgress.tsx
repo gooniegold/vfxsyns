@@ -10,7 +10,9 @@ export function ScrollProgress() {
     const doc = document.documentElement;
     if (!doc) return;
 
-    const onScroll = () => {
+    let ticking = false;
+
+    const update = () => {
       const root = document.documentElement;
       if (!root) return;
       const scrollTop = window.scrollY || root.scrollTop;
@@ -18,7 +20,18 @@ export function ScrollProgress() {
       const pct = height > 0 ? (scrollTop / height) * 100 : 0;
       setWidth(pct);
     };
-    onScroll();
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
+      }
+    };
+
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -29,7 +42,7 @@ export function ScrollProgress() {
       aria-hidden
     >
       <div
-        className="h-full origin-left shadow-[0_0_10px_rgba(255,200,100,0.6)] transition-[width] duration-150 ease-out"
+        className="motion-gpu-hint h-full origin-left shadow-[0_0_10px_rgba(255,200,100,0.6)] transition-[width] duration-150 ease-out"
         style={{
           width: `${width}%`,
           background: "linear-gradient(90deg, #BFA06A, #D4B87A, #8a7348)",

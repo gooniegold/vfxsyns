@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import FuzzyText from "@/components/react-bits/FuzzyText";
+import { MOTION_TRANSITION, motionTransition } from "@/lib/motion-defaults";
 
 const SESSION_KEY = "vfxsyn-session-loaded";
 
@@ -41,28 +42,28 @@ export function SiteIntroLoader() {
     <AnimatePresence>
       {show ? (
         <motion.div
-          className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[var(--bg-base)]"
+          className="motion-gpu-hint fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[var(--bg-base)]"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          transition={MOTION_TRANSITION}
         >
           {!fuzzyPhase ? (
             <>
               <motion.p
-                className="font-hero text-[var(--gold)]"
+                className="motion-gpu-hint font-hero text-[var(--gold)]"
                 style={{ fontSize: "clamp(80px, 16vw, 200px)" }}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                transition={MOTION_TRANSITION}
               >
                 VFXSYN
               </motion.p>
               <div className="mt-10 h-px w-[220px] max-w-[70vw] overflow-hidden bg-[rgba(191,160,106,0.25)]">
                 <motion.div
-                  className="hero-gold-line h-full w-full bg-[var(--gold)]"
+                  className="motion-gpu-hint hero-gold-line h-full w-full bg-[var(--gold)]"
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
-                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                  transition={motionTransition()}
                   style={{ transformOrigin: "left center" }}
                   onAnimationComplete={() => setFuzzyPhase(true)}
                 />

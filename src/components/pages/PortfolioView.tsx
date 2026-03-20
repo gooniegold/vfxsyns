@@ -6,15 +6,19 @@
  */
 
 import { useEffect, useMemo, useState } from "react";
+import type { CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, X } from "lucide-react";
-import BorderGlow from "@/components/react-bits/BorderGlow";
 import GradientText from "@/components/react-bits/GradientText";
 import { GlassButton } from "@/components/ui/GlassButton";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { SaberBorder } from "@/components/ui/SaberBorder";
+import { StarBorder } from "@/components/ui/StarBorder";
 import { TiltGlare } from "@/components/ui/TiltGlare";
-import { PortfolioBG, type PortfolioFilter } from "@/components/portfolio/PortfolioBG";
+import {
+  PortfolioPageBackground,
+  type PortfolioFilter,
+} from "@/components/portfolio/PortfolioPageBackground";
 import { INSTAGRAM_URL } from "@/lib/constants";
 import {
   PORTFOLIO_VIDEO_1_MUSIC,
@@ -25,8 +29,9 @@ import {
   PORTFOLIO_VIDEO_6_3D,
   SHOWREEL_2025_VIDEO,
 } from "@/lib/portfolio-media";
+import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { cn } from "@/lib/utils";
-import { SYN_BORDER_GLOW_HSL, SYN_GOLD_GRADIENT, SYN_GOLD_MESH } from "@/lib/syn-styles";
+import { SYN_GOLD_GRADIENT } from "@/lib/syn-styles";
 
 const PROJECTS = [
   {
@@ -65,8 +70,6 @@ const PROJECTS = [
 }));
 
 const FILTERS: PortfolioFilter[] = ["ALL", "MUSIC VIDEO", "COLOR GRADE", "3D VFX"];
-
-const ease = [0.16, 1, 0.3, 1] as const;
 
 function ModalVideo({ src, title }: { src: string; title: string }) {
   const [failed, setFailed] = useState(false);
@@ -107,18 +110,15 @@ function GridCard({
   const [videoFailed, setVideoFailed] = useState(false);
 
   return (
-    <BorderGlow
-      borderRadius={20}
-      backgroundColor="var(--bg-card)"
-      glowColor={SYN_BORDER_GLOW_HSL}
-      colors={[...SYN_GOLD_MESH]}
-      glowIntensity={0.5}
-      coneSpread={22}
-      edgeSensitivity={26}
-      fillOpacity={0.28}
-      className="group border-[var(--border-subtle)] !shadow-none transition-colors duration-300 hover:border-[var(--border-gold)]"
+    <TiltGlare
+      className="group/card w-full rounded-[20px] transition-colors duration-300"
+      tiltAmount={7}
+      tiltClassName="rounded-[20px] shadow-[0_12px_42px_rgba(0,0,0,0.5)]"
     >
-      <TiltGlare className="rounded-[inherit]" tiltAmount={7}>
+      <StarBorder
+        className="w-full !block rounded-[20px]"
+        innerClassName="relative overflow-hidden rounded-[20px] border border-[var(--border-subtle)] bg-transparent p-0 transition-colors duration-300 group-hover/card:border-[var(--border-gold)]"
+      >
         <GlassCard saber={false} rounded={20} className="overflow-hidden border-0 border-transparent bg-transparent shadow-none">
           <button
             type="button"
@@ -179,8 +179,8 @@ function GridCard({
             </div>
           </button>
         </GlassCard>
-      </TiltGlare>
-    </BorderGlow>
+      </StarBorder>
+    </TiltGlare>
   );
 }
 
@@ -206,17 +206,17 @@ export function PortfolioView() {
 
   return (
     <div className="relative z-[5] bg-[var(--bg-base)] text-[var(--text-primary)]">
-      <PortfolioBG activeFilter={filter} />
+      <PortfolioPageBackground activeFilter={filter} />
 
       <section className="relative px-6 pb-16 pt-12 md:px-10">
         <span className="section-ghost-num" aria-hidden>
           01
         </span>
         <motion.div
-          className="relative z-[1] max-w-[1400px]"
+          className="motion-gpu-hint relative z-[1] max-w-[1400px]"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease }}
+          transition={MOTION_TRANSITION}
         >
           <GradientText
             className="font-display text-[clamp(56px,8vw,120px)] leading-none tracking-[0.06em]"
@@ -252,90 +252,72 @@ export function PortfolioView() {
       </div>
 
       <section className="relative z-[1] mx-auto max-w-[1200px] px-6 pb-[120px] pt-[100px] md:px-10">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((p, i) => (
-              <motion.div
-                key={p.title}
-                initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  y: 0,
-                  transition: { duration: 0.35, ease, delay: i * 0.05 },
-                }}
-                exit={{
-                  opacity: 0,
-                  scale: 0.95,
-                  y: -10,
-                  transition: { duration: 0.25, ease, delay: i * 0.03 },
-                }}
-              >
-                <GridCard p={p} onOpen={() => setOpenId(p.title)} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
+        <div key={filter} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((p, i) => (
+            <div
+              key={p.title}
+              className="portfolio-card-reveal"
+              style={{ "--i": i } as CSSProperties}
+            >
+              <GridCard p={p} onOpen={() => setOpenId(p.title)} />
+            </div>
+          ))}
         </div>
       </section>
 
       <section className="relative z-[1] mx-auto max-w-[1100px] px-6 py-[100px] md:px-10">
-        <BorderGlow
-          borderRadius={20}
-          backgroundColor="#0a0a0c"
-          glowColor={SYN_BORDER_GLOW_HSL}
-          colors={[...SYN_GOLD_MESH]}
-          glowIntensity={0.55}
-          coneSpread={22}
-          edgeSensitivity={26}
-          fillOpacity={0.32}
-          className="border-[var(--border-subtle)] !shadow-none"
+        <TiltGlare
+          className="w-full rounded-[20px]"
+          tiltAmount={6}
+          tiltClassName="rounded-[20px] shadow-[0_12px_42px_rgba(0,0,0,0.5)]"
         >
-          <TiltGlare className="rounded-[inherit]" tiltAmount={6}>
-            <div className="relative overflow-hidden rounded-[20px] bg-[#0a0a0c]">
-              <div className="relative aspect-video">
-                <video
-                  src={SHOWREEL_2025_VIDEO}
-                  className="absolute inset-0 h-full w-full object-cover"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                />
-                <div
-                  className="pointer-events-none absolute inset-0 z-[1]"
-                  style={{
-                    backdropFilter: "blur(6px)",
-                    WebkitBackdropFilter: "blur(6px)",
-                    background: "rgba(5, 5, 5, 0.15)",
-                  }}
-                  aria-hidden
-                />
-              </div>
+          <StarBorder
+            className="w-full !block rounded-[20px]"
+            innerClassName="relative overflow-hidden rounded-[20px] border border-[var(--border-subtle)] bg-[#0a0a0c] p-0"
+          >
+            <div className="relative aspect-video">
+              <video
+                src={SHOWREEL_2025_VIDEO}
+                className="absolute inset-0 h-full w-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              />
+              <div
+                className="pointer-events-none absolute inset-0 z-[1]"
+                style={{
+                  backdropFilter: "blur(6px)",
+                  WebkitBackdropFilter: "blur(6px)",
+                  background: "rgba(5, 5, 5, 0.15)",
+                }}
+                aria-hidden
+              />
             </div>
-          </TiltGlare>
-        </BorderGlow>
+          </StarBorder>
+        </TiltGlare>
       </section>
 
       <AnimatePresence>
         {active ? (
           <motion.div
-            className="fixed inset-0 z-[10030] flex items-center justify-center bg-[rgba(6,6,8,0.95)] px-4 py-8 backdrop-blur-[28px]"
+            className="motion-gpu-hint fixed inset-0 z-[10030] flex items-center justify-center bg-[rgba(6,6,8,0.95)] px-4 py-8 backdrop-blur-[28px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={MOTION_TRANSITION}
             onClick={() => setOpenId(null)}
           >
             <motion.div
               role="dialog"
               aria-modal
+              className="motion-gpu-hint relative max-h-[90vh] w-full max-w-[900px] overflow-y-auto"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.35, ease }}
+              transition={MOTION_TRANSITION}
               onClick={(e) => e.stopPropagation()}
-              className="relative max-h-[90vh] w-full max-w-[900px] overflow-y-auto"
             >
               <button
                 type="button"

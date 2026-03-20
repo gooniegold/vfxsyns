@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, type HTMLMotionProps } from "framer-motion";
+import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { cn } from "@/lib/utils";
 import { SaberBorder } from "./SaberBorder";
 
@@ -27,9 +28,9 @@ export function GlassCard({
     <motion.div
       data-cursor-hover={onClick ? true : undefined}
       whileHover={{ y: -5, scale: 1.01 }}
-      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      transition={MOTION_TRANSITION}
       className={cn(
-        "relative z-[1] h-full rounded-[var(--r)] border border-[var(--glass-border)] bg-[rgba(255,255,255,0.05)] shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-[20px] backdrop-saturate-[200%] transition-colors duration-300",
+        "motion-gpu-hint relative z-[1] h-full rounded-[var(--r)] border border-[var(--glass-border)] bg-[rgba(255,255,255,0.05)] shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-[20px] backdrop-saturate-[200%] transition-colors duration-300",
         "hover:border-[rgba(200,169,110,0.35)] hover:bg-[rgba(255,255,255,0.08)]",
         className,
       )}

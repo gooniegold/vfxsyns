@@ -9,16 +9,18 @@ import {
   isShopifyConfigured,
   type ShopifyProductNode,
 } from "@/lib/shopify";
-import BorderGlow from "@/components/react-bits/BorderGlow";
 import FuzzyText from "@/components/react-bits/FuzzyText";
 import GradientText from "@/components/react-bits/GradientText";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { GlassButton } from "@/components/ui/GlassButton";
+import { StarBorder } from "@/components/ui/StarBorder";
 import { TiltGlare } from "@/components/ui/TiltGlare";
-import { SYN_BORDER_GLOW_HSL, SYN_GOLD_GRADIENT, SYN_GOLD_MESH } from "@/lib/syn-styles";
+import { ShopPrismBackdrop } from "@/components/backgrounds/ShopPrismBackdrop";
+import { SYN_GOLD_GRADIENT } from "@/lib/syn-styles";
 import { INSTAGRAM_URL } from "@/lib/constants";
-
-const ease = [0.16, 1, 0.3, 1] as const;
+import { MOTION_TRANSITION } from "@/lib/motion-defaults";
+import { SynAnimatedList } from "@/components/ui/SynAnimatedList";
+import { cn } from "@/lib/utils";
 
 function productImage(p: ShopifyProductNode) {
   return p.images.edges[0]?.node?.url;
@@ -102,12 +104,13 @@ export function ShopView() {
 
   return (
     <div className="relative bg-[var(--bg-base)]">
-      <section className="relative px-6 pb-12 pt-12 md:px-10">
+      <ShopPrismBackdrop />
+      <section className="relative z-[1] px-6 pb-12 pt-12 md:px-10">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease }}
-          className="max-w-[1400px]"
+          transition={MOTION_TRANSITION}
+          className="motion-gpu-hint max-w-[1400px]"
         >
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--gold)]">
             <span className="text-gradient">● VFX PACKS</span>
@@ -128,7 +131,29 @@ export function ShopView() {
         </motion.div>
       </section>
 
-      <section className="relative px-6 pb-[120px] md:px-10">
+      <section className="relative z-[1] border-y border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-6 py-14 md:px-10">
+        <div className="mx-auto max-w-[1200px]">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--gold)]">What&apos;s included</p>
+          <h2 className="font-ui mt-3 text-[20px] tracking-[0.06em] text-[var(--text-primary)]">
+            Services &amp; delivery
+          </h2>
+          <SynAnimatedList
+            className="mt-8 max-w-[640px]"
+            trigger="scroll"
+            bullet="diamond"
+            items={[
+              "✦ 3D Animation & Simulation",
+              "✦ Cinematic Color Grading",
+              "✦ Music Video VFX",
+              "✦ Motion Graphics",
+              "✦ Instant Pack Delivery",
+              "✦ Custom Project Quotes",
+            ]}
+          />
+        </div>
+      </section>
+
+      <section className="relative z-[1] px-6 pb-[120px] md:px-10">
         <div className="mx-auto max-w-[1200px]">
           {loading ? (
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -218,18 +243,15 @@ export function ShopView() {
                 const busy = Boolean(vid && checkoutLoading === vid);
                 return (
                   <ScrollReveal key={p.id} delay={i * 0.05}>
-                    <BorderGlow
-                      borderRadius={12}
-                      backgroundColor="var(--bg-card)"
-                      glowColor={SYN_BORDER_GLOW_HSL}
-                      colors={[...SYN_GOLD_MESH]}
-                      glowIntensity={0.48}
-                      coneSpread={22}
-                      edgeSensitivity={26}
-                      fillOpacity={0.26}
-                      className="group border-[var(--border-subtle)] !shadow-none"
+                    <TiltGlare
+                      className="group/card w-full rounded-[12px]"
+                      tiltAmount={7}
+                      tiltClassName="rounded-[12px] shadow-[0_12px_40px_rgba(0,0,0,0.48)]"
                     >
-                      <TiltGlare className="rounded-[inherit]" tiltAmount={7}>
+                      <StarBorder
+                        className="w-full !block rounded-[12px]"
+                        innerClassName="relative overflow-hidden rounded-[12px] border border-[var(--border-subtle)] bg-[var(--bg-card)] p-0 transition-colors group-hover/card:border-[var(--border-gold)]"
+                      >
                         <div data-cursor="hover">
                       <div className="relative aspect-[4/3] overflow-hidden bg-[#0a0a0a]">
                         {img ? (
@@ -268,8 +290,8 @@ export function ShopView() {
                         </button>
                       </div>
                         </div>
-                      </TiltGlare>
-                    </BorderGlow>
+                      </StarBorder>
+                    </TiltGlare>
                   </ScrollReveal>
                 );
               })}
@@ -278,38 +300,36 @@ export function ShopView() {
         </div>
       </section>
 
-      <section className="border-y border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-6 py-16 md:px-10">
+      <section className="relative z-[1] border-y border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-6 py-16 md:px-10">
         <div className="mx-auto grid max-w-[1100px] gap-10 md:grid-cols-3 md:gap-0">
           {[
             { icon: "⚡", t: "Instant Delivery", d: "Download link sent to your email immediately" },
             { icon: "🔒", t: "Secure Checkout", d: "Powered by Shopify + Stripe" },
             { icon: "♾️", t: "Lifetime Access", d: "Re-download anytime, forever" },
           ].map((x, i) => (
-            <BorderGlow
+            <TiltGlare
               key={x.t}
-              borderRadius={14}
-              backgroundColor="var(--bg-base)"
-              glowColor={SYN_BORDER_GLOW_HSL}
-              colors={[...SYN_GOLD_MESH]}
-              glowIntensity={0.42}
-              coneSpread={22}
-              edgeSensitivity={26}
-              fillOpacity={0.22}
-              className={`border-[var(--border-subtle)] !shadow-none ${i > 0 ? "md:border-l-0" : ""}`}
+              className="w-full rounded-[14px]"
+              tiltAmount={6}
+              tiltClassName="rounded-[14px] shadow-[0_10px_36px_rgba(0,0,0,0.4)]"
             >
-              <TiltGlare className="rounded-[inherit]" tiltAmount={6}>
-                <div className="flex flex-col gap-2 px-5 py-6 text-center md:text-left">
-                  <span className="text-xl">{x.icon}</span>
-                  <p className="font-ui text-[9px] uppercase tracking-[0.2em] text-[var(--gold)]">{x.t}</p>
-                  <p className="font-body text-[12px] text-[var(--text-secondary)]">{x.d}</p>
-                </div>
-              </TiltGlare>
-            </BorderGlow>
+              <StarBorder
+                className="w-full !block rounded-[14px]"
+                innerClassName={cn(
+                  "flex flex-col gap-2 rounded-[14px] border border-[var(--border-subtle)] bg-[var(--bg-base)] px-5 py-6 text-center md:text-left",
+                  i > 0 && "md:border-l-0",
+                )}
+              >
+                <span className="text-xl">{x.icon}</span>
+                <p className="font-ui text-[9px] uppercase tracking-[0.2em] text-[var(--gold)]">{x.t}</p>
+                <p className="font-body text-[12px] text-[var(--text-secondary)]">{x.d}</p>
+              </StarBorder>
+            </TiltGlare>
           ))}
         </div>
       </section>
 
-      <section className="px-6 py-[120px] text-center md:px-10">
+      <section className="relative z-[1] px-6 py-[120px] text-center md:px-10">
         <ScrollReveal>
           <h2 className="font-display text-gradient text-[clamp(56px,8vw,120px)]">CUSTOM WORK?</h2>
           <p className="font-body mx-auto mt-4 max-w-lg text-[14px] text-[var(--text-secondary)]">

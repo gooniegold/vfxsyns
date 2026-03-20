@@ -4,8 +4,7 @@ import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { INSTAGRAM_URL } from "@/lib/constants";
-
-const ease = [0.16, 1, 0.3, 1] as const;
+import { motionTransition } from "@/lib/motion-defaults";
 
 const nav = [
   { href: "/", label: "HOME" },
@@ -34,9 +33,10 @@ export function Footer() {
           {nav.map((item, i) => (
             <motion.div
               key={item.href}
+              className="motion-gpu-hint"
               initial={{ opacity: 0, y: 10 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.45, ease, delay: i * 0.08 }}
+              transition={motionTransition(i * 0.08)}
             >
               <Link
                 href={item.href}

@@ -10,11 +10,11 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
 import { FAQSection } from "@/components/sections/FAQSection";
 import { StatementStrip } from "@/components/sections/StatementStrip";
-import BorderGlow from "@/components/react-bits/BorderGlow";
 import GradientText from "@/components/react-bits/GradientText";
+import { StarBorder } from "@/components/ui/StarBorder";
 import { TiltGlare } from "@/components/ui/TiltGlare";
 import { INSTAGRAM_URL } from "@/lib/constants";
-import { SYN_BORDER_GLOW_HSL, SYN_GOLD_GRADIENT, SYN_GOLD_MESH } from "@/lib/syn-styles";
+import { SYN_GOLD_GRADIENT } from "@/lib/syn-styles";
 import {
   PORTFOLIO_VIDEO_1_MUSIC,
   PORTFOLIO_VIDEO_2_MUSIC,
@@ -23,6 +23,7 @@ import {
   PORTFOLIO_VIDEO_5_3D,
   PORTFOLIO_VIDEO_6_3D,
 } from "@/lib/portfolio-media";
+import { motionTransition } from "@/lib/motion-defaults";
 import { cn } from "@/lib/utils";
 
 const HeroBackground = dynamic(
@@ -30,10 +31,8 @@ const HeroBackground = dynamic(
   { ssr: false },
 );
 
-const ease = [0.16, 1, 0.3, 1] as const;
-
 const MARQUEE = [
-  "MUSIC VIDEOS",
+  "500+ PROJECTS",
   "·",
   "VFX PACKS",
   "·",
@@ -79,10 +78,10 @@ function HeroSection() {
       />
       <div className="relative z-[10] flex min-h-screen w-full max-w-[1100px] flex-col items-center justify-center px-6 py-24">
         <motion.p
-          className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--gold)]"
+          className="motion-gpu-hint font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--gold)]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
+          transition={motionTransition()}
         >
           ● ATLANTA, GA — VFX ARTIST
         </motion.p>
@@ -91,10 +90,10 @@ function HeroSection() {
           {"VFXSYN".split("").map((ch, i) => (
             <motion.span
               key={`${ch}-${i}`}
-              className="font-hero inline-block text-[clamp(100px,18vw,240px)] text-gradient"
+              className="motion-gpu-hint font-hero inline-block text-[clamp(100px,18vw,240px)] text-gradient"
               initial={{ opacity: 0, filter: "blur(20px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
-              transition={{ duration: 0.55, ease, delay: 0.12 + i * 0.06 }}
+              transition={motionTransition(0.12 + i * 0.06)}
             >
               {ch}
             </motion.span>
@@ -102,27 +101,27 @@ function HeroSection() {
         </div>
 
         <motion.p
-          className="font-body mt-6 max-w-2xl px-2 text-[clamp(14px,1.8vw,20px)] italic leading-relaxed text-[var(--text-secondary)]"
+          className="motion-gpu-hint font-body mt-6 max-w-2xl px-2 text-[clamp(14px,1.8vw,20px)] italic leading-relaxed text-[var(--text-secondary)]"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease, delay: 0.5 }}
+          transition={motionTransition(0.5)}
         >
           3D Animations · Color Grading · Music Videos
         </motion.p>
 
         <motion.div
-          className="hero-gold-line mx-auto mt-7 h-px w-10 bg-[var(--gold)]"
+          className="motion-gpu-hint hero-gold-line mx-auto mt-7 h-px w-10 bg-[var(--gold)]"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
-          transition={{ duration: 0.5, ease, delay: 0.65 }}
+          transition={motionTransition(0.65)}
           style={{ transformOrigin: "center" }}
         />
 
         <motion.div
-          className="mt-8 flex w-full max-w-2xl flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap"
+          className="motion-gpu-hint mt-8 flex w-full max-w-2xl flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease, delay: 0.8 }}
+          transition={motionTransition(0.8)}
         >
           <Link
             href="/portfolio"
@@ -206,7 +205,8 @@ function MarqueeStrip() {
 
 function StatsBar() {
   const [flash90, setFlash90] = useState(false);
-  const [flash30, setFlash30] = useState(false);
+  const [flash500, setFlash500] = useState(false);
+  const [flash6, setFlash6] = useState(false);
 
   return (
     <ScrollReveal>
@@ -239,33 +239,36 @@ function StatsBar() {
               <GradientText
                 className={cn(
                   "font-ui text-[clamp(48px,10vw,72px)] font-bold tabular-nums",
-                  flash30 && "stat-count-flash",
+                  flash500 && "stat-count-flash",
                 )}
                 colors={[...SYN_GOLD_GRADIENT]}
                 direction="diagonal"
                 gradientAngle={135}
               >
                 <span className="inline-block">
-                  <CountUp end={30} suffix="+" duration={2} onComplete={() => setFlash30(true)} />
+                  <CountUp end={500} suffix="+" duration={2} onComplete={() => setFlash500(true)} />
                 </span>
               </GradientText>
             ),
-            label: "MUSIC VIDEOS",
+            label: "PROJECTS",
           },
           {
             el: (
-              <Link href="/shop" data-cursor="hover" className="inline-block transition-opacity hover:opacity-90">
-                <GradientText
-                  className="font-ui text-[clamp(32px,7vw,56px)] font-bold leading-tight tracking-tight md:text-[clamp(40px,8vw,64px)]"
-                  colors={[...SYN_GOLD_GRADIENT]}
-                  direction="diagonal"
-                  gradientAngle={135}
-                >
-                  VFX PACKS
-                </GradientText>
-              </Link>
+              <GradientText
+                className={cn(
+                  "font-ui text-[clamp(48px,10vw,72px)] font-bold tabular-nums",
+                  flash6 && "stat-count-flash",
+                )}
+                colors={[...SYN_GOLD_GRADIENT]}
+                direction="diagonal"
+                gradientAngle={135}
+              >
+                <span className="inline-block">
+                  <CountUp end={6} suffix="+" duration={2} onComplete={() => setFlash6(true)} />
+                </span>
+              </GradientText>
             ),
-            label: "AVAILABLE",
+            label: "YEARS EXPERIENCE",
           },
           {
             el: (
@@ -312,18 +315,15 @@ function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: numbe
   const [videoFailed, setVideoFailed] = useState(false);
   return (
     <ScrollReveal delay={delay}>
-      <BorderGlow
-        borderRadius={16}
-        backgroundColor="var(--bg-card)"
-        glowColor={SYN_BORDER_GLOW_HSL}
-        colors={[...SYN_GOLD_MESH]}
-        glowIntensity={0.5}
-        coneSpread={22}
-        edgeSensitivity={26}
-        fillOpacity={0.3}
-        className="group border-[var(--border-subtle)] !shadow-none transition-colors duration-300 hover:border-[var(--border-gold)]"
+      <TiltGlare
+        className="group/card w-full rounded-[16px] transition-colors duration-300"
+        tiltAmount={7}
+        tiltClassName="rounded-[16px] shadow-[0_12px_42px_rgba(0,0,0,0.5)]"
       >
-        <TiltGlare className="rounded-[inherit]" tiltAmount={7}>
+        <StarBorder
+          className="w-full !block rounded-[16px]"
+          innerClassName="relative overflow-hidden rounded-[16px] border border-[var(--border-subtle)] bg-transparent p-0 transition-colors duration-300 group-hover/card:border-[var(--border-gold)]"
+        >
           <Link
             href="/portfolio"
             data-cursor="hover"
@@ -374,8 +374,8 @@ function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: numbe
               <h3 className="font-strong text-[22px] text-[var(--text-primary)]">{p.title}</h3>
             </div>
           </Link>
-        </TiltGlare>
-      </BorderGlow>
+        </StarBorder>
+      </TiltGlare>
     </ScrollReveal>
   );
 }
@@ -391,11 +391,11 @@ function FeaturedWorkSection() {
             <span className="text-gradient">● SELECTED WORK</span>
           </p>
           <motion.div
-            className="relative z-[1] mt-4"
+            className="motion-gpu-hint relative z-[1] mt-4"
             initial={{ clipPath: "inset(0 100% 0 0)" }}
             whileInView={{ clipPath: "inset(0 0% 0 0)" }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.9, ease }}
+            transition={motionTransition()}
           >
             <GradientText
               className="font-display text-[clamp(56px,8vw,120px)] tracking-[0.05em]"
@@ -438,11 +438,11 @@ function PacksTeaser() {
             <span className="text-gradient">● DIGITAL PRODUCTS</span>
           </p>
           <motion.h2
-            className="font-display text-gradient relative z-[1] mt-4 text-[clamp(56px,8vw,120px)]"
+            className="motion-gpu-hint font-display text-gradient relative z-[1] mt-4 text-[clamp(56px,8vw,120px)]"
             initial={{ clipPath: "inset(0 100% 0 0)" }}
             whileInView={{ clipPath: "inset(0 0% 0 0)" }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.9, ease }}
+            transition={motionTransition()}
           >
             VFX PACKS
           </motion.h2>
@@ -453,18 +453,15 @@ function PacksTeaser() {
         <div className="relative z-[1] mt-14 grid gap-8 md:grid-cols-3">
           {PACKS.map((p, i) => (
             <ScrollReveal key={p.name} delay={i * 0.1}>
-              <BorderGlow
-                borderRadius={16}
-                backgroundColor="var(--bg-card)"
-                glowColor={SYN_BORDER_GLOW_HSL}
-                colors={[...SYN_GOLD_MESH]}
-                glowIntensity={0.5}
-                coneSpread={22}
-                edgeSensitivity={26}
-                fillOpacity={0.28}
-                className="border-[var(--border-subtle)] !shadow-none"
+              <TiltGlare
+                className="w-full rounded-[16px]"
+                tiltAmount={7}
+                tiltClassName="rounded-[16px] shadow-[0_12px_42px_rgba(0,0,0,0.48)]"
               >
-                <TiltGlare className="rounded-[inherit]" tiltAmount={7}>
+                <StarBorder
+                  className="w-full !block rounded-[16px]"
+                  innerClassName="relative overflow-hidden rounded-[16px] border border-[var(--border-subtle)] bg-[var(--bg-card)] p-0"
+                >
                   <div className="p-6">
                     <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-[var(--gold)]">{p.tag}</span>
                     <h3 className="font-ui mt-3 text-[22px] text-[var(--text-primary)]">{p.name}</h3>
@@ -477,8 +474,8 @@ function PacksTeaser() {
                       OPEN SHOP →
                     </Link>
                   </div>
-                </TiltGlare>
-              </BorderGlow>
+                </StarBorder>
+              </TiltGlare>
             </ScrollReveal>
           ))}
         </div>

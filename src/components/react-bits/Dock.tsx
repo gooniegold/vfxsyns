@@ -10,6 +10,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import React, { Children, cloneElement, useMemo, useRef, useState } from "react";
+import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 
 export type DockItemData = {
   icon: React.ReactNode;
@@ -148,8 +149,8 @@ function DockLabel({ children, className = "", isHovered }: DockLabelProps) {
           initial={{ opacity: 0, y: 4, x: "-50%" }}
           animate={{ opacity: 1, y: 0, x: "-50%" }}
           exit={{ opacity: 0, y: 4, x: "-50%" }}
-          transition={{ duration: 0.2 }}
-          className={`${className} font-ui pointer-events-none absolute left-1/2 top-full z-20 mt-2 w-fit whitespace-pre px-0 py-0 text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)] will-change-[transform,opacity]`}
+          transition={MOTION_TRANSITION}
+          className={`motion-gpu-hint ${className} font-ui pointer-events-none absolute left-1/2 top-full z-20 mt-2 w-fit whitespace-pre px-0 py-0 text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)] will-change-[transform,opacity]`}
           role="tooltip"
         >
           {children}

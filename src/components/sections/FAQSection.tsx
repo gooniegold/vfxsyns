@@ -4,9 +4,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { cn } from "@/lib/utils";
-
-const ease = [0.16, 1, 0.3, 1] as const;
 
 const FAQS = [
   {
@@ -48,11 +47,11 @@ export function FAQSection({ id = "faq" }: { id?: string }) {
             <span className="text-gradient">● FAQ</span>
           </p>
           <motion.h2
-            className="font-display text-gradient relative z-[1] mt-4 text-[clamp(48px,8vw,72px)] font-bold"
+            className="motion-gpu-hint font-display text-gradient relative z-[1] mt-4 text-[clamp(48px,8vw,72px)] font-bold"
             initial={{ clipPath: "inset(0 100% 0 0)" }}
             whileInView={{ clipPath: "inset(0 0% 0 0)" }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.9, ease }}
+            transition={MOTION_TRANSITION}
           >
             QUESTIONS
           </motion.h2>
@@ -76,7 +75,7 @@ export function FAQSection({ id = "faq" }: { id?: string }) {
                     onClick={() => setOpen(isOpen ? null : i)}
                   >
                     <span className="font-mono text-[13px] text-[var(--text-primary)]">{item.q}</span>
-                    <motion.span animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.25 }}>
+                    <motion.span animate={{ rotate: isOpen ? 180 : 0 }} transition={MOTION_TRANSITION}>
                       <ChevronDown className="h-5 w-5 shrink-0 text-[var(--gold)]" strokeWidth={1.5} />
                     </motion.span>
                   </button>
@@ -86,8 +85,8 @@ export function FAQSection({ id = "faq" }: { id?: string }) {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.35, ease }}
-                        className="overflow-hidden"
+                        transition={MOTION_TRANSITION}
+                        className="motion-gpu-hint overflow-hidden"
                       >
                         <p className="font-mono border-t border-[var(--border-subtle)] px-5 pb-5 pt-4 text-[13px] leading-[1.75] text-[var(--text-secondary)]">
                           {item.a}

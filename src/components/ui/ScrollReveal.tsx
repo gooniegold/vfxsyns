@@ -1,8 +1,8 @@
 "use client";
 
 import { motion, type HTMLMotionProps } from "framer-motion";
-
-const ease = [0.16, 1, 0.3, 1] as const;
+import { cn } from "@/lib/utils";
+import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 
 export function ScrollReveal({
   children,
@@ -16,11 +16,11 @@ export function ScrollReveal({
 } & Omit<HTMLMotionProps<"div">, "initial" | "whileInView" | "viewport" | "transition">) {
   return (
     <motion.div
-      className={className}
+      className={cn("motion-gpu-hint", className)}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, ease, delay }}
+      transition={{ ...MOTION_TRANSITION, delay }}
       {...rest}
     >
       {children}

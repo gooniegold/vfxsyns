@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { MOTION_EASE } from "@/lib/motion-defaults";
 
 export function BlurText({
   text,
@@ -18,12 +19,12 @@ export function BlurText({
       {letters.map((ch, i) => (
         <motion.span
           key={`${ch}-${i}`}
-          className="inline-block"
+          className="motion-gpu-hint inline-block"
           initial={{ opacity: 0, filter: "blur(12px)", y: 16 }}
           animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
           transition={{
-            duration: 0.6,
-            ease: [0.16, 1, 0.3, 1],
+            duration: 0.45,
+            ease: MOTION_EASE,
             delay: delay + i * 0.04,
           }}
         >

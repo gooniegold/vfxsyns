@@ -1,16 +1,22 @@
 "use client";
 
 import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
-import { useCallback, useRef, type ReactNode } from "react";
+import { useCallback, useRef, type CSSProperties, type ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 export function TiltGlare({
   children,
   className = "",
+  tiltClassName = "",
+  tiltStyle,
   glareColor = "rgba(200,169,110,0.15)",
   tiltAmount = 8,
 }: {
   children: ReactNode;
   className?: string;
+  /** Applied to the element that receives rotateX/Y (border/shadow live here). */
+  tiltClassName?: string;
+  tiltStyle?: CSSProperties;
   glareColor?: string;
   tiltAmount?: number;
 }) {
@@ -52,8 +58,8 @@ export function TiltGlare({
       onMouseLeave={onLeave}
     >
       <motion.div
-        className="relative h-full [transform-style:preserve-3d]"
-        style={{ rotateX: rx, rotateY: ry }}
+        className={cn("relative h-full [transform-style:preserve-3d]", tiltClassName)}
+        style={{ rotateX: rx, rotateY: ry, ...tiltStyle }}
       >
         {children}
         <motion.div

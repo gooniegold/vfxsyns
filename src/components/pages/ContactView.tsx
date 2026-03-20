@@ -3,17 +3,18 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle } from "lucide-react";
-import BorderGlow from "@/components/react-bits/BorderGlow";
 import GradientText from "@/components/react-bits/GradientText";
 import { GlassButton } from "@/components/ui/GlassButton";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { StarBorder } from "@/components/ui/StarBorder";
 import { TiltGlare } from "@/components/ui/TiltGlare";
+import { ContactAuroraBackdrop } from "@/components/backgrounds/ContactAuroraBackdrop";
 import { INSTAGRAM_URL } from "@/lib/constants";
-import { SYN_BORDER_GLOW_HSL, SYN_GOLD_GRADIENT, SYN_GOLD_MESH } from "@/lib/syn-styles";
+import { MOTION_TRANSITION } from "@/lib/motion-defaults";
+import { SynAnimatedList } from "@/components/ui/SynAnimatedList";
+import { SYN_GOLD_GRADIENT } from "@/lib/syn-styles";
 
 const AVAILABLE = true;
-
-const ease = [0.16, 1, 0.3, 1] as const;
 
 const PROJECT_TYPES = [
   "Music Video",
@@ -37,12 +38,14 @@ export function ContactView() {
   });
 
   return (
-    <div className="relative bg-[var(--bg-base)] px-6 py-[120px] md:px-10">
+    <div className="relative bg-[var(--bg-base)]">
+      <ContactAuroraBackdrop />
+      <div className="relative z-[1] px-6 py-[120px] md:px-10">
       <motion.div
-        className="mx-auto max-w-[1200px]"
+        className="motion-gpu-hint mx-auto max-w-[1200px]"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.55, ease }}
+        transition={MOTION_TRANSITION}
       >
         <GradientText
           className="font-display text-[clamp(56px,8vw,120px)] leading-none tracking-[0.06em]"
@@ -67,6 +70,19 @@ export function ContactView() {
             </span>
           </div>
 
+          <SynAnimatedList
+            className="mt-10 max-w-md"
+            trigger="mount"
+            bullet="dot"
+            items={[
+              "● Based in Atlanta, GA",
+              "● Started 2019",
+              "● 90M+ Views Generated",
+              "● 500+ Projects Completed",
+              "● Available Worldwide",
+            ]}
+          />
+
           <div className="mt-12">
             <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--gold)]">INSTAGRAM</p>
             <a
@@ -87,13 +103,6 @@ export function ContactView() {
             </a>
           </div>
 
-          <div className="mt-10">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--gold)]">BASED IN</p>
-            <p className="font-display mt-2 text-[36px] text-[var(--text-primary)]">
-              Atlanta, GA
-            </p>
-          </div>
-
           <p className="font-body mt-10 text-[12px] text-[var(--text-secondary)]">
             Fastest response is always Instagram DM.
           </p>
@@ -110,18 +119,15 @@ export function ContactView() {
         </aside>
 
         <div>
-          <BorderGlow
-            borderRadius={24}
-            backgroundColor="var(--bg-card)"
-            glowColor={SYN_BORDER_GLOW_HSL}
-            colors={[...SYN_GOLD_MESH]}
-            glowIntensity={0.52}
-            coneSpread={22}
-            edgeSensitivity={26}
-            fillOpacity={0.28}
-            className="border-[var(--border-subtle)] !shadow-none"
+          <TiltGlare
+            className="w-full rounded-[24px]"
+            tiltAmount={6}
+            tiltClassName="rounded-[24px] shadow-[0_12px_42px_rgba(0,0,0,0.5)]"
           >
-            <TiltGlare className="rounded-[inherit]" tiltAmount={6}>
+            <StarBorder
+              className="w-full !block rounded-[24px]"
+              innerClassName="relative overflow-hidden rounded-[24px] border border-[var(--border-subtle)] bg-transparent p-0"
+            >
               <GlassCard saber={false} rounded={24} className="overflow-hidden border-0 border-transparent bg-transparent shadow-none">
                 <div className="p-8 md:p-10">
                 <AnimatePresence mode="wait">
@@ -131,8 +137,8 @@ export function ContactView() {
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.45, ease }}
-                      className="flex min-h-[280px] flex-col items-center justify-center py-8 text-center"
+                      transition={MOTION_TRANSITION}
+                      className="motion-gpu-hint flex min-h-[280px] flex-col items-center justify-center py-8 text-center"
                     >
                       <CheckCircle className="h-12 w-12 text-[var(--gold)]" strokeWidth={1.25} />
                       <p className="mt-6 font-display text-[60px] leading-none tracking-[0.08em] text-[var(--gold)]">
@@ -148,7 +154,7 @@ export function ContactView() {
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.35, ease }}
+                      transition={MOTION_TRANSITION}
                       onSubmit={(e) => {
                         e.preventDefault();
                         setSubmitted(true);
@@ -160,7 +166,7 @@ export function ContactView() {
                           htmlFor="nm"
                           className="font-mono mb-2 block text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]"
                           animate={{ y: f1 ? -4 : 0, scale: f1 ? 0.92 : 1 }}
-                          transition={{ duration: 0.2, ease }}
+                          transition={MOTION_TRANSITION}
                           style={{ transformOrigin: "left center" }}
                         >
                           NAME
@@ -180,7 +186,7 @@ export function ContactView() {
                           htmlFor="ct"
                           className="font-mono mb-2 block text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]"
                           animate={{ y: f2 ? -4 : 0, scale: f2 ? 0.92 : 1 }}
-                          transition={{ duration: 0.2, ease }}
+                          transition={MOTION_TRANSITION}
                           style={{ transformOrigin: "left center" }}
                         >
                           INSTAGRAM OR EMAIL
@@ -200,7 +206,7 @@ export function ContactView() {
                           htmlFor="tp"
                           className="font-mono mb-2 block text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]"
                           animate={{ y: f3 ? -4 : 0, scale: f3 ? 0.92 : 1 }}
-                          transition={{ duration: 0.2, ease }}
+                          transition={MOTION_TRANSITION}
                           style={{ transformOrigin: "left center" }}
                         >
                           PROJECT TYPE
@@ -227,7 +233,7 @@ export function ContactView() {
                           htmlFor="msg"
                           className="font-mono mb-2 block text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]"
                           animate={{ y: f4 ? -4 : 0, scale: f4 ? 0.92 : 1 }}
-                          transition={{ duration: 0.2, ease }}
+                          transition={MOTION_TRANSITION}
                           style={{ transformOrigin: "left center" }}
                         >
                           MESSAGE
@@ -251,8 +257,8 @@ export function ContactView() {
                 </AnimatePresence>
               </div>
             </GlassCard>
-            </TiltGlare>
-          </BorderGlow>
+            </StarBorder>
+          </TiltGlare>
 
           <p className="font-mono mt-8 text-[11px] text-[var(--text-secondary)]">
             Or just DM me directly:{" "}
@@ -267,6 +273,7 @@ export function ContactView() {
             </a>
           </p>
         </div>
+      </div>
       </div>
     </div>
   );
