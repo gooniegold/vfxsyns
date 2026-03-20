@@ -22,11 +22,14 @@ function formatBulletLine(text: string, bullet: "diamond" | "dot") {
 export function SynAnimatedList({
   items,
   className,
+  itemClassName,
   trigger,
   bullet,
 }: {
   items: string[];
   className?: string;
+  /** Merged into each list item; defaults include bg-[var(--bg-card)]. */
+  itemClassName?: string;
   trigger: "scroll" | "mount";
   bullet: "diamond" | "dot";
 }) {
@@ -56,7 +59,10 @@ export function SynAnimatedList({
             delay: i * 0.075,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="border-b border-[var(--border-subtle)] bg-[var(--bg-card)] px-4 py-3 font-mono text-[14px] text-[var(--text-primary)] last:border-b-0"
+          className={cn(
+            "border-b border-[var(--border-subtle)] px-4 py-3 font-mono text-[14px] text-[var(--text-primary)] last:border-b-0",
+            itemClassName ?? "bg-[var(--bg-card)]",
+          )}
         >
           {formatBulletLine(item, bullet)}
         </motion.li>

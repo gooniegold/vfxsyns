@@ -9,13 +9,10 @@ import {
   type ShopifyProductNode,
 } from "@/lib/shopify";
 import FuzzyText from "@/components/react-bits/FuzzyText";
-import GradientText from "@/components/react-bits/GradientText";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { GlassButton } from "@/components/ui/GlassButton";
 import { StarBorder } from "@/components/ui/StarBorder";
 import { TiltGlare } from "@/components/ui/TiltGlare";
-import { ShopPrismBackdrop } from "@/components/backgrounds/ShopPrismBackdrop";
-import { SYN_GOLD_GRADIENT } from "@/lib/syn-styles";
 import { INSTAGRAM_URL } from "@/lib/constants";
 import { SynAnimatedList } from "@/components/ui/SynAnimatedList";
 import { cn } from "@/lib/utils";
@@ -102,17 +99,17 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
 
   return (
     <div className="relative bg-[var(--bg-base)]">
-      <ShopPrismBackdrop />
       {pageHeader}
 
-      <section className="relative z-[1] border-y border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-6 py-14 md:px-10">
-        <div className="mx-auto max-w-[1200px]">
+      <section className="relative z-[1] border-y border-[var(--border-subtle)] bg-transparent px-6 py-14 md:px-10">
+        <div className="mx-auto max-w-[600px] text-left">
           <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--gold)]">What&apos;s included</p>
           <h2 className="font-ui mt-3 text-[20px] tracking-[0.06em] text-[var(--text-primary)]">
             Services &amp; delivery
           </h2>
           <SynAnimatedList
-            className="mt-8 max-w-[640px]"
+            className="mt-8 w-full bg-transparent"
+            itemClassName="bg-transparent"
             trigger="scroll"
             bullet="diamond"
             items={[
@@ -140,27 +137,14 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
           {error ? (
             <div className="flex flex-col items-center py-16 text-center">
               {error === "not_configured" ? (
-                <>
+                <div className="w-full bg-[#050505] px-4 py-16">
                   <div className="relative mx-auto flex min-h-[1.2em] w-full max-w-[95vw] items-center justify-center">
-                    <div
-                      className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.42]"
-                      aria-hidden
-                    >
-                      <GradientText
-                        className="font-display text-[clamp(56px,10vw,140px)]"
-                        colors={[...SYN_GOLD_GRADIENT]}
-                        direction="diagonal"
-                        gradientAngle={135}
-                      >
-                        COMING SOON
-                      </GradientText>
-                    </div>
                     <FuzzyText
                       fontSize="clamp(56px, 10vw, 140px)"
                       fontWeight={400}
                       fontFamily="var(--font-display), serif"
-                      gradient={[...SYN_GOLD_GRADIENT]}
-                      color="#D4B87A"
+                      gradient={null}
+                      color="#BFA06A"
                       enableHover
                       baseIntensity={0.14}
                       hoverIntensity={0.45}
@@ -173,7 +157,7 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
                     </FuzzyText>
                   </div>
                   <p
-                    className="font-mono max-w-md text-[14px] text-[var(--text-secondary)]"
+                    className="font-mono mx-auto max-w-md text-[14px] text-[var(--text-secondary)]"
                     style={{
                       fontFamily: "var(--font-mono)",
                       letterSpacing: "0.15em",
@@ -182,10 +166,15 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
                   >
                     VFX Packs dropping soon.
                   </p>
-                  <GlassButton variant="gold" href={INSTAGRAM_URL} className="mt-8">
-                    DM @vfxsyn
-                  </GlassButton>
-                </>
+                  <div
+                    className="mt-6 w-full"
+                    style={{ display: "block", margin: "24px auto 0", width: "fit-content", maxWidth: "100%" }}
+                  >
+                    <GlassButton variant="gold" href={INSTAGRAM_URL}>
+                      DM @vfxsyn
+                    </GlassButton>
+                  </div>
+                </div>
               ) : (
                 <>
                   <h2 className="font-display text-[clamp(56px,8vw,120px)] text-[var(--text-primary)]">
@@ -194,9 +183,14 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
                   <p className="font-body mt-4 max-w-md text-[14px] text-[var(--text-secondary)]">
                     Something went wrong loading the storefront. DM @vfxsyn on Instagram to purchase directly.
                   </p>
-                  <GlassButton variant="gold" href={INSTAGRAM_URL} className="mt-8">
-                    DM @vfxsyn
-                  </GlassButton>
+                  <div
+                    className="w-full"
+                    style={{ display: "block", margin: "24px auto 0", width: "fit-content", maxWidth: "100%" }}
+                  >
+                    <GlassButton variant="gold" href={INSTAGRAM_URL}>
+                      DM @vfxsyn
+                    </GlassButton>
+                  </div>
                 </>
               )}
             </div>

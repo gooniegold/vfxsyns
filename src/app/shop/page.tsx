@@ -12,8 +12,9 @@ export default function ShopPage() {
             </p>
           }
           title="THE SHOP"
-          titleClassName="font-display text-[clamp(56px,8vw,120px)] leading-none tracking-[0.05em]"
+          titleClassName="font-display w-full text-center text-[clamp(56px,8vw,120px)] leading-none tracking-[0.05em]"
           subtitle="Instant delivery. One-time payment. No subscription."
+          subtitleClassName="w-full max-w-none text-center"
         />
       }
     />

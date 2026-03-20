@@ -69,7 +69,7 @@ const PROJECTS = [
   desc: `Premium finish built for the track. ${p.title} pairs contrast, motion, and texture for a cinematic result.`,
 }));
 
-const FILTERS: PortfolioFilter[] = ["ALL", "MUSIC VIDEO", "COLOR GRADE", "3D VFX"];
+const FILTERS = ["ALL", "MUSIC VIDEO", "COLOR GRADE", "3D VFX"] as const satisfies readonly PortfolioFilter[];
 
 function ModalVideo({ src, title }: { src: string; title: string }) {
   const [failed, setFailed] = useState(false);

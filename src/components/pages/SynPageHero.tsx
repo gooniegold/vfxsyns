@@ -13,6 +13,7 @@ export function SynPageHero({
   eyebrow,
   sectionGhostNum,
   titleClassName = "font-display text-[clamp(56px,8vw,120px)] leading-none tracking-[0.06em]",
+  subtitleClassName,
   innerClassName,
 }: {
   title: string;
@@ -20,6 +21,7 @@ export function SynPageHero({
   eyebrow?: ReactNode;
   sectionGhostNum?: string;
   titleClassName?: string;
+  subtitleClassName?: string;
   innerClassName?: string;
 }) {
   return (
@@ -47,7 +49,12 @@ export function SynPageHero({
           </GradientText>
         </div>
         {subtitle ? (
-          <p className="mt-4 max-w-xl font-body text-[13px] italic text-[var(--text-secondary)] md:text-[15px]">
+          <p
+            className={cn(
+              "mt-4 max-w-xl font-body text-[13px] italic text-[var(--text-secondary)] md:text-[15px]",
+              subtitleClassName,
+            )}
+          >
             {subtitle}
           </p>
         ) : null}
