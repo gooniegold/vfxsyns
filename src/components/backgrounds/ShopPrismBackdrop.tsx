@@ -11,15 +11,19 @@ const FILL =
 export function ShopPrismBackdrop() {
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#050505] [pointer-events:none]"
-      style={{ pointerEvents: "none" }}
+      className="pointer-events-none fixed inset-0 z-0 overflow-hidden [pointer-events:none]"
+      style={{
+        pointerEvents: "none",
+        backgroundColor: "#050505",
+        backgroundImage: "radial-gradient(ellipse at top, rgba(191,160,106,0.08) 0%, transparent 60%)",
+      }}
       aria-hidden
     >
       <div className={FILL} style={{ pointerEvents: "none" }}>
         <Prism
           animationType="rotate"
           transparent
-          hueShift={0.18}
+          hueShift={0}
           glow={1.2}
           timeScale={0.3}
           noise={0.35}

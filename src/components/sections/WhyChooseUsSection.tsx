@@ -3,7 +3,10 @@
 import { motion } from "framer-motion";
 import { Music, Package, Timer, Zap } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { MOTION_TRANSITION } from "@/lib/motion-defaults";
+import { StarBorder } from "@/components/ui/StarBorder";
+import { TiltGlare } from "@/components/ui/TiltGlare";
+
+const HEADING_EASE = [0.16, 1, 0.3, 1] as const;
 
 const ITEMS = [
   {
@@ -31,41 +34,67 @@ const ITEMS = [
 export function WhyChooseUsSection({ id = "why" }: { id?: string }) {
   return (
     <ScrollReveal>
-    <section id={id} className="relative px-6 py-[120px] md:px-10">
-      <div className="relative mx-auto max-w-[1400px]">
-        <span className="section-ghost-num">03</span>
-        <ScrollReveal>
-          <p className="font-mono relative z-[1] text-[10px] uppercase tracking-[0.2em] text-[var(--gold)]">
-            <span className="text-gradient">● WHY VFXSYN</span>
-          </p>
-          <motion.h2
-            className="motion-gpu-hint font-display text-gradient relative z-[1] mt-4 text-[clamp(56px,8vw,120px)] tracking-[0.05em]"
-            initial={{ clipPath: "inset(0 100% 0 0)" }}
-            whileInView={{ clipPath: "inset(0 0% 0 0)" }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={MOTION_TRANSITION}
-          >
-            THE DIFFERENCE
-          </motion.h2>
-        </ScrollReveal>
-        <div className="relative z-[1] mt-14 grid gap-6 md:grid-cols-2">
-          {ITEMS.map((item, i) => (
-            <ScrollReveal key={item.title} delay={i * 0.08}>
+      <section id={id} className="relative px-6 py-[120px] md:px-10">
+        <div className="relative mx-auto max-w-[1400px]">
+          <span className="section-ghost-num">03</span>
+          <ScrollReveal>
+            <p className="font-mono relative z-[1] text-[10px] uppercase tracking-[0.2em] text-[var(--gold)]">
+              <span className="text-gradient">● WHY VFXSYN</span>
+            </p>
+            <motion.h2
+              className="motion-gpu-hint font-display text-gradient relative z-[1] mt-4 text-[clamp(56px,8vw,120px)] tracking-[0.05em]"
+              initial={{ clipPath: "inset(0 100% 0 0)" }}
+              whileInView={{ clipPath: "inset(0 0% 0 0)" }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.8, ease: HEADING_EASE }}
+            >
+              THE DIFFERENCE
+            </motion.h2>
+            <motion.div
+              className="motion-gpu-hint relative z-[1] mt-4 h-px w-[60px] bg-[var(--gold)]"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, margin: "-60px" }}
+              style={{ transformOrigin: "left center" }}
+              transition={{ duration: 0.55, delay: 0.82, ease: HEADING_EASE }}
+              aria-hidden
+            />
+          </ScrollReveal>
+          <div className="relative z-[1] mt-14 grid gap-6 md:grid-cols-2 md:items-stretch">
+            {ITEMS.map((item, i) => (
               <motion.div
+                key={item.title}
+                className="motion-gpu-hint h-full min-h-0"
                 data-cursor="hover"
-                whileHover={{ y: -4 }}
-                transition={MOTION_TRANSITION}
-                className="motion-gpu-hint group border border-[var(--border-subtle)] bg-[var(--bg-card)] p-8 transition-[border-color,box-shadow] hover:border-[var(--border-gold)] hover:shadow-[var(--shadow-gold)]"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.5, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
-                <item.icon className="h-7 w-7 text-[var(--gold)]" strokeWidth={1.25} />
-                <h3 className="font-ui text-gradient mt-5 text-[22px] uppercase tracking-wide">{item.title}</h3>
-                <p className="font-body mt-4 text-[12px] leading-[1.85] text-[var(--text-secondary)]">{item.body}</p>
+                <TiltGlare
+                  className="h-full min-h-[200px] rounded-[16px]"
+                  tiltClassName="h-full min-h-[200px] rounded-[16px] [transform-style:preserve-3d]"
+                  tiltAmount={7}
+                  glareColor="rgba(191,160,106,0.14)"
+                >
+                  <StarBorder
+                    className="h-full min-h-0 w-full !block rounded-[16px]"
+                    innerClassName="group relative flex h-full min-h-0 flex-col rounded-[16px] border border-[var(--border-subtle)] bg-[var(--bg-card)] p-8 transition-[border-color,box-shadow] duration-300 hover:border-[var(--border-gold)] hover:shadow-[var(--shadow-gold)]"
+                  >
+                    <item.icon
+                      className="h-7 w-7 text-[var(--text-secondary)] transition-all duration-300 ease-out group-hover:scale-[1.2] group-hover:rotate-[10deg] group-hover:text-[var(--gold)] group-hover:[filter:drop-shadow(0_0_8px_rgba(191,160,106,0.6))]"
+                      strokeWidth={1.25}
+                      aria-hidden
+                    />
+                    <h3 className="font-ui text-gradient mt-5 text-[22px] uppercase tracking-wide">{item.title}</h3>
+                    <p className="font-body mt-4 text-[12px] leading-[1.85] text-[var(--text-secondary)]">{item.body}</p>
+                  </StarBorder>
+                </TiltGlare>
               </motion.div>
-            </ScrollReveal>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
     </ScrollReveal>
   );
 }

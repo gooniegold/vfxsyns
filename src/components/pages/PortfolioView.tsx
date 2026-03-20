@@ -5,11 +5,10 @@
  * PORTFOLIO_VIDEO_1_MUSIC … PORTFOLIO_VIDEO_6_3D (+ SHOWREEL_2025_VIDEO).
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, X } from "lucide-react";
-import GradientText from "@/components/react-bits/GradientText";
 import { GlassButton } from "@/components/ui/GlassButton";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { SaberBorder } from "@/components/ui/SaberBorder";
@@ -29,9 +28,10 @@ import {
   PORTFOLIO_VIDEO_6_3D,
   SHOWREEL_2025_VIDEO,
 } from "@/lib/portfolio-media";
+import { useInViewVideoPlayback } from "@/hooks/useInViewVideoPlayback";
 import { MOTION_TRANSITION } from "@/lib/motion-defaults";
+import { SYN_VIDEO_BASE_STYLE, VIDEO_LOADING_LAZY } from "@/lib/video-presentation";
 import { cn } from "@/lib/utils";
-import { SYN_GOLD_GRADIENT } from "@/lib/syn-styles";
 
 const PROJECTS = [
   {
@@ -73,18 +73,30 @@ const FILTERS: PortfolioFilter[] = ["ALL", "MUSIC VIDEO", "COLOR GRADE", "3D VFX
 
 function ModalVideo({ src, title }: { src: string; title: string }) {
   const [failed, setFailed] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || failed) return;
+    void v.play().catch(() => {});
+    return () => {
+      v.pause();
+    };
+  }, [src, failed]);
+
   return (
     <div className="relative aspect-video overflow-hidden rounded-[20px] bg-black">
       {!failed ? (
         <video
+          ref={videoRef}
           src={src}
           className="h-full w-full object-cover"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          autoPlay
+          style={SYN_VIDEO_BASE_STYLE}
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
+          {...VIDEO_LOADING_LAZY}
           onError={() => {
             console.warn("[VFXSYN] Modal video failed:", title, src);
             setFailed(true);
@@ -102,12 +114,23 @@ function ModalVideo({ src, title }: { src: string; title: string }) {
 function GridCard({
   p,
   onOpen,
+  previewsLocked,
+  onAmbientPreviewChange,
 }: {
   p: (typeof PROJECTS)[0];
   onOpen: () => void;
+  previewsLocked: boolean;
+  onAmbientPreviewChange: (playing: boolean) => void;
 }) {
   const [hover, setHover] = useState(false);
   const [videoFailed, setVideoFailed] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useInViewVideoPlayback(videoRef, {
+    threshold: 0.3,
+    enabled: !previewsLocked && !videoFailed,
+    onPlayingChange: onAmbientPreviewChange,
+  });
 
   return (
     <TiltGlare
@@ -135,17 +158,19 @@ function GridCard({
           )}
           aria-hidden
         />
-        <div className="relative w-full overflow-hidden rounded-t-[20px] bg-[#0a0a0a]">
+        <div className="relative w-full overflow-hidden rounded-t-[20px] bg-[#0c0c0c]">
           <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden" }}>
             {!videoFailed ? (
               <video
+                ref={videoRef}
                 src={p.videoSrc}
-                autoPlay
                 muted
                 loop
                 playsInline
-                className="card-preview-video transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.04]"
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                preload="none"
+                {...VIDEO_LOADING_LAZY}
+                className="card-preview-video transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                style={SYN_VIDEO_BASE_STYLE}
                 onError={() => {
                   console.warn("[VFXSYN] Video failed to load:", p.title, p.videoSrc);
                   setVideoFailed(true);
@@ -184,9 +209,15 @@ function GridCard({
   );
 }
 
-export function PortfolioView() {
+export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) {
   const [filter, setFilter] = useState<PortfolioFilter>("ALL");
   const [openId, setOpenId] = useState<string | null>(null);
+  const [ambientVideoSessions, setAmbientVideoSessions] = useState(0);
+  const showreelRef = useRef<HTMLVideoElement>(null);
+
+  const onAmbientPreviewChange = useCallback((playing: boolean) => {
+    setAmbientVideoSessions((n) => Math.max(0, n + (playing ? 1 : -1)));
+  }, []);
 
   const filtered = useMemo(() => {
     if (filter === "ALL") return PROJECTS;
@@ -194,6 +225,14 @@ export function PortfolioView() {
   }, [filter]);
 
   const active = PROJECTS.find((p) => p.title === openId) ?? null;
+  const previewsLocked = active != null;
+  const suppressAmbientAnimations = ambientVideoSessions > 0 || previewsLocked;
+
+  useInViewVideoPlayback(showreelRef, {
+    threshold: 0.3,
+    enabled: !previewsLocked,
+    onPlayingChange: onAmbientPreviewChange,
+  });
 
   useEffect(() => {
     if (typeof window === "undefined" || typeof window.addEventListener !== "function") return;
@@ -206,33 +245,11 @@ export function PortfolioView() {
 
   return (
     <div className="relative z-[5] bg-[var(--bg-base)] text-[var(--text-primary)]">
-      <PortfolioPageBackground activeFilter={filter} />
+      <PortfolioPageBackground activeFilter={filter} suppressAmbientAnimations={suppressAmbientAnimations} />
 
-      <section className="relative px-6 pb-16 pt-12 md:px-10">
-        <span className="section-ghost-num" aria-hidden>
-          01
-        </span>
-        <motion.div
-          className="motion-gpu-hint relative z-[1] max-w-[1400px]"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={MOTION_TRANSITION}
-        >
-          <GradientText
-            className="font-display text-[clamp(56px,8vw,120px)] leading-none tracking-[0.06em]"
-            colors={[...SYN_GOLD_GRADIENT]}
-            direction="diagonal"
-            gradientAngle={135}
-          >
-            THE WORK
-          </GradientText>
-          <p className="mt-4 max-w-xl font-body text-[13px] italic text-[var(--text-secondary)]">
-            Atlanta, GA — music videos, 3D, and color.
-          </p>
-        </motion.div>
-      </section>
+      {pageHeader}
 
-      <div className="sticky top-[calc(5.25rem+env(safe-area-inset-top,0px))] z-[40] border-b border-[var(--glass-border)] bg-[rgba(6,6,8,0.72)] backdrop-blur-[20px] md:top-[calc(5.75rem+env(safe-area-inset-top,0px))]">
+      <div className="sticky top-[calc(120px+env(safe-area-inset-top,0px))] z-[40] border-b border-[var(--glass-border)] bg-[rgba(6,6,8,0.72)] backdrop-blur-[20px]">
         <div className="mx-auto flex max-w-[1400px] flex-wrap gap-3 px-6 py-4 md:px-10">
           {FILTERS.map((f) => (
             <GlassButton
@@ -259,7 +276,12 @@ export function PortfolioView() {
               className="portfolio-card-reveal"
               style={{ "--i": i } as CSSProperties}
             >
-              <GridCard p={p} onOpen={() => setOpenId(p.title)} />
+              <GridCard
+                p={p}
+                onOpen={() => setOpenId(p.title)}
+                previewsLocked={previewsLocked}
+                onAmbientPreviewChange={onAmbientPreviewChange}
+              />
             </div>
           ))}
         </div>
@@ -277,13 +299,15 @@ export function PortfolioView() {
           >
             <div className="relative aspect-video">
               <video
+                ref={showreelRef}
                 src={SHOWREEL_2025_VIDEO}
                 className="absolute inset-0 h-full w-full object-cover"
-                autoPlay
                 muted
                 loop
                 playsInline
-                preload="metadata"
+                preload="none"
+                {...VIDEO_LOADING_LAZY}
+                style={SYN_VIDEO_BASE_STYLE}
               />
               <div
                 className="pointer-events-none absolute inset-0 z-[1]"

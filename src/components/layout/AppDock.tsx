@@ -33,11 +33,16 @@ export function AppDock() {
 
   return (
     <nav
-      className="pointer-events-none fixed left-1/2 top-0 z-[100] flex w-[min(100%,480px)] -translate-x-1/2 justify-center px-4"
-      style={{ paddingTop: `max(16px, env(safe-area-inset-top, 0px))` }}
+      className="pointer-events-none fixed z-[100] flex w-auto justify-end"
+      style={{
+        top: "calc(20px + env(safe-area-inset-top, 0px))",
+        right: "calc(32px + env(safe-area-inset-right, 0px))",
+        left: "auto",
+        transform: "none",
+      }}
       aria-label="Primary navigation"
     >
-      <div className="pointer-events-auto relative h-16 w-full max-w-[min(100%,440px)] md:h-[72px]">
+      <div className="pointer-events-auto relative h-16 w-auto md:h-[72px]">
         <Dock
           gapPx={compact ? 8 : 12}
           horizontalPaddingPx={compact ? 24 : 32}

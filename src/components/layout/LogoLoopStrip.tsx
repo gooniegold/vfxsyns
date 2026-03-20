@@ -28,7 +28,7 @@ function Chip({
   label: string;
 }) {
   return (
-    <span className="inline-flex items-center gap-3 text-[var(--text-secondary)] transition duration-[250ms] hover:scale-105 hover:text-[var(--gold)] hover:[filter:drop-shadow(0_0_8px_#C8A96E)]">
+    <span className="inline-flex items-center gap-3 text-[var(--text-secondary)] transition duration-[250ms] hover:scale-105 hover:text-[var(--gold)] hover:[filter:drop-shadow(0_0_8px_#BFA06A)]">
       <Icon className="h-7 w-7 shrink-0" />
       <span className="font-mono text-[11px] uppercase tracking-[0.2em]">{label}</span>
     </span>

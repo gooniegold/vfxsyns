@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -23,7 +23,9 @@ import {
   PORTFOLIO_VIDEO_5_3D,
   PORTFOLIO_VIDEO_6_3D,
 } from "@/lib/portfolio-media";
+import { useInViewVideoPlayback } from "@/hooks/useInViewVideoPlayback";
 import { motionTransition } from "@/lib/motion-defaults";
+import { SYN_VIDEO_BASE_STYLE, VIDEO_LOADING_LAZY } from "@/lib/video-presentation";
 import { cn } from "@/lib/utils";
 
 const HeroBackground = dynamic(
@@ -58,10 +60,10 @@ const FEATURED = [
 ] as const;
 
 const PACKS = [
-  { name: "CINEMATIC DUST", desc: "Particles, dust, debris", tag: "38 ASSETS" },
-  { name: "GLITCH PACK VOL.1", desc: "Glitch transitions", tag: "24 ASSETS" },
-  { name: "MUSIC VID ESSENTIALS", desc: "Leaks, overlays, grades", tag: "52 ASSETS" },
-];
+  { name: "CINEMATIC DUST", desc: "Particles, dust, debris", assets: "38 ASSETS", isNew: false },
+  { name: "GLITCH PACK VOL.1", desc: "Glitch transitions", assets: "24 ASSETS", isNew: true },
+  { name: "MUSIC VID ESSENTIALS", desc: "Leaks, overlays, grades", assets: "52 ASSETS", isNew: false },
+] as const;
 
 function HeroSection() {
   return (
@@ -313,6 +315,12 @@ function StatsBar() {
 
 function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: number }) {
   const [videoFailed, setVideoFailed] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useInViewVideoPlayback(videoRef, {
+    threshold: 0.3,
+    enabled: !videoFailed,
+  });
+
   return (
     <ScrollReveal delay={delay}>
       <TiltGlare
@@ -338,17 +346,19 @@ function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: numbe
               aria-hidden
             />
             <div className="pointer-events-none absolute inset-0 z-[2] rounded-[inherit] bg-gradient-to-br from-[rgba(191,160,106,0.04)_0%,transparent_50%] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            <div className="relative w-full overflow-hidden bg-[#0a0a0a]">
+            <div className="relative w-full overflow-hidden bg-[#0c0c0c]">
               <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden" }}>
                 {!videoFailed ? (
                   <video
+                    ref={videoRef}
                     src={p.videoSrc}
-                    autoPlay
                     muted
                     loop
                     playsInline
-                    className="card-preview-video h-full w-full transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.04]"
-                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                    preload="none"
+                    {...VIDEO_LOADING_LAZY}
+                    className="card-preview-video h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                    style={SYN_VIDEO_BASE_STYLE}
                     onError={() => {
                       console.warn("[VFXSYN] Featured video failed:", p.title, p.videoSrc);
                       setVideoFailed(true);
@@ -456,23 +466,26 @@ function PacksTeaser() {
               <TiltGlare
                 className="w-full rounded-[16px]"
                 tiltAmount={7}
-                tiltClassName="rounded-[16px] shadow-[0_12px_42px_rgba(0,0,0,0.48)]"
+                glareColor="rgba(191,160,106,0.12)"
+                tiltClassName="rounded-[16px] shadow-[0_12px_42px_rgba(0,0,0,0.48)] [transform-style:preserve-3d]"
               >
                 <StarBorder
                   className="w-full !block rounded-[16px]"
-                  innerClassName="relative overflow-hidden rounded-[16px] border border-[var(--border-subtle)] bg-[var(--bg-card)] p-0"
+                  innerClassName="relative min-h-[220px] overflow-hidden rounded-[16px] border border-[var(--border-subtle)] p-0"
                 >
-                  <div className="p-6">
-                    <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-[var(--gold)]">{p.tag}</span>
+                  <div className="pack-card-animated-bg" aria-hidden />
+                  {p.isNew ? (
+                    <span className="font-syne-mono pointer-events-none absolute right-3 top-3 z-[2] bg-[var(--gold)] px-2 py-1 text-[8px] uppercase tracking-[0.2em] text-[#050505]">
+                      NEW
+                    </span>
+                  ) : null}
+                  <div className="relative z-[1] p-6">
+                    <span className="font-syne-mono text-[11px] uppercase tracking-[0.3em] text-[var(--gold)]">{p.assets}</span>
                     <h3 className="font-ui mt-3 text-[22px] text-[var(--text-primary)]">{p.name}</h3>
                     <p className="font-body mt-2 text-[12px] text-[var(--text-secondary)]">{p.desc}</p>
-                    <Link
-                      href="/shop"
-                      data-cursor="hover"
-                      className="font-ui btn-gold-glow mt-6 inline-block border border-[var(--border-gold)] px-4 py-2 text-[9px] uppercase tracking-[0.2em] text-[var(--gold)] hover:bg-[var(--gold-glow)]"
-                    >
-                      OPEN SHOP →
-                    </Link>
+                    <button type="button" disabled className="pack-coming-soon-btn disabled:cursor-not-allowed disabled:opacity-100">
+                      COMING SOON
+                    </button>
                   </div>
                 </StarBorder>
               </TiltGlare>

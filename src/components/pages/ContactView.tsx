@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 import GradientText from "@/components/react-bits/GradientText";
@@ -24,7 +24,7 @@ const PROJECT_TYPES = [
   "Other",
 ] as const;
 
-export function ContactView() {
+export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
   const [submitted, setSubmitted] = useState(false);
   const [f1, setF1] = useState(false);
   const [f2, setF2] = useState(false);
@@ -40,28 +40,14 @@ export function ContactView() {
   return (
     <div className="relative bg-[var(--bg-base)]">
       <ContactAuroraBackdrop />
-      <div className="relative z-[1] px-6 py-[120px] md:px-10">
-      <motion.div
-        className="motion-gpu-hint mx-auto max-w-[1200px]"
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={MOTION_TRANSITION}
-      >
-        <GradientText
-          className="font-display text-[clamp(56px,8vw,120px)] leading-none tracking-[0.06em]"
-          colors={[...SYN_GOLD_GRADIENT]}
-          direction="diagonal"
-          gradientAngle={135}
-        >
-          LET&apos;S TALK
-        </GradientText>
-      </motion.div>
+      <div className="relative z-[1] px-6 pb-[120px] md:px-10">
+      {pageHeader}
 
       <div className="mx-auto mt-16 grid max-w-[1200px] gap-16 lg:grid-cols-[40%_60%]">
         <aside className="relative lg:pr-12">
           <div
             className={`inline-flex min-h-[44px] items-center gap-2 border border-[var(--border-subtle)] px-4 py-2 ${
-              AVAILABLE ? "text-emerald-400" : "text-amber-500"
+              AVAILABLE ? "text-[var(--gold)]" : "text-[var(--text-secondary)]"
             }`}
           >
             <span>●</span>
@@ -110,7 +96,8 @@ export function ContactView() {
           <div
             className="pointer-events-none absolute right-0 top-[5%] hidden h-[90%] w-[2px] overflow-hidden rounded-full lg:block"
             style={{
-              background: "linear-gradient(180deg, transparent, #ffd97d, #ff9a3c, #c8a96e, transparent)",
+              background:
+                "linear-gradient(180deg, transparent, #D4B87A, #BFA06A, #7A5C2E, transparent)",
               backgroundSize: "100% 300%",
               animation: "saberRotate 3.5s linear infinite",
             }}

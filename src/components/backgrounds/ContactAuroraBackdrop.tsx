@@ -17,7 +17,7 @@ export function ContactAuroraBackdrop() {
     >
       <div className={FILL} style={{ pointerEvents: "none" }}>
         <Aurora
-          colorStops={["#C8A96E", "#7A5C2E", "#C8A96E"]}
+          colorStops={["#BFA06A", "#7A5C2E", "#D4B87A"]}
           amplitude={0.4}
           blend={0.65}
           speed={0.26}

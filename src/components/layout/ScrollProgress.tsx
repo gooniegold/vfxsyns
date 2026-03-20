@@ -42,10 +42,10 @@ export function ScrollProgress() {
       aria-hidden
     >
       <div
-        className="motion-gpu-hint h-full origin-left shadow-[0_0_10px_rgba(255,200,100,0.6)] transition-[width] duration-150 ease-out"
+        className="motion-gpu-hint h-full origin-left shadow-[0_0_10px_rgba(191,160,106,0.45)] transition-[width] duration-150 ease-out"
         style={{
           width: `${width}%`,
-          background: "linear-gradient(90deg, #BFA06A, #D4B87A, #8a7348)",
+          background: "linear-gradient(90deg, #BFA06A, #D4B87A, #7A5C2E)",
           backgroundSize: "200% 200%",
           animation: "gradientShift 2s linear infinite",
         }}

@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import {
   createCheckout,
@@ -18,7 +17,6 @@ import { TiltGlare } from "@/components/ui/TiltGlare";
 import { ShopPrismBackdrop } from "@/components/backgrounds/ShopPrismBackdrop";
 import { SYN_GOLD_GRADIENT } from "@/lib/syn-styles";
 import { INSTAGRAM_URL } from "@/lib/constants";
-import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { SynAnimatedList } from "@/components/ui/SynAnimatedList";
 import { cn } from "@/lib/utils";
 
@@ -52,7 +50,7 @@ function ProductSkeleton() {
   );
 }
 
-export function ShopView() {
+export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
   const [products, setProducts] = useState<ShopifyProductNode[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -105,31 +103,7 @@ export function ShopView() {
   return (
     <div className="relative bg-[var(--bg-base)]">
       <ShopPrismBackdrop />
-      <section className="relative z-[1] px-6 pb-12 pt-12 md:px-10">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={MOTION_TRANSITION}
-          className="motion-gpu-hint max-w-[1400px]"
-        >
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--gold)]">
-            <span className="text-gradient">● VFX PACKS</span>
-          </p>
-          <div className="mt-4">
-            <GradientText
-              className="font-display text-[clamp(56px,8vw,120px)] tracking-[0.05em]"
-              colors={[...SYN_GOLD_GRADIENT]}
-              direction="diagonal"
-              gradientAngle={135}
-            >
-              THE SHOP
-            </GradientText>
-          </div>
-          <p className="font-body mt-4 max-w-xl text-[15px] italic text-[var(--text-secondary)]">
-            Instant delivery. One-time payment. No subscription.
-          </p>
-        </motion.div>
-      </section>
+      {pageHeader}
 
       <section className="relative z-[1] border-y border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-6 py-14 md:px-10">
         <div className="mx-auto max-w-[1200px]">
@@ -186,7 +160,7 @@ export function ShopView() {
                       fontWeight={400}
                       fontFamily="var(--font-display), serif"
                       gradient={[...SYN_GOLD_GRADIENT]}
-                      color="#E8C97A"
+                      color="#D4B87A"
                       enableHover
                       baseIntensity={0.14}
                       hoverIntensity={0.45}
@@ -253,7 +227,7 @@ export function ShopView() {
                         innerClassName="relative overflow-hidden rounded-[12px] border border-[var(--border-subtle)] bg-[var(--bg-card)] p-0 transition-colors group-hover/card:border-[var(--border-gold)]"
                       >
                         <div data-cursor="hover">
-                      <div className="relative aspect-[4/3] overflow-hidden bg-[#0a0a0a]">
+                      <div className="relative aspect-[4/3] overflow-hidden bg-[#0c0c0c]">
                         {img ? (
                           /* eslint-disable-next-line @next/next/no-img-element */
                           <img

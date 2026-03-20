@@ -15,14 +15,14 @@ function Particles() {
     const col = new Float32Array(COUNT * 3);
     const vel = new Float32Array(COUNT * 3);
     const gold = new THREE.Color("#BFA06A");
-    const white = new THREE.Color("#ffffff");
+    const mist = new THREE.Color("#F2EFE8");
 
     for (let i = 0; i < COUNT; i++) {
       pos[i * 3] = (Math.random() - 0.5) * 30;
       pos[i * 3 + 1] = (Math.random() - 0.5) * 30;
       pos[i * 3 + 2] = (Math.random() - 0.5) * 30;
 
-      const c = gold.clone().lerp(white, Math.random() * 0.35);
+      const c = gold.clone().lerp(mist, Math.random() * 0.28);
       const isGold = Math.random() > 0.35;
       const intensity = isGold ? 0.28 + Math.random() * 0.12 : 0.07 + Math.random() * 0.05;
       col[i * 3] = c.r * intensity * 2.8;

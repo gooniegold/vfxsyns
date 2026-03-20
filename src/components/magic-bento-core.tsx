@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import gsap from "gsap";
 import {
@@ -15,7 +15,7 @@ import "@/components/MagicBento.css";
 
 export const DEFAULT_PARTICLE_COUNT = 12;
 export const DEFAULT_SPOTLIGHT_RADIUS = 300;
-export const DEFAULT_GLOW_COLOR = "132, 0, 255";
+export const DEFAULT_GLOW_COLOR = "191, 160, 106";
 const MOBILE_BREAKPOINT = 768;
 
 export const createParticleElement = (x: number, y: number, color = DEFAULT_GLOW_COLOR) => {
