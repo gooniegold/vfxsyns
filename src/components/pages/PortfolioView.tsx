@@ -249,13 +249,19 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  if (typeof window !== "undefined") {
+    console.log("activeFilter:", filter);
+    console.log("filtered count:", filtered.length);
+    console.log("project categories:", PROJECTS.map((p) => p.category));
+  }
+
   return (
     <div className="relative z-[5] text-[var(--text-primary)]">
       <PortfolioPageBackground activeFilter={filter} suppressAmbientAnimations={suppressAmbientAnimations} />
 
       {pageHeader}
 
-      <div className="sticky top-[calc(120px+env(safe-area-inset-top,0px))] z-[40] border-b border-[var(--glass-border)] bg-[rgba(6,6,8,0.72)] backdrop-blur-[20px]">
+      <div className="border-b border-[var(--glass-border)] bg-[rgba(6,6,8,0.72)] backdrop-blur-[20px]">
         <div className="mx-auto flex max-w-[1400px] flex-wrap gap-3 px-6 py-4 md:px-10">
           {FILTERS.map((f, i) => (
             <GlassButton
