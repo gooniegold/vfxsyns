@@ -56,9 +56,6 @@ html {
 
 body {
   background-color: var(--bg-base);
-  background-image: radial-gradient(rgba(184, 190, 199, 0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
-  animation: gridDrift 20s linear infinite;
   color: var(--text-primary);
   font-family: var(--font-mono), ui-monospace, monospace;
   font-weight: 400;

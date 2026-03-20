@@ -12,6 +12,18 @@ import { LogoLoopStrip } from "./LogoLoopStrip";
 export function SiteShell({ children }: { children: React.ReactNode }) {
   return (
     <>
+      <div
+        aria-hidden
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+          backgroundImage: "radial-gradient(rgba(184,190,199,0.04) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+          animation: "gridDrift 20s linear infinite",
+        }}
+      />
       <SiteIntroLoader />
       <GoldGlowBlob />
       <GlobalLines />
