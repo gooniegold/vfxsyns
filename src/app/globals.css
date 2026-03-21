@@ -749,7 +749,7 @@ body {
     box-shadow: 0 0 0px transparent;
   }
   50% {
-    box-shadow: 0 0 20px rgba(184, 190, 199, 0.2);
+    box-shadow: 0 0 14px rgba(184, 190, 199, 0.08);
   }
 }
 

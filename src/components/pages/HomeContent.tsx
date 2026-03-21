@@ -43,7 +43,7 @@ import {
 import { useInViewVideoPlayback } from "@/hooks/useInViewVideoPlayback";
 import { motionTransition } from "@/lib/motion-defaults";
 import { SYN_VIDEO_BASE_STYLE, VIDEO_LOADING_LAZY } from "@/lib/video-presentation";
-import { HomeBackgroundManager } from "@/components/home-backgrounds/HomeBackgroundManager";
+import { HomeScrollBG } from "@/components/backgrounds/HomeScrollBG";
 import { HomeScrollSnap } from "@/components/home/HomeScrollSnap";
 import { useMarqueeScrollSpeed } from "@/hooks/useMarqueeScrollSpeed";
 import { ParallaxGhostNum } from "@/components/ui/ParallaxGhostNum";
@@ -613,8 +613,8 @@ function PacksTeaser() {
 export function HomeContent() {
   return (
     <div id="home-page-root" className="relative">
+      <HomeScrollBG />
       <HomeScrollSnap />
-      <HomeBackgroundManager />
       <HeroSection />
       <MarqueeStrip />
       <FeaturedWorkSection />

@@ -9,7 +9,6 @@ import {
   useMobileBentoDetection,
 } from "@/components/magic-bento-core";
 import GradientText from "@/components/react-bits/GradientText";
-import ShinyText from "@/components/react-bits/ShinyText";
 import { StarBorder } from "@/components/ui/StarBorder";
 import { CountUp } from "@/components/ui/CountUp";
 import { AboutProfileCard } from "@/components/vfxsyn/AboutProfileCard";
@@ -116,7 +115,7 @@ export function AboutMagicBento() {
         >
           <StarBorder
             className="h-full min-h-[120px] w-full !block rounded-[8px]"
-            innerClassName="about-bento-ig-pulse h-full rounded-[8px] border border-[var(--border-gold)] bg-transparent p-0"
+            innerClassName="about-bento-ig-pulse h-full rounded-[8px] border border-[rgba(184,190,199,0.08)] bg-[rgba(14,14,14,0.6)] p-0 backdrop-blur-[12px]"
           >
             <a
               href={INSTAGRAM_URL}
@@ -125,10 +124,8 @@ export function AboutMagicBento() {
               data-cursor="hover"
               className="flex h-full min-h-[120px] flex-col items-center justify-center gap-2 p-6 text-center no-underline transition-colors hover:opacity-95"
             >
-              <span className="font-display text-[clamp(28px,4vw,42px)] tracking-[0.06em]">
-                <ShinyText speed={3} className="font-display text-[clamp(28px,4vw,42px)] tracking-[0.06em]">
-                  @vfxsyn
-                </ShinyText>
+              <span className="font-display text-[clamp(28px,4vw,42px)] tracking-[0.06em] text-[var(--text-primary)]">
+                @vfxsyn
               </span>
               <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">
                 DM for bookings

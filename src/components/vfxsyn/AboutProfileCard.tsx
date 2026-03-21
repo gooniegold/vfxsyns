@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import GradientText from "@/components/react-bits/GradientText";
 import { StarBorder } from "@/components/ui/StarBorder";
 import { TiltGlare } from "@/components/ui/TiltGlare";
-import { SYN_GOLD_GRADIENT } from "@/lib/syn-styles";
 
 /** Discord CDN — if this 404s, initials fallback shows. */
 export const PROFILE_CARD_PHOTO_URL =
@@ -22,15 +20,15 @@ export function AboutProfileCard() {
     >
       <StarBorder
         className="group/profile h-full min-h-0 w-full !block rounded-[8px]"
-        innerClassName="flex h-full min-h-0 flex-col gap-4 rounded-[8px] border-0 bg-transparent p-4 transition-[box-shadow] duration-300 sm:flex-row sm:items-center group-hover/profile:shadow-[0_0_48px_rgba(212,217,224,0.14)]"
+        innerClassName="flex h-full min-h-0 flex-col gap-4 rounded-[8px] border border-[rgba(184,190,199,0.08)] bg-[rgba(14,14,14,0.6)] p-4 backdrop-blur-[12px] transition-[box-shadow] duration-300 sm:flex-row sm:items-center"
       >
         <div className="relative mx-auto h-[100px] w-[100px] shrink-0 sm:mx-0 sm:h-[120px] sm:w-[120px]">
           <div
-            className="pointer-events-none absolute -inset-[3px] z-[2] rounded-[11px] border border-[var(--gold)] about-profile-ring-pulse"
+            className="pointer-events-none absolute -inset-[2px] z-[2] rounded-[10px] border border-[rgba(184,190,199,0.06)] opacity-70"
             aria-hidden
           />
           <div
-            className="relative h-full w-full overflow-hidden rounded-[8px] border border-[var(--border-gold)] bg-[var(--bg-elevated)]"
+            className="relative h-full w-full overflow-hidden rounded-[8px] border border-[rgba(184,190,199,0.08)] bg-[rgba(10,10,10,0.5)]"
             aria-hidden
           >
             <div className="profile-photo-gold-shimmer" aria-hidden />
@@ -45,26 +43,20 @@ export function AboutProfileCard() {
                 }}
               />
             ) : (
-              <span className="font-ui relative z-[1] flex h-full w-full items-center justify-center text-[22px] uppercase tracking-[0.12em] text-[var(--gold)]">
+              <span className="font-ui relative z-[1] flex h-full w-full items-center justify-center text-[22px] uppercase tracking-[0.12em] text-[var(--text-secondary)]">
                 VS
               </span>
             )}
           </div>
         </div>
         <div className="min-w-0 flex-1 text-center sm:text-left">
-          <GradientText
-            className="font-display justify-center text-[clamp(22px,3vw,30px)] tracking-[0.08em] sm:justify-start"
-            colors={[...SYN_GOLD_GRADIENT]}
-            direction="diagonal"
-            gradientAngle={135}
-            animationSpeed={14}
-          >
+          <p className="font-display text-[clamp(22px,3vw,30px)] tracking-[0.08em] text-[var(--text-primary)]">
             VFXSYN
-          </GradientText>
+          </p>
           <p className="font-body mt-2 text-[13px] leading-relaxed text-[var(--text-secondary)]">
             VFX Artist · Colorist · Director
           </p>
-          <p className="font-mono mt-3 text-[10px] tracking-[0.25em] text-[var(--gold)]">ATLANTA, GA</p>
+          <p className="font-mono mt-3 text-[10px] tracking-[0.25em] text-[var(--text-secondary)]">ATLANTA, GA</p>
         </div>
       </StarBorder>
     </TiltGlare>

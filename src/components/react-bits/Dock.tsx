@@ -41,6 +41,46 @@ export const DOCK_SPRING: SpringOptions = {
   mass: 0.5,
 };
 
+type DockLabelProps = {
+  className?: string;
+  children: React.ReactNode;
+  isHovered?: 0 | 1;
+};
+
+function DockLabel({ children, className = "", isHovered }: DockLabelProps) {
+  const isVisible = isHovered === 1;
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, x: "-50%" }}
+          animate={{ opacity: 1, x: "-50%" }}
+          exit={{ opacity: 0, x: "-50%" }}
+          transition={MOTION_TRANSITION}
+          className={`motion-gpu-hint ${className} font-ui pointer-events-none absolute left-1/2 top-full z-20 mt-2 w-fit whitespace-pre px-0 py-0 text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]`}
+          role="tooltip"
+        >
+          {children}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+type DockIconProps = {
+  className?: string;
+  children: React.ReactNode;
+};
+
+function DockIcon({ children, className = "" }: DockIconProps) {
+  return (
+    <div className={`flex size-full items-center justify-center ${className}`}>
+      {children}
+    </div>
+  );
+}
+
 type DockItemProps = {
   className?: string;
   children: React.ReactNode;
@@ -118,55 +158,17 @@ function DockItem({
         role="button"
         aria-haspopup="true"
       >
-        {Children.map(children, (child) =>
-          React.isValidElement(child)
-            ? cloneElement(child as React.ReactElement<{ isHovered?: 0 | 1 }>, {
-                isHovered: tooltipVisible ? 1 : 0,
-              })
-            : child,
-        )}
+        {Children.map(children, (child) => {
+          if (!React.isValidElement(child)) return child;
+          // Only clone DockLabel — cloning DockIcon breaks Lucide SVG children (React 19).
+          if (child.type === DockLabel) {
+            return cloneElement(child as React.ReactElement<DockLabelProps>, {
+              isHovered: tooltipVisible ? 1 : 0,
+            });
+          }
+          return child;
+        })}
       </motion.div>
-    </div>
-  );
-}
-
-type DockLabelProps = {
-  className?: string;
-  children: React.ReactNode;
-  isHovered?: 0 | 1;
-};
-
-function DockLabel({ children, className = "", isHovered }: DockLabelProps) {
-  const isVisible = isHovered === 1;
-
-  return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ opacity: 0, x: "-50%" }}
-          animate={{ opacity: 1, x: "-50%" }}
-          exit={{ opacity: 0, x: "-50%" }}
-          transition={MOTION_TRANSITION}
-          className={`motion-gpu-hint ${className} font-ui pointer-events-none absolute left-1/2 top-full z-20 mt-2 w-fit whitespace-pre px-0 py-0 text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]`}
-          role="tooltip"
-        >
-          {children}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-type DockIconProps = {
-  className?: string;
-  children: React.ReactNode;
-  isHovered?: 0 | 1;
-};
-
-function DockIcon({ children, className = "" }: DockIconProps) {
-  return (
-    <div className={`flex size-full items-center justify-center ${className}`}>
-      {children}
     </div>
   );
 }

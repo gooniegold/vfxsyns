@@ -1,139 +1,58 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { AuroraBackdrop } from "./AuroraBackdrop";
-import { DotGridBackdrop } from "./DotGridBackdrop";
 import { StarFieldBackdrop } from "./StarFieldBackdrop";
 import { PrismBackdrop } from "./PrismBackdrop";
 import { ColorBendsBackdrop } from "./ColorBendsBackdrop";
 import { DarkVeilBackdrop } from "./DarkVeilBackdrop";
 
-/** Includes 0.4 per spec; full ladder for ratio comparison. */
-const THRESHOLDS = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
-
-const ORDER = [
-  "hero",
-  "marquee",
-  "featured",
-  "stats",
-  "about",
-  "why",
-  "packs",
-  "faq",
-  "logoLoop",
-  "footer",
-] as const;
-
-export type HomeBgSection = (typeof ORDER)[number];
-
-function pickLayerKey(active: HomeBgSection): string {
-  if (active === "hero" || active === "marquee") return "none";
-  if (active === "featured") return "aurora";
-  if (active === "stats") return "dotgrid";
-  if (active === "about") return "starfield";
-  if (active === "why") return "prism";
-  if (active === "packs") return "colorbends";
-  if (active === "faq") return "darkveil";
-  if (active === "logoLoop" || active === "footer") return "solid";
-  return "none";
-}
-
+/**
+ * Scroll-driven home backgrounds (0–1 = full page scroll).
+ * 0.00–0.15: Hero — particle bg lives in HeroSection (no overlay here).
+ * 0.15–0.30: Featured — Aurora
+ * 0.30–0.45: Stats + About — particles / starfield
+ * 0.45–0.60: THE DIFFERENCE — Prism
+ * 0.60–0.75: VFX Packs — ColorBends
+ * 0.75–1.00: FAQ + footer — dark minimal
+ */
 export function HomeBackgroundManager() {
-  const [active, setActive] = useState<HomeBgSection>("hero");
+  const { scrollYProgress } = useScroll();
 
-  useEffect(() => {
-    const ratios = new Map<string, number>();
-    ORDER.forEach((k) => ratios.set(k, 0));
+  const opacityAurora = useTransform(scrollYProgress, [0.15, 0.225, 0.3], [0, 1, 0]);
+  const opacityParticles = useTransform(scrollYProgress, [0.3, 0.375, 0.45], [0, 1, 0]);
+  const opacityPrism = useTransform(scrollYProgress, [0.45, 0.525, 0.6], [0, 1, 0]);
+  const opacityColorBends = useTransform(scrollYProgress, [0.6, 0.675, 0.75], [0, 1, 0]);
+  const opacityDarkVeil = useTransform(scrollYProgress, [0.75, 0.82, 1], [0, 1, 1]);
 
-    const pick = () => {
-      let best: HomeBgSection = "hero";
-      let bestR = -1;
-      for (const k of ORDER) {
-        const r = ratios.get(k) ?? 0;
-        if (r > bestR) {
-          bestR = r;
-          best = k;
-        }
-      }
-      if (bestR <= 0) setActive("hero");
-      else setActive(best);
-    };
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          const key = e.target.getAttribute("data-home-bg");
-          if (key && ratios.has(key)) {
-            ratios.set(key, e.intersectionRatio);
-          }
-        }
-        pick();
-      },
-      { root: null, rootMargin: "0px", threshold: THRESHOLDS },
-    );
-
-    let attempts = 0;
-    let footerEl: HTMLElement | null = null;
-    const run = () => {
-      const root = document.getElementById("home-page-root");
-      if (!root) {
-        attempts += 1;
-        if (attempts < 90) requestAnimationFrame(run);
-        return;
-      }
-      root.querySelectorAll("[data-home-bg]").forEach((el) => io.observe(el));
-
-      const logoLoop = document.querySelector('[data-home-bg="logoLoop"]');
-      if (logoLoop) io.observe(logoLoop);
-
-      footerEl = document.querySelector("footer");
-      if (footerEl) {
-        footerEl.setAttribute("data-home-bg", "footer");
-        io.observe(footerEl);
-      }
-    };
-
-    run();
-
-    return () => {
-      io.disconnect();
-      if (footerEl) footerEl.removeAttribute("data-home-bg");
-    };
-  }, []);
-
-  const layerKey = pickLayerKey(active);
+  const layerClass = "pointer-events-none fixed inset-0 z-0";
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-0">
-      <AnimatePresence mode="sync">
-        <motion.div
-          key={layerKey}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: layerKey === "none" ? 0 : 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8 }}
-          className="absolute inset-0"
-        >
-          {layerKey === "none" ? <div className="absolute inset-0" aria-hidden /> : null}
-          {layerKey === "aurora" ? (
-            <AuroraBackdrop
-              colorStops={["#B8BEC7", "#6B7280", "#D4D9E0"]}
-              speed={0.2}
-              amplitude={0.3}
-              blend={0.5}
-            />
-          ) : null}
-          {layerKey === "dotgrid" ? <DotGridBackdrop opacity={0.06} /> : null}
-          {layerKey === "starfield" ? <StarFieldBackdrop /> : null}
-          {layerKey === "prism" ? <PrismBackdrop isTransparent timeScale={0.2} /> : null}
-          {layerKey === "colorbends" ? (
-            <ColorBendsBackdrop colors={["#B8BEC7", "#181818", "#6B7280", "#111111"]} speed={0.1} />
-          ) : null}
-          {layerKey === "darkveil" ? <DarkVeilBackdrop /> : null}
-          {layerKey === "solid" ? <div className="absolute inset-0 bg-[#050505]" aria-hidden /> : null}
-        </motion.div>
-      </AnimatePresence>
-    </div>
+    <>
+      <motion.div className={layerClass} style={{ opacity: opacityAurora }} aria-hidden>
+        <AuroraBackdrop
+          colorStops={["#B8BEC7", "#6B7280", "#D4D9E0"]}
+          speed={0.2}
+          amplitude={0.3}
+          blend={0.5}
+        />
+      </motion.div>
+
+      <motion.div className={layerClass} style={{ opacity: opacityParticles }} aria-hidden>
+        <StarFieldBackdrop />
+      </motion.div>
+
+      <motion.div className={layerClass} style={{ opacity: opacityPrism }} aria-hidden>
+        <PrismBackdrop isTransparent timeScale={0.2} />
+      </motion.div>
+
+      <motion.div className={layerClass} style={{ opacity: opacityColorBends }} aria-hidden>
+        <ColorBendsBackdrop colors={["#B8BEC7", "#181818", "#6B7280", "#111111"]} speed={0.1} />
+      </motion.div>
+
+      <motion.div className={layerClass} style={{ opacity: opacityDarkVeil }} aria-hidden>
+        <DarkVeilBackdrop />
+      </motion.div>
+    </>
   );
 }

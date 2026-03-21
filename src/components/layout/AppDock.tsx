@@ -2,17 +2,24 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Film, Home, Mail, ShoppingBag } from "lucide-react";
+import { Home, Film, ShoppingBag, Mail } from "lucide-react";
 import Dock from "@/components/react-bits/Dock";
 import { subscribeMatchMedia } from "@/lib/safe-media";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { path: "/", label: "HOME", Icon: Home, badge: false, shortcut: "H" },
-  { path: "/portfolio", label: "WORK", Icon: Film, badge: false, shortcut: "W" },
-  { path: "/shop", label: "SHOP", Icon: ShoppingBag, badge: true, shortcut: "S" },
-  { path: "/contact", label: "CONTACT", Icon: Mail, badge: false, shortcut: "C" },
+  { path: "/", label: "HOME", Icon: Home },
+  { path: "/portfolio", label: "WORK", Icon: Film },
+  { path: "/shop", label: "SHOP", Icon: ShoppingBag },
+  { path: "/contact", label: "CONTACT", Icon: Mail },
 ] as const;
+
+const SHORTCUT: Record<(typeof NAV)[number]["path"], string> = {
+  "/": "H",
+  "/portfolio": "W",
+  "/shop": "S",
+  "/contact": "C",
+};
 
 function useCompactDock() {
   const [compact, setCompact] = useState(false);
@@ -47,8 +54,9 @@ export function AppDock() {
         <Dock
           gapPx={compact ? 8 : 12}
           horizontalPaddingPx={compact ? 24 : 32}
-          items={NAV.map(({ path, label, Icon, badge, shortcut }) => {
+          items={NAV.map(({ path, label, Icon }) => {
             const active = path === "/" ? pathname === "/" : pathname === path || pathname.startsWith(`${path}/`);
+            const shortcut = SHORTCUT[path];
             return {
               icon: (
                 <span className="relative inline-flex">
@@ -57,7 +65,7 @@ export function AppDock() {
                     strokeWidth={1.35}
                     className={cn(active ? "syn-dock-active-icon" : "text-[var(--text-secondary)]")}
                   />
-                  {badge ? (
+                  {path === "/shop" ? (
                     <span className="pointer-events-none absolute -right-1 -top-0.5 rounded px-[3px] py-px font-mono text-[6px] font-bold uppercase tracking-[0.08em] text-[#050505] [background:linear-gradient(135deg,var(--gold-bright),var(--gold))]">
                       NEW
                     </span>

@@ -235,15 +235,15 @@
 
 .vfxsyn-about-bento .magic-bento-card {
   border-radius: 8px;
-  border: 1px solid rgba(184, 190, 199, 0.12);
-  background: rgba(10, 10, 10, 0.45);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(184, 190, 199, 0.08);
+  background: rgba(14, 14, 14, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
   aspect-ratio: auto;
   min-height: 0;
   padding: 0;
-  color: var(--text-primary);
+  color: var(--text-secondary);
 }
 
 .vfxsyn-about-bento .magic-bento-card:hover {
@@ -261,8 +261,8 @@
 
 .vfxsyn-about-bento .magic-bento-card--border-glow:hover {
   box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.35),
-    0 0 28px rgba(184, 190, 199, 0.14);
+    0 6px 28px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(184, 190, 199, 0.06);
 }
 
 .vfxsyn-about-bento .particle::before {
@@ -271,8 +271,21 @@
 
 .vfxsyn-about-bento .particle-container:hover {
   box-shadow:
-    0 4px 22px rgba(0, 0, 0, 0.32),
-    0 0 26px rgba(184, 190, 199, 0.12);
+    0 6px 26px rgba(0, 0, 0, 0.38),
+    0 0 18px rgba(184, 190, 199, 0.05);
+}
+
+/* Profile cell: glass + border on StarBorder inside TiltGlare — outer ParticleCard shell stays invisible */
+.vfxsyn-about-bento .about-bento-profile.magic-bento-card {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.vfxsyn-about-bento .about-bento-profile.magic-bento-card--border-glow::after {
+  opacity: 0;
 }
 
 @media (min-width: 900px) {
@@ -309,4 +322,10 @@
     grid-column: 1 / 4;
     grid-row: 4;
   }
+}
+
+/* Soft vertical fade so bento blends into page */
+.about-bento-section-mask {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
 }
