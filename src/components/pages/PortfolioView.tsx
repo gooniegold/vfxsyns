@@ -9,6 +9,8 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import type { CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, X } from "lucide-react";
+import ShinyText from "@/components/react-bits/ShinyText";
+import { HoverSplitHeading } from "@/components/ui/HoverSplitHeading";
 import { GlassButton } from "@/components/ui/GlassButton";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { SaberBorder } from "@/components/ui/SaberBorder";
@@ -104,7 +106,6 @@ function ModalVideo({ src, title }: { src: string; title: string }) {
           preload="none"
           {...VIDEO_LOADING_LAZY}
           onError={() => {
-            console.warn("[VFXSYN] Modal video failed:", title, src);
             setFailed(true);
           }}
         />
@@ -141,7 +142,7 @@ function GridCard({
   return (
     <TiltGlare
       className="group/card w-full rounded-[20px] transition-colors duration-300"
-      tiltAmount={7}
+      tiltAmount={8}
       tiltClassName="rounded-[20px] shadow-[0_12px_42px_rgba(0,0,0,0.5)]"
     >
       <StarBorder
@@ -178,7 +179,6 @@ function GridCard({
                 className="card-preview-video transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                 style={SYN_VIDEO_BASE_STYLE}
                 onError={() => {
-                  console.warn("[VFXSYN] Video failed to load:", p.title, p.videoSrc);
                   setVideoFailed(true);
                 }}
               />
@@ -196,8 +196,10 @@ function GridCard({
               hover ? "bg-black/15" : "",
             )}
           />
-          <span className="font-mono absolute left-3 top-3 z-[3] rounded-full border border-[var(--glass-border)] bg-[rgba(6,6,8,0.55)] px-3 py-1.5 text-[9px] uppercase tracking-[0.2em] text-[var(--gold)] backdrop-blur-md">
-            {p.category}
+          <span className="font-mono absolute left-3 top-3 z-[3] rounded-full syn-glass px-3 py-1.5 text-[9px] uppercase tracking-[0.2em]">
+            <ShinyText speed={3} className="font-mono text-[9px] uppercase tracking-[0.2em]">
+              {p.category}
+            </ShinyText>
           </span>
           <ArrowUpRight
             className="pointer-events-none absolute right-3 top-3 z-[3] h-5 w-5 text-[var(--gold)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -205,7 +207,7 @@ function GridCard({
             aria-hidden
           />
         </div>
-            <div className="space-y-1 p-5">
+            <div className="syn-glass space-y-1 p-5">
               <h3 className="font-ui text-[20px] tracking-[0.04em] text-[var(--text-primary)]">{p.title}</h3>
             </div>
           </button>
@@ -219,7 +221,6 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
   const [mounted, setMounted] = useState(false);
   const [filter, setFilter] = useState<PortfolioFilter>("ALL");
   const [openId, setOpenId] = useState<string | null>(null);
-  const showreelRef = useRef<HTMLVideoElement>(null);
 
   const onAmbientPreviewChange = useCallback((_playing: boolean) => {}, []);
 
@@ -231,12 +232,6 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
   const active = PROJECTS.find((p) => p.title === openId) ?? null;
   const previewsLocked = active != null;
   const suppressAmbientAnimations = false;
-
-  useInViewVideoPlayback(showreelRef, {
-    threshold: 0.3,
-    enabled: !previewsLocked,
-    onPlayingChange: onAmbientPreviewChange,
-  });
 
   useEffect(() => {
     setMounted(true);
@@ -259,7 +254,7 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
 
       {pageHeader}
 
-      <div className="border-b border-[var(--glass-border)] bg-[rgba(6,6,8,0.72)] backdrop-blur-[20px]">
+      <div className="syn-glass border-b-0">
         <div className="mx-auto flex max-w-[1400px] flex-wrap gap-3 px-6 py-4 md:px-10">
           {FILTERS.map((f, i) => (
             <GlassButton
@@ -309,14 +304,13 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
           >
             <div className="relative aspect-video">
               <video
-                ref={showreelRef}
                 src={SHOWREEL_2025_VIDEO}
                 className="absolute inset-0 h-full w-full object-cover"
+                autoPlay
                 muted
                 loop
                 playsInline
                 preload="auto"
-                {...VIDEO_LOADING_LAZY}
                 style={SYN_VIDEO_BASE_STYLE}
               />
               <div
@@ -362,13 +356,25 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
                 <X className="h-8 w-8 text-[var(--gold)]" strokeWidth={1.25} />
               </button>
               <SaberBorder active hoverOnly={false} borderRadius={24} intensity="high">
-                <GlassCard saber={false} rounded={24} className="overflow-hidden shadow-none">
+                <GlassCard
+                  saber={false}
+                  rounded={24}
+                  className="syn-glass overflow-hidden border-0 shadow-none hover:bg-[rgba(10,10,10,0.45)]"
+                >
                   <div className="p-2 md:p-3">
                     <ModalVideo src={active.videoSrc} title={active.title} />
                     <div className="p-6">
-                      <p className="font-mono text-gradient text-[10px] uppercase tracking-[0.2em]">{active.category}</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.2em]">
+                        <ShinyText speed={3} className="font-mono text-[10px] uppercase tracking-[0.2em]">
+                          {active.category}
+                        </ShinyText>
+                      </p>
                       <h2 className="font-display mt-2 text-[clamp(36px,6vw,72px)] text-[var(--text-primary)]">
-                        {active.title}
+                        <HoverSplitHeading
+                          text={active.title}
+                          speed={3}
+                          className="font-display text-[clamp(36px,6vw,72px)]"
+                        />
                       </h2>
                       <p className="font-mono mt-4 text-[13px] leading-[1.8] text-[var(--text-secondary)]">{active.desc}</p>
                       <div className="mt-8 flex flex-wrap items-center gap-4">

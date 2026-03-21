@@ -9,6 +9,8 @@ import {
   type ShopifyProductNode,
 } from "@/lib/shopify";
 import FuzzyText from "@/components/react-bits/FuzzyText";
+import ShinyText from "@/components/react-bits/ShinyText";
+import { HoverSplitHeading } from "@/components/ui/HoverSplitHeading";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { GlassButton } from "@/components/ui/GlassButton";
 import { StarBorder } from "@/components/ui/StarBorder";
@@ -16,6 +18,7 @@ import { TiltGlare } from "@/components/ui/TiltGlare";
 import { INSTAGRAM_URL } from "@/lib/constants";
 import { SynAnimatedList } from "@/components/ui/SynAnimatedList";
 import { cn } from "@/lib/utils";
+import { SynSpinner } from "@/components/ui/SynSpinner";
 
 function productImage(p: ShopifyProductNode) {
   return p.images.edges[0]?.node?.url;
@@ -35,7 +38,7 @@ function formatPrice(amount: string, currency: string) {
 
 function ProductSkeleton() {
   return (
-    <div className="overflow-hidden border border-[var(--border-subtle)] bg-[var(--bg-card)]">
+    <div className="overflow-hidden syn-glass">
       <div className="aspect-[4/3] shimmer-bg" />
       <div className="space-y-3 p-5">
         <div className="h-3 w-1/3 shimmer-bg" />
@@ -127,10 +130,18 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
       <section className="relative z-[1] px-6 pb-[120px] md:px-10">
         <div className="mx-auto max-w-[1200px]">
           {loading ? (
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="relative flex flex-col items-center">
+              <div className="mb-8 flex items-center gap-3">
+                <SynSpinner />
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">
+                  Loading storefront…
+                </span>
+              </div>
+            <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <ProductSkeleton key={i} />
               ))}
+            </div>
             </div>
           ) : null}
 
@@ -178,7 +189,7 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
               ) : (
                 <>
                   <h2 className="font-display text-[clamp(56px,8vw,120px)] text-[var(--text-primary)]">
-                    SHOP COMING SOON
+                    <HoverSplitHeading text="SHOP COMING SOON" speed={3} className="font-display text-[clamp(56px,8vw,120px)]" />
                   </h2>
                   <p className="font-body mt-4 max-w-md text-[14px] text-[var(--text-secondary)]">
                     Something went wrong loading the storefront. DM @vfxsyn on Instagram to purchase directly.
@@ -218,7 +229,7 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
                     >
                       <StarBorder
                         className="w-full !block rounded-[12px]"
-                        innerClassName="relative overflow-hidden rounded-[12px] border border-[var(--border-subtle)] bg-[var(--bg-card)] p-0 transition-colors group-hover/card:border-[var(--border-gold)]"
+                        innerClassName="relative overflow-hidden rounded-[12px] syn-glass p-0 transition-colors group-hover/card:border-[var(--border-gold)]"
                       >
                         <div data-cursor="hover">
                       <div className="relative aspect-[4/3] overflow-hidden bg-[#0c0c0c]">
@@ -234,8 +245,10 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
                             VFX PACK
                           </div>
                         )}
-                        <span className="font-mono absolute left-2 top-2 bg-[rgba(5,5,5,0.75)] px-2 py-1 text-[8px] uppercase tracking-[0.2em] text-[var(--gold)]">
-                          VFX PACK
+                        <span className="font-mono absolute left-2 top-2 syn-glass px-2 py-1 text-[8px] uppercase tracking-[0.2em]">
+                          <ShinyText speed={3} className="font-mono text-[8px] uppercase tracking-[0.2em]">
+                            VFX PACK
+                          </ShinyText>
                         </span>
                       </div>
                       <div className="p-5">
@@ -254,7 +267,14 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
                           onClick={() => handleBuyNow(p)}
                           className="font-ui btn-gold-glow mt-4 flex min-h-[48px] w-full items-center justify-center bg-[var(--gold)] text-[11px] uppercase tracking-[0.2em] text-[#050505] transition hover:bg-[var(--gold-bright)] disabled:opacity-50"
                         >
-                          {busy ? "…" : "BUY NOW — INSTANT DELIVERY"}
+                          {busy ? (
+                            <span className="inline-flex items-center gap-2">
+                              <SynSpinner className="h-4 w-4 border border-[rgba(184,190,199,0.35)] border-t-[#050505]" />
+                              Opening checkout…
+                            </span>
+                          ) : (
+                            "BUY NOW — INSTANT DELIVERY"
+                          )}
                         </button>
                       </div>
                         </div>
@@ -284,7 +304,7 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
               <StarBorder
                 className="w-full !block rounded-[14px]"
                 innerClassName={cn(
-                  "flex flex-col gap-2 rounded-[14px] border border-[var(--border-subtle)] bg-[var(--bg-base)] px-5 py-6 text-center md:text-left",
+                  "flex flex-col gap-2 rounded-[14px] syn-glass px-5 py-6 text-center md:text-left",
                   i > 0 && "md:border-l-0",
                 )}
               >
@@ -299,7 +319,9 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
 
       <section className="relative z-[1] px-6 py-[120px] text-center md:px-10">
         <ScrollReveal>
-          <h2 className="font-display text-gradient text-[clamp(56px,8vw,120px)]">CUSTOM WORK?</h2>
+          <h2 className="font-display text-[clamp(56px,8vw,120px)]">
+            <HoverSplitHeading text="CUSTOM WORK?" speed={3} className="font-display text-[clamp(56px,8vw,120px)]" />
+          </h2>
           <p className="font-body mx-auto mt-4 max-w-lg text-[14px] text-[var(--text-secondary)]">
             DM @vfxsyn for custom VFX, color grading, and music video packages.
           </p>

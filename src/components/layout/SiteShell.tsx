@@ -1,4 +1,6 @@
 import { FilmGrain } from "./FilmGrain";
+import { CrtScanlines } from "./CrtScanlines";
+import { VignetteOverlay } from "./VignetteOverlay";
 import { ScrollProgress } from "./ScrollProgress";
 import { GoldArrowTrail } from "./GoldArrowTrail";
 import { SiteLogo } from "./SiteLogo";
@@ -29,6 +31,8 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       <GlobalLines />
       <ScrollProgress />
       <FilmGrain />
+      <VignetteOverlay />
+      <CrtScanlines />
       <GoldArrowTrail />
       <SiteLogo />
       <main className="relative z-[10] flex min-h-screen flex-col pb-12 pt-[calc(120px+env(safe-area-inset-top,0px))]">

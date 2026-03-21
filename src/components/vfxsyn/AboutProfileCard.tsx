@@ -21,8 +21,8 @@ export function AboutProfileCard() {
       glareColor="rgba(184,190,199,0.18)"
     >
       <StarBorder
-        className="h-full min-h-0 w-full !block rounded-[8px]"
-        innerClassName="flex h-full min-h-0 flex-col gap-4 rounded-[8px] border-0 bg-[var(--bg-card)] p-4 sm:flex-row sm:items-center"
+        className="group/profile h-full min-h-0 w-full !block rounded-[8px]"
+        innerClassName="flex h-full min-h-0 flex-col gap-4 rounded-[8px] border-0 bg-transparent p-4 transition-[box-shadow] duration-300 sm:flex-row sm:items-center group-hover/profile:shadow-[0_0_48px_rgba(212,217,224,0.14)]"
       >
         <div className="relative mx-auto h-[100px] w-[100px] shrink-0 sm:mx-0 sm:h-[120px] sm:w-[120px]">
           <div

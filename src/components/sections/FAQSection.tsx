@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import ShinyText from "@/components/react-bits/ShinyText";
+import { HoverSplitHeading } from "@/components/ui/HoverSplitHeading";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { cn } from "@/lib/utils";
+import { ParallaxGhostNum } from "@/components/ui/ParallaxGhostNum";
 
 const FAQS = [
   {
@@ -41,21 +44,28 @@ export function FAQSection({ id = "faq" }: { id?: string }) {
 
   return (
     <ScrollReveal>
-      <section id={id} className="relative px-6 py-[120px] md:px-10">
-        <div className="relative mx-auto max-w-[900px]">
-          <span className="section-ghost-num">04</span>
+      <section data-home-bg="faq" id={id} className="syn-home-snap-section relative z-[1] overflow-hidden px-6 py-[120px] md:px-10">
+        <div className="syn-faq-grid-bg" aria-hidden />
+        <div className="relative z-[1] mx-auto max-w-[900px]">
+          <ParallaxGhostNum n="04" />
           <ScrollReveal>
             <p className="font-mono relative z-[1] text-[10px] uppercase tracking-[0.2em] text-[var(--gold)]">
-              <span className="text-gradient">● FAQ</span>
+              <ShinyText speed={3} className="font-mono text-[10px] uppercase tracking-[0.2em]">
+                ● FAQ
+              </ShinyText>
             </p>
             <motion.h2
-              className="motion-gpu-hint font-display text-gradient relative z-[1] mt-4 text-[clamp(48px,8vw,72px)] font-bold"
+              className="motion-gpu-hint font-display relative z-[1] mt-4 text-[clamp(48px,8vw,72px)] font-bold"
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               whileInView={{ clipPath: "inset(0 0% 0 0)" }}
               viewport={{ once: true, margin: "-60px" }}
               transition={MOTION_TRANSITION}
             >
-              QUESTIONS
+              <HoverSplitHeading
+                text="QUESTIONS"
+                speed={3}
+                className="font-display text-[clamp(48px,8vw,72px)] font-bold"
+              />
             </motion.h2>
           </ScrollReveal>
 
@@ -67,7 +77,7 @@ export function FAQSection({ id = "faq" }: { id?: string }) {
                   <div
                     data-cursor="hover"
                     className={cn(
-                      "group border transition-colors duration-[250ms] ease-out",
+                      "group syn-glass border transition-colors duration-[250ms] ease-out",
                       "hover:bg-[rgba(184,190,199,0.04)]",
                       isOpen ? "border-[var(--border-gold)] shadow-[var(--shadow-gold)]" : "border-[var(--border-subtle)] hover:border-[var(--border-gold)]",
                     )}

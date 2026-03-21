@@ -1,21 +1,21 @@
 "use client";
 
+import { forwardRef } from "react";
 import { motion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 
-export function ScrollReveal({
-  children,
-  className,
-  delay = 0,
-  ...rest
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-} & Omit<HTMLMotionProps<"div">, "initial" | "whileInView" | "viewport" | "transition">) {
+export const ScrollReveal = forwardRef<
+  HTMLDivElement,
+  {
+    children: React.ReactNode;
+    className?: string;
+    delay?: number;
+  } & Omit<HTMLMotionProps<"div">, "initial" | "whileInView" | "viewport" | "transition">
+>(function ScrollReveal({ children, className, delay = 0, ...rest }, ref) {
   return (
     <motion.div
+      ref={ref}
       className={cn("motion-gpu-hint", className)}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
@@ -26,4 +26,6 @@ export function ScrollReveal({
       {children}
     </motion.div>
   );
-}
+});
+
+ScrollReveal.displayName = "ScrollReveal";

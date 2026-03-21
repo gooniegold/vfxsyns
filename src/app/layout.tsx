@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AppDock } from "@/components/layout/AppDock";
 import { SiteShell } from "@/components/layout/SiteShell";
+import { GlobalSiteEffects } from "@/components/layout/GlobalSiteEffects";
 
 export const metadata: Metadata = {
   title: "SYN",
@@ -23,11 +24,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Italiana&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&family=Syne+Mono&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700;800;900&family=Rajdhani:wght@700&family=Share+Tech+Mono&family=Syne+Mono&display=swap"
           rel="stylesheet"
         />
       </head>
       <body className="flex min-h-full flex-col">
+        <GlobalSiteEffects />
         <AppDock />
         <SiteShell>{children}</SiteShell>
       </body>

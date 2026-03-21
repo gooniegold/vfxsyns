@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import ShinyText from "@/components/react-bits/ShinyText";
 
 export function SiteLogo() {
   return (
     <Link
       href="/"
       data-cursor="hover"
-      className="font-display text-[18px] tracking-[0.1em] text-[var(--gold)] transition-opacity hover:opacity-90"
+      className="transition-opacity hover:opacity-90"
       style={{
         position: "fixed",
         top: 24,
@@ -15,7 +16,11 @@ export function SiteLogo() {
         zIndex: 9999,
       }}
     >
-      VFXSYN
+      <span className="syn-logo-pill">
+        <ShinyText speed={3} className="font-display text-[18px] tracking-[0.1em]">
+          VFXSYN
+        </ShinyText>
+      </span>
     </Link>
   );
 }

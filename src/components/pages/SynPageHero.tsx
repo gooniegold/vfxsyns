@@ -2,10 +2,9 @@
 
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
-import GradientText from "@/components/react-bits/GradientText";
+import { HoverSplitHeading } from "@/components/ui/HoverSplitHeading";
 import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { cn } from "@/lib/utils";
-import { SYN_GOLD_GRADIENT } from "@/lib/syn-styles";
 
 export function SynPageHero({
   title,
@@ -39,14 +38,7 @@ export function SynPageHero({
       >
         {eyebrow}
         <div className={eyebrow ? "mt-4" : ""}>
-          <GradientText
-            className={titleClassName}
-            colors={[...SYN_GOLD_GRADIENT]}
-            direction="diagonal"
-            gradientAngle={135}
-          >
-            {title}
-          </GradientText>
+          <HoverSplitHeading text={title} className={titleClassName} speed={3} />
         </div>
         {subtitle ? (
           <p

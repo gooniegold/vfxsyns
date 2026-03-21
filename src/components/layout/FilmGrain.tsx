@@ -12,8 +12,10 @@ export function FilmGrain() {
     const step = () => {
       frameRef.current += 1;
       if (frameRef.current % 2 === 0) {
-        seedRef.current = (seedRef.current + 0.15) % 1000;
+        seedRef.current = (seedRef.current + 0.22) % 1000;
         turbulenceRef.current?.setAttribute("seed", String(seedRef.current));
+        const bf = 0.58 + (Math.sin(frameRef.current * 0.008) + 1) * 0.035;
+        turbulenceRef.current?.setAttribute("baseFrequency", String(bf));
       }
       rafRef.current = requestAnimationFrame(step);
     };
@@ -23,7 +25,7 @@ export function FilmGrain() {
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-[25] mix-blend-overlay opacity-[0.035]"
+      className="pointer-events-none fixed inset-0 z-[25] mix-blend-overlay opacity-[0.048]"
       aria-hidden
     >
       <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
@@ -34,8 +36,8 @@ export function FilmGrain() {
                 turbulenceRef.current = el;
               }}
               type="fractalNoise"
-              baseFrequency="0.65"
-              numOctaves="3"
+              baseFrequency="0.62"
+              numOctaves="4"
               stitchTiles="stitch"
               seed="0"
             />

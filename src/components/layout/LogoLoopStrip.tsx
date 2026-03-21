@@ -1,7 +1,9 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { Instagram, Youtube } from "lucide-react";
 import LogoLoop from "@/components/react-bits/LogoLoop";
+import ShinyText from "@/components/react-bits/ShinyText";
 import { INSTAGRAM_URL } from "@/lib/constants";
 
 function SoundCloudGlyph({ className }: { className?: string }) {
@@ -25,7 +27,7 @@ function Chip({
   label,
 }: {
   icon: React.ComponentType<{ className?: string }>;
-  label: string;
+  label: ReactNode;
 }) {
   return (
     <span className="inline-flex items-center gap-3 text-[var(--text-secondary)] transition duration-[250ms] hover:scale-105 hover:text-[var(--gold)] hover:[filter:drop-shadow(0_0_8px_#B8BEC7)]">
@@ -38,14 +40,15 @@ function Chip({
 export function LogoLoopStrip() {
   return (
     <section
+      data-home-bg="logoLoop"
       className="border-t border-[var(--border-subtle)] bg-[var(--bg-elevated)] py-12 md:py-[48px]"
       aria-label="Social links"
     >
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-        <p
-          className="mb-10 text-center font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--gold)] md:text-left"
-        >
-          FIND ME ON
+        <p className="mb-10 text-center font-mono text-[9px] uppercase tracking-[0.2em] md:text-left">
+          <ShinyText speed={3} className="font-mono text-[9px] uppercase tracking-[0.2em]">
+            FIND ME ON
+          </ShinyText>
         </p>
         <LogoLoop
           logoHeight={36}
@@ -57,7 +60,12 @@ export function LogoLoopStrip() {
           ariaLabel="Social platforms"
           logos={[
             {
-              node: <Chip icon={Instagram} label="@vfxsyn" />,
+              node: (
+                <Chip
+                  icon={Instagram}
+                  label={<ShinyText speed={3} className="font-mono text-[11px] uppercase tracking-[0.2em]">@vfxsyn</ShinyText>}
+                />
+              ),
               href: INSTAGRAM_URL,
               ariaLabel: "Instagram @vfxsyn",
             },

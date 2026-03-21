@@ -9,11 +9,12 @@ import {
   useMobileBentoDetection,
 } from "@/components/magic-bento-core";
 import GradientText from "@/components/react-bits/GradientText";
+import ShinyText from "@/components/react-bits/ShinyText";
 import { StarBorder } from "@/components/ui/StarBorder";
 import { CountUp } from "@/components/ui/CountUp";
 import { AboutProfileCard } from "@/components/vfxsyn/AboutProfileCard";
 import { INSTAGRAM_URL } from "@/lib/constants";
-import { SYN_GOLD_GRADIENT } from "@/lib/syn-styles";
+import { SYN_STAT_GRADIENT } from "@/lib/syn-styles";
 import "@/components/MagicBento.css";
 
 const BENTO_GLOW_RGB = "184, 190, 199";
@@ -62,7 +63,7 @@ export function AboutMagicBento() {
           <p className="font-display m-0 text-[clamp(28px,4vw,40px)] leading-none">
             <GradientText
               className="font-display text-[clamp(28px,4vw,40px)] leading-none font-normal"
-              colors={[...SYN_GOLD_GRADIENT]}
+              colors={[...SYN_STAT_GRADIENT]}
               direction="diagonal"
               gradientAngle={135}
               animationSpeed={12}
@@ -77,7 +78,7 @@ export function AboutMagicBento() {
           <p className="font-display m-0 text-[clamp(28px,4vw,40px)] leading-none">
             <GradientText
               className="font-display text-[clamp(28px,4vw,40px)] leading-none font-normal"
-              colors={[...SYN_GOLD_GRADIENT]}
+              colors={[...SYN_STAT_GRADIENT]}
               direction="diagonal"
               gradientAngle={135}
               animationSpeed={12}
@@ -92,7 +93,7 @@ export function AboutMagicBento() {
           <p className="font-display m-0 text-[clamp(28px,4vw,40px)] leading-none">
             <GradientText
               className="font-display text-[clamp(28px,4vw,40px)] leading-none font-normal"
-              colors={[...SYN_GOLD_GRADIENT]}
+              colors={[...SYN_STAT_GRADIENT]}
               direction="diagonal"
               gradientAngle={135}
               animationSpeed={12}
@@ -115,7 +116,7 @@ export function AboutMagicBento() {
         >
           <StarBorder
             className="h-full min-h-[120px] w-full !block rounded-[8px]"
-            innerClassName="about-bento-ig-pulse h-full rounded-[8px] border border-[var(--border-gold)] bg-[var(--bg-card)] p-0"
+            innerClassName="about-bento-ig-pulse h-full rounded-[8px] border border-[var(--border-gold)] bg-transparent p-0"
           >
             <a
               href={INSTAGRAM_URL}
@@ -124,8 +125,10 @@ export function AboutMagicBento() {
               data-cursor="hover"
               className="flex h-full min-h-[120px] flex-col items-center justify-center gap-2 p-6 text-center no-underline transition-colors hover:opacity-95"
             >
-              <span className="font-display text-[clamp(28px,4vw,42px)] tracking-[0.06em] text-[var(--gold)]">
-                @vfxsyn
+              <span className="font-display text-[clamp(28px,4vw,42px)] tracking-[0.06em]">
+                <ShinyText speed={3} className="font-display text-[clamp(28px,4vw,42px)] tracking-[0.06em]">
+                  @vfxsyn
+                </ShinyText>
               </span>
               <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">
                 DM for bookings

@@ -235,8 +235,11 @@
 
 .vfxsyn-about-bento .magic-bento-card {
   border-radius: 8px;
-  border: 1px solid var(--border-subtle);
-  background: var(--bg-card);
+  border: 1px solid rgba(184, 190, 199, 0.12);
+  background: rgba(10, 10, 10, 0.45);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   aspect-ratio: auto;
   min-height: 0;
   padding: 0;

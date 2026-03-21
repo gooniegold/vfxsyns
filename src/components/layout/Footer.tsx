@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import ShinyText from "@/components/react-bits/ShinyText";
 import { INSTAGRAM_URL } from "@/lib/constants";
 import { motionTransition } from "@/lib/motion-defaults";
 
@@ -20,11 +21,15 @@ export function Footer() {
   return (
     <footer
       ref={ref}
-      className="relative border-t border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-6 pb-8 pt-20 md:px-10"
+      className="syn-footer-wave relative border-t border-[var(--border-subtle)] px-6 pb-8 pt-20 md:px-10"
     >
       <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-3">
         <div>
-          <p className="font-display hero-title-breathe text-gradient text-[22px] tracking-[0.08em]">VFXSYN</p>
+          <p className="hero-title-breathe text-[22px]">
+            <ShinyText speed={3} className="font-display tracking-[0.08em]">
+              VFXSYN
+            </ShinyText>
+          </p>
           <p className="font-mono mt-3 text-[9px] leading-relaxed tracking-[0.2em] text-[var(--text-secondary)]">
             Atlanta, GA · VFX · Color · Direction
           </p>
@@ -49,18 +54,30 @@ export function Footer() {
           ))}
         </div>
         <div>
-          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--gold)]">
-            <span className="text-gradient">INSTAGRAM</span>
-          </p>
-          <a
+          <motion.p
+            className="font-mono text-[9px] uppercase tracking-[0.2em]"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={motionTransition(0.32)}
+          >
+            <ShinyText speed={3} className="font-mono text-[9px] uppercase tracking-[0.2em]">
+              INSTAGRAM
+            </ShinyText>
+          </motion.p>
+          <motion.a
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
             data-cursor="hover"
-            className="font-mono mt-2 inline-block text-[12px] text-gradient transition-opacity hover:opacity-90"
+            className="font-mono mt-2 inline-block text-[12px] transition-opacity hover:opacity-90"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={motionTransition(0.4)}
           >
-            @vfxsyn
-          </a>
+            <ShinyText speed={3} className="font-mono text-[12px]">
+              @vfxsyn
+            </ShinyText>
+          </motion.a>
         </div>
       </div>
       <div className="mx-auto mt-16 flex max-w-[1400px] flex-col justify-between gap-4 border-t border-[var(--border-subtle)] pt-8 sm:flex-row">

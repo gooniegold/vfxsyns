@@ -46,7 +46,7 @@ export function GlassButton({
 
   const variants: Record<Variant, string> = {
     glass:
-      "rounded-[50px] border border-[var(--border-subtle)] bg-[rgba(17,17,17,0.75)] text-[var(--text-primary)] backdrop-blur-[12px] hover:border-[var(--gold-border)] hover:shadow-[0_0_24px_rgba(184,190,199,0.2),inset_0_0_24px_rgba(184,190,199,0.05)]",
+      "syn-glass rounded-[50px] text-[var(--text-primary)] hover:border-[var(--gold-border)] hover:shadow-[0_0_24px_rgba(184,190,199,0.2),inset_0_0_24px_rgba(184,190,199,0.05)]",
     gold: "rounded-[50px] border-none text-[#050505] shadow-none hover:scale-[1.04] hover:shadow-[0_8px_32px_rgba(184,190,199,0.4)]",
     outline:
       "rounded-[50px] border border-[var(--gold-border)] bg-transparent text-[var(--gold)] hover:border-[var(--gold-border)] hover:bg-[rgba(17,17,17,0.85)] hover:shadow-[0_0_20px_rgba(184,190,199,0.15)]",

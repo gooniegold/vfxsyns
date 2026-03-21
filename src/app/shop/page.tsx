@@ -1,3 +1,4 @@
+import ShinyText from "@/components/react-bits/ShinyText";
 import { ShopView } from "@/components/pages/ShopView";
 import { SynPageHero } from "@/components/pages/SynPageHero";
 
@@ -8,7 +9,9 @@ export default function ShopPage() {
         <SynPageHero
           eyebrow={
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--gold)]">
-              <span className="text-gradient">● VFX PACKS</span>
+              <ShinyText speed={3} className="font-mono text-[10px] uppercase tracking-[0.2em]">
+                ● VFX PACKS
+              </ShinyText>
             </p>
           }
           title="THE SHOP"

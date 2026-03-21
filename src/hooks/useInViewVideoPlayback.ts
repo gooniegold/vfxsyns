@@ -10,11 +10,13 @@ export function useInViewVideoPlayback(
   videoRef: RefObject<HTMLVideoElement | null>,
   options: {
     threshold?: number;
+    /** e.g. "200px 0px" — begin loading / playing before the video enters the viewport */
+    rootMargin?: string;
     enabled?: boolean;
     onPlayingChange?: (playing: boolean) => void;
   } = {},
 ) {
-  const { threshold = 0.3, enabled = true, onPlayingChange } = options;
+  const { threshold = 0.3, rootMargin = "200px 0px", enabled = true, onPlayingChange } = options;
   const playingRef = useRef(false);
   const onCb = useRef(onPlayingChange);
   onCb.current = onPlayingChange;
@@ -44,7 +46,7 @@ export function useInViewVideoPlayback(
       }
     };
 
-    const observer = new IntersectionObserver(([entry]) => apply(entry), { threshold });
+    const observer = new IntersectionObserver(([entry]) => apply(entry), { threshold, rootMargin });
     observer.observe(el);
 
     return () => {
@@ -55,5 +57,5 @@ export function useInViewVideoPlayback(
         onCb.current?.(false);
       }
     };
-  }, [videoRef, threshold, enabled]);
+  }, [videoRef, threshold, rootMargin, enabled]);
 }

@@ -96,7 +96,7 @@ function DockItem({
           height: baseItemSize,
           scale,
         }}
-        className={`relative inline-flex shrink-0 items-center justify-center rounded-full border-2 shadow-md ${className}`}
+        className={`relative inline-flex shrink-0 items-center justify-center rounded-full shadow-md ${className}`}
         onHoverStart={() => {
           isHovered.set(1);
           setTooltipVisible(true);
@@ -213,7 +213,7 @@ export default function Dock({
           isHovered.set(0);
           mouseX.set(Infinity);
         }}
-        className={`${className} relative flex shrink-0 items-center justify-center rounded-2xl border-2 border-neutral-700 py-2`}
+        className={`${className} relative flex shrink-0 items-center justify-center rounded-2xl py-2`}
         style={{
           height: Math.max(panelHeight, magnification),
           minWidth: trackWidthPx,

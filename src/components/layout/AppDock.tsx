@@ -8,10 +8,10 @@ import { subscribeMatchMedia } from "@/lib/safe-media";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { path: "/", label: "HOME", Icon: Home },
-  { path: "/portfolio", label: "WORK", Icon: Film },
-  { path: "/shop", label: "SHOP", Icon: ShoppingBag },
-  { path: "/contact", label: "CONTACT", Icon: Mail },
+  { path: "/", label: "HOME", Icon: Home, badge: false },
+  { path: "/portfolio", label: "WORK", Icon: Film, badge: false },
+  { path: "/shop", label: "SHOP", Icon: ShoppingBag, badge: true },
+  { path: "/contact", label: "CONTACT", Icon: Mail, badge: false },
 ] as const;
 
 function useCompactDock() {
@@ -47,15 +47,22 @@ export function AppDock() {
         <Dock
           gapPx={compact ? 8 : 12}
           horizontalPaddingPx={compact ? 24 : 32}
-          items={NAV.map(({ path, label, Icon }) => {
+          items={NAV.map(({ path, label, Icon, badge }) => {
             const active = path === "/" ? pathname === "/" : pathname === path || pathname.startsWith(`${path}/`);
             return {
               icon: (
-                <Icon
-                  size={iconPx}
-                  strokeWidth={1.35}
-                  className={cn(active ? "syn-dock-active-icon" : "text-[var(--text-secondary)]")}
-                />
+                <span className="relative inline-flex">
+                  <Icon
+                    size={iconPx}
+                    strokeWidth={1.35}
+                    className={cn(active ? "syn-dock-active-icon" : "text-[var(--text-secondary)]")}
+                  />
+                  {badge ? (
+                    <span className="pointer-events-none absolute -right-1 -top-0.5 rounded px-[3px] py-px font-mono text-[6px] font-bold uppercase tracking-[0.08em] text-[#050505] [background:linear-gradient(135deg,var(--gold-bright),var(--gold))]">
+                      NEW
+                    </span>
+                  ) : null}
+                </span>
               ),
               label: (
                 <span
@@ -66,7 +73,7 @@ export function AppDock() {
               ),
               onClick: () => router.push(path),
               className: cn(
-                "border-[var(--border-subtle)] bg-[rgba(10,10,10,0.75)] backdrop-blur-md transition-colors duration-200",
+                "syn-dock-item-inactive transition-colors duration-200",
                 active && "syn-dock-item-active border-[var(--border-gold)]",
               ),
             };
@@ -76,9 +83,7 @@ export function AppDock() {
           distance={compact ? 140 : 180}
           panelHeight={panelHeight}
           dockHeight={compact ? 200 : 240}
-          className={cn(
-            "!rounded-full !border !border-[var(--border-gold)] !bg-[rgba(10,10,10,0.85)] !py-2 !shadow-[0_12px_50px_rgba(0,0,0,0.65)] !backdrop-blur-[20px]",
-          )}
+          className={cn("!rounded-full !py-2 syn-dock-pill")}
         />
       </div>
     </nav>

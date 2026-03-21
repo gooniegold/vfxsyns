@@ -3,7 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle } from "lucide-react";
-import GradientText from "@/components/react-bits/GradientText";
+import ShinyText from "@/components/react-bits/ShinyText";
 import { GlassButton } from "@/components/ui/GlassButton";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { StarBorder } from "@/components/ui/StarBorder";
@@ -12,7 +12,6 @@ import { ContactAuroraBackdrop } from "@/components/backgrounds/ContactAuroraBac
 import { INSTAGRAM_URL } from "@/lib/constants";
 import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { SynAnimatedList } from "@/components/ui/SynAnimatedList";
-import { SYN_GOLD_GRADIENT } from "@/lib/syn-styles";
 
 const AVAILABLE = true;
 
@@ -70,7 +69,11 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
           />
 
           <div className="mt-12">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--gold)]">INSTAGRAM</p>
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em]">
+              <ShinyText speed={3} className="font-mono text-[9px] uppercase tracking-[0.2em]">
+                INSTAGRAM
+              </ShinyText>
+            </p>
             <a
               href={INSTAGRAM_URL}
               target="_blank"
@@ -78,14 +81,9 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
               data-cursor="hover"
               className="gold-text-glow mt-2 inline-block underline decoration-[var(--gold)] decoration-1 underline-offset-[6px] transition-all"
             >
-              <GradientText
-                className="font-display text-[36px] tracking-[0.06em]"
-                colors={[...SYN_GOLD_GRADIENT]}
-                direction="diagonal"
-                gradientAngle={135}
-              >
+              <ShinyText speed={3} className="font-display text-[36px] tracking-[0.06em]">
                 @vfxsyn
-              </GradientText>
+              </ShinyText>
             </a>
           </div>
 
@@ -113,7 +111,7 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
           >
             <StarBorder
               className="w-full !block rounded-[24px]"
-              innerClassName="relative overflow-hidden rounded-[24px] border border-[var(--border-subtle)] bg-transparent p-0"
+              innerClassName="relative overflow-hidden rounded-[24px] syn-glass p-0"
             >
               <GlassCard saber={false} rounded={24} className="overflow-hidden border-0 border-transparent bg-transparent shadow-none">
                 <div className="p-8 md:p-10">
@@ -138,17 +136,29 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                   ) : (
                     <motion.form
                       key="form"
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      variants={{
+                        hidden: { opacity: 0, y: 12 },
+                        show: {
+                          opacity: 1,
+                          y: 0,
+                          transition: { ...MOTION_TRANSITION, staggerChildren: 0.1, delayChildren: 0.05 },
+                        },
+                      }}
+                      initial="hidden"
+                      animate="show"
                       exit={{ opacity: 0, y: -10 }}
-                      transition={MOTION_TRANSITION}
                       onSubmit={(e) => {
                         e.preventDefault();
                         setSubmitted(true);
                       }}
                       className="space-y-8"
                     >
-                      <div>
+                      <motion.div
+                        variants={{
+                          hidden: { opacity: 0, x: -28 },
+                          show: { opacity: 1, x: 0, transition: MOTION_TRANSITION },
+                        }}
+                      >
                         <motion.label
                           htmlFor="nm"
                           className="font-mono mb-2 block text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]"
@@ -158,17 +168,24 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                         >
                           NAME
                         </motion.label>
-                        <input
-                          id="nm"
-                          name="name"
-                          required
-                          onFocus={() => setF1(true)}
-                          onBlur={() => setF1(false)}
-                          className="font-mono w-full border-0 bg-transparent py-3 text-[12px] text-[var(--text-primary)] outline-none transition-[border-color] duration-300"
-                          style={line(f1)}
-                        />
-                      </div>
-                      <div>
+                        <div className="syn-glass rounded px-3 py-1">
+                          <input
+                            id="nm"
+                            name="name"
+                            required
+                            onFocus={() => setF1(true)}
+                            onBlur={() => setF1(false)}
+                            className="font-mono w-full border-0 bg-transparent py-3 text-[12px] text-[var(--text-primary)] outline-none transition-[border-color] duration-300"
+                            style={line(f1)}
+                          />
+                        </div>
+                      </motion.div>
+                      <motion.div
+                        variants={{
+                          hidden: { opacity: 0, x: -28 },
+                          show: { opacity: 1, x: 0, transition: MOTION_TRANSITION },
+                        }}
+                      >
                         <motion.label
                           htmlFor="ct"
                           className="font-mono mb-2 block text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]"
@@ -178,17 +195,24 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                         >
                           INSTAGRAM OR EMAIL
                         </motion.label>
-                        <input
-                          id="ct"
-                          name="contact"
-                          required
-                          onFocus={() => setF2(true)}
-                          onBlur={() => setF2(false)}
-                          className="font-mono w-full border-0 bg-transparent py-3 text-[12px] text-[var(--text-primary)] outline-none"
-                          style={line(f2)}
-                        />
-                      </div>
-                      <div>
+                        <div className="syn-glass rounded px-3 py-1">
+                          <input
+                            id="ct"
+                            name="contact"
+                            required
+                            onFocus={() => setF2(true)}
+                            onBlur={() => setF2(false)}
+                            className="font-mono w-full border-0 bg-transparent py-3 text-[12px] text-[var(--text-primary)] outline-none"
+                            style={line(f2)}
+                          />
+                        </div>
+                      </motion.div>
+                      <motion.div
+                        variants={{
+                          hidden: { opacity: 0, x: -28 },
+                          show: { opacity: 1, x: 0, transition: MOTION_TRANSITION },
+                        }}
+                      >
                         <motion.label
                           htmlFor="tp"
                           className="font-mono mb-2 block text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]"
@@ -198,24 +222,31 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                         >
                           PROJECT TYPE
                         </motion.label>
-                        <select
-                          id="tp"
-                          name="type"
-                          required
-                          defaultValue={PROJECT_TYPES[0]}
-                          onFocus={() => setF3(true)}
-                          onBlur={() => setF3(false)}
-                          className="font-mono w-full cursor-pointer border-0 bg-transparent py-3 text-[12px] text-[var(--text-primary)] outline-none"
-                          style={line(f3)}
-                        >
-                          {PROJECT_TYPES.map((t) => (
-                            <option key={t} value={t} className="bg-[var(--bg-elevated)]">
-                              {t}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div>
+                        <div className="syn-glass rounded px-3 py-1">
+                          <select
+                            id="tp"
+                            name="type"
+                            required
+                            defaultValue={PROJECT_TYPES[0]}
+                            onFocus={() => setF3(true)}
+                            onBlur={() => setF3(false)}
+                            className="font-mono w-full cursor-pointer border-0 bg-transparent py-3 text-[12px] text-[var(--text-primary)] outline-none"
+                            style={line(f3)}
+                          >
+                            {PROJECT_TYPES.map((t) => (
+                              <option key={t} value={t} className="bg-[var(--bg-elevated)]">
+                                {t}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </motion.div>
+                      <motion.div
+                        variants={{
+                          hidden: { opacity: 0, x: -28 },
+                          show: { opacity: 1, x: 0, transition: MOTION_TRANSITION },
+                        }}
+                      >
                         <motion.label
                           htmlFor="msg"
                           className="font-mono mb-2 block text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]"
@@ -225,20 +256,29 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                         >
                           MESSAGE
                         </motion.label>
-                        <textarea
-                          id="msg"
-                          name="message"
-                          rows={5}
-                          required
-                          onFocus={() => setF4(true)}
-                          onBlur={() => setF4(false)}
-                          className="font-mono w-full resize-y border-0 bg-transparent py-3 text-[12px] text-[var(--text-primary)] outline-none"
-                          style={line(f4)}
-                        />
-                      </div>
+                        <div className="syn-glass rounded px-3 py-1">
+                          <textarea
+                            id="msg"
+                            name="message"
+                            rows={5}
+                            required
+                            onFocus={() => setF4(true)}
+                            onBlur={() => setF4(false)}
+                            className="font-mono w-full resize-y border-0 bg-transparent py-3 text-[12px] text-[var(--text-primary)] outline-none"
+                            style={line(f4)}
+                          />
+                        </div>
+                      </motion.div>
+                      <motion.div
+                        variants={{
+                          hidden: { opacity: 0, x: -20 },
+                          show: { opacity: 1, x: 0, transition: MOTION_TRANSITION },
+                        }}
+                      >
                       <GlassButton variant="gold" className="w-full justify-center" buttonType="submit">
                         SEND IT →
                       </GlassButton>
+                      </motion.div>
                     </motion.form>
                   )}
                 </AnimatePresence>
@@ -254,9 +294,11 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="hover"
-              className="gold-text-glow text-[var(--gold)] underline-offset-2 hover:underline"
+              className="gold-text-glow underline-offset-2 hover:underline"
             >
-              @vfxsyn
+              <ShinyText speed={3} className="font-mono text-[11px]">
+                @vfxsyn
+              </ShinyText>
             </a>
           </p>
         </div>

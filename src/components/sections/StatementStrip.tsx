@@ -6,7 +6,7 @@ import { AboutMagicBento } from "@/components/vfxsyn/AboutMagicBento";
 export function StatementStrip() {
   return (
     <ScrollReveal>
-      <section className="relative px-6 py-[100px] md:px-10" aria-label="About">
+      <section data-home-bg="about" className="syn-home-snap-section relative z-[1] px-6 py-[100px] md:px-10" aria-label="About">
         <AboutMagicBento />
       </section>
     </ScrollReveal>
