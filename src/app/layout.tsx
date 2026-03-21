@@ -4,6 +4,7 @@ import { AppDock } from "@/components/layout/AppDock";
 import { MagneticDockWrap } from "@/components/layout/MagneticDockWrap";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { GlobalSiteEffects } from "@/components/layout/GlobalSiteEffects";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "SYN",
@@ -35,6 +36,7 @@ export default function RootLayout({
           <AppDock />
         </MagneticDockWrap>
         <SiteShell>{children}</SiteShell>
+        <SpeedInsights />
       </body>
     </html>
   );
