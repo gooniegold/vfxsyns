@@ -8,7 +8,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, X } from "lucide-react";
+import { ArrowUpRight, Play, X } from "lucide-react";
 import ShinyText from "@/components/react-bits/ShinyText";
 import { HoverSplitHeading } from "@/components/ui/HoverSplitHeading";
 import { GlassButton } from "@/components/ui/GlassButton";
@@ -34,6 +34,7 @@ import { useInViewVideoPlayback } from "@/hooks/useInViewVideoPlayback";
 import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { SYN_VIDEO_BASE_STYLE, VIDEO_LOADING_LAZY } from "@/lib/video-presentation";
 import { cn } from "@/lib/utils";
+import { BeforeAfterSlider } from "@/components/portfolio/BeforeAfterSlider";
 
 /** Tab labels; project `category` must use these exact strings (indices 1–3) for filtering. */
 const FILTERS: readonly PortfolioFilter[] = [
@@ -135,11 +136,19 @@ function GridCard({
 
   useInViewVideoPlayback(videoRef, {
     threshold: 0.3,
+    rootMargin: "200px 0px",
     enabled: !previewsLocked && !videoFailed,
     onPlayingChange: onAmbientPreviewChange,
   });
 
   return (
+    <motion.div
+      className="break-inside-avoid"
+      initial={{ clipPath: "inset(0 100% 0 0)" }}
+      whileInView={{ clipPath: "inset(0 0% 0 0)" }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+    >
     <TiltGlare
       className="group/card w-full rounded-[20px] transition-colors duration-300"
       tiltAmount={8}
@@ -201,6 +210,11 @@ function GridCard({
               {p.category}
             </ShinyText>
           </span>
+          <div className="pointer-events-none absolute inset-0 z-[3] flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[var(--border-gold)] bg-[rgba(5,5,5,0.55)] text-[var(--gold)] shadow-[0_0_20px_rgba(184,190,199,0.2)] backdrop-blur-sm">
+              <Play className="h-6 w-6 translate-x-0.5" fill="currentColor" strokeWidth={0} aria-hidden />
+            </span>
+          </div>
           <ArrowUpRight
             className="pointer-events-none absolute right-3 top-3 z-[3] h-5 w-5 text-[var(--gold)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
             strokeWidth={1.25}
@@ -214,6 +228,7 @@ function GridCard({
         </GlassCard>
       </StarBorder>
     </TiltGlare>
+    </motion.div>
   );
 }
 
@@ -273,12 +288,19 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
         </div>
       </div>
 
+      <section className="relative z-[1] mx-auto max-w-[1100px] px-6 py-10 md:px-10">
+        <BeforeAfterSlider leftSrc={PORTFOLIO_VIDEO_3_COLOR} rightSrc={PORTFOLIO_VIDEO_4_COLOR} />
+      </section>
+
       <section className="relative z-[1] mx-auto max-w-[1200px] px-6 pb-[120px] pt-[100px] md:px-10">
-        <div key={filter} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          key={filter}
+          className="columns-1 gap-0 [column-gap:1.25rem] sm:columns-2 lg:columns-3"
+        >
           {filtered.map((p, i) => (
             <div
               key={p.title}
-              className="portfolio-card-reveal"
+              className="portfolio-card-reveal mb-6 break-inside-avoid"
               style={{ "--i": i } as CSSProperties}
             >
               <GridCard

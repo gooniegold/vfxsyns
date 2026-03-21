@@ -241,6 +241,7 @@ function HeroSection() {
 }
 
 function MarqueeStrip() {
+  const prefersReducedMotion = useReducedMotion();
   const marqueeSec = useMarqueeScrollSpeed(40);
   return (
     <ScrollReveal>
@@ -254,7 +255,7 @@ function MarqueeStrip() {
             <div
               className="flex w-max gap-10 motion-reduce:transform-none group-hover:[animation-play-state:paused] md:gap-12"
               style={{
-                animation: reduce
+                animation: prefersReducedMotion
                   ? "vfxsyn-marquee 40s linear infinite"
                   : `vfxsyn-marquee ${marqueeSec}s linear infinite`,
               }}

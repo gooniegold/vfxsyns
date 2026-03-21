@@ -81,7 +81,7 @@ export function GoldArrowTrail() {
           ref={(el) => {
             trailsRef.current[i] = el;
           }}
-          className="pointer-events-none fixed left-0 top-0 z-[9998] h-[3px] w-[3px] rounded-full bg-[var(--gold)]"
+          className="pointer-events-none fixed left-0 top-0 z-[9998] h-[3px] w-[3px] rotate-45 bg-[var(--gold)] shadow-[0_0_6px_rgba(184,190,199,0.55)]"
           style={{ opacity: TRAIL_OPACITY[i] }}
           aria-hidden
         />

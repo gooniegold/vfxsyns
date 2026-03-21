@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AppDock } from "@/components/layout/AppDock";
+import { MagneticDockWrap } from "@/components/layout/MagneticDockWrap";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { GlobalSiteEffects } from "@/components/layout/GlobalSiteEffects";
 
@@ -30,7 +31,9 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-full flex-col">
         <GlobalSiteEffects />
-        <AppDock />
+        <MagneticDockWrap>
+          <AppDock />
+        </MagneticDockWrap>
         <SiteShell>{children}</SiteShell>
       </body>
     </html>

@@ -8,10 +8,10 @@ import { subscribeMatchMedia } from "@/lib/safe-media";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { path: "/", label: "HOME", Icon: Home, badge: false },
-  { path: "/portfolio", label: "WORK", Icon: Film, badge: false },
-  { path: "/shop", label: "SHOP", Icon: ShoppingBag, badge: true },
-  { path: "/contact", label: "CONTACT", Icon: Mail, badge: false },
+  { path: "/", label: "HOME", Icon: Home, badge: false, shortcut: "H" },
+  { path: "/portfolio", label: "WORK", Icon: Film, badge: false, shortcut: "W" },
+  { path: "/shop", label: "SHOP", Icon: ShoppingBag, badge: true, shortcut: "S" },
+  { path: "/contact", label: "CONTACT", Icon: Mail, badge: false, shortcut: "C" },
 ] as const;
 
 function useCompactDock() {
@@ -47,7 +47,7 @@ export function AppDock() {
         <Dock
           gapPx={compact ? 8 : 12}
           horizontalPaddingPx={compact ? 24 : 32}
-          items={NAV.map(({ path, label, Icon, badge }) => {
+          items={NAV.map(({ path, label, Icon, badge, shortcut }) => {
             const active = path === "/" ? pathname === "/" : pathname === path || pathname.startsWith(`${path}/`);
             return {
               icon: (
@@ -67,8 +67,14 @@ export function AppDock() {
               label: (
                 <span
                   className="font-ui text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]"
+                  title={compact ? label : `${label} [${shortcut}]`}
                 >
                   {label}
+                  {!compact ? (
+                    <span className="ml-1 hidden font-mono text-[7px] text-[var(--text-secondary)] opacity-70 md:inline">
+                      [{shortcut}]
+                    </span>
+                  ) : null}
                 </span>
               ),
               onClick: () => router.push(path),
