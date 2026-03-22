@@ -2,7 +2,7 @@
 
 /**
  * All 6 showcase video sources are imported from @/lib/portfolio-media:
- * PORTFOLIO_VIDEO_1_MUSIC … PORTFOLIO_VIDEO_6_3D (+ SHOWREEL_2025_VIDEO).
+ * PORTFOLIO_VIDEO_1_MUSIC … PORTFOLIO_VIDEO_6_3D.
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
@@ -28,13 +28,11 @@ import {
   PORTFOLIO_VIDEO_4_COLOR,
   PORTFOLIO_VIDEO_5_3D,
   PORTFOLIO_VIDEO_6_3D,
-  SHOWREEL_2025_VIDEO,
 } from "@/lib/portfolio-media";
 import { useInViewVideoPlayback } from "@/hooks/useInViewVideoPlayback";
 import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { SYN_VIDEO_BASE_STYLE, VIDEO_LOADING_LAZY } from "@/lib/video-presentation";
 import { cn } from "@/lib/utils";
-import { BeforeAfterSlider } from "@/components/portfolio/BeforeAfterSlider";
 
 /** Tab labels; project `category` must use these exact strings (indices 1–3) for filtering. */
 const FILTERS: readonly PortfolioFilter[] = [
@@ -104,6 +102,7 @@ function ModalVideo({ src, title }: { src: string; title: string }) {
           src={src}
           className="h-full w-full object-cover"
           style={SYN_VIDEO_BASE_STYLE}
+          crossOrigin="anonymous"
           muted
           loop
           playsInline
@@ -296,8 +295,49 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
         </div>
       </div>
 
-      <section className="relative z-[1] mx-auto max-w-[1100px] px-6 py-10 md:px-10">
-        <BeforeAfterSlider leftSrc={PORTFOLIO_VIDEO_3_COLOR} rightSrc={PORTFOLIO_VIDEO_4_COLOR} />
+      <section
+        style={{
+          position: "relative",
+          zIndex: 1,
+          maxWidth: 1100,
+          margin: "0 auto",
+          padding: "60px 24px 100px",
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "10px",
+            letterSpacing: "0.3em",
+            color: "var(--gold)",
+            marginBottom: 16,
+          }}
+        >
+          ● SHOWREEL
+        </p>
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            aspectRatio: "16/9",
+            border: "1px solid rgba(184,190,199,0.15)",
+            overflow: "hidden",
+            borderRadius: 8,
+          }}
+        >
+          <iframe
+            src="https://drive.google.com/file/d/1SDkxS__IBrgbu5o22xyYrO7KA0TzisP3/preview"
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              border: "none",
+            }}
+            allow="autoplay"
+            title="Showreel"
+          />
+        </div>
       </section>
 
       <section className="relative z-[1] mx-auto max-w-[1200px] px-6 pb-[120px] pt-[100px] md:px-10">
@@ -320,41 +360,6 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
             </div>
           ))}
         </div>
-      </section>
-
-      <section className="relative z-[1] mx-auto max-w-[1100px] px-6 py-[100px] md:px-10">
-        <TiltGlare
-          className="w-full rounded-[20px]"
-          tiltAmount={6}
-          tiltClassName="rounded-[20px] shadow-[0_12px_42px_rgba(0,0,0,0.5)]"
-        >
-          <StarBorder
-            className="w-full !block rounded-[20px]"
-            innerClassName="relative overflow-hidden rounded-[20px] border border-[var(--border-subtle)] bg-[#0a0a0c] p-0"
-          >
-            <div className="relative aspect-video">
-              <video
-                src={SHOWREEL_2025_VIDEO}
-                className="absolute inset-0 h-full w-full object-cover"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                style={SYN_VIDEO_BASE_STYLE}
-              />
-              <div
-                className="pointer-events-none absolute inset-0 z-[1]"
-                style={{
-                  backdropFilter: "blur(6px)",
-                  WebkitBackdropFilter: "blur(6px)",
-                  background: "rgba(5, 5, 5, 0.15)",
-                }}
-                aria-hidden
-              />
-            </div>
-          </StarBorder>
-        </TiltGlare>
       </section>
 
       <AnimatePresence>
