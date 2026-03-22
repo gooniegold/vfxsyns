@@ -72,10 +72,10 @@ const MARQUEE = [
 ];
 
 const FEATURED = [
-  { title: "Video 1", category: "MUSIC VIDEO", videoSrc: PORTFOLIO_VIDEO_1_MUSIC },
-  { title: "Video 2", category: "MUSIC VIDEO", videoSrc: PORTFOLIO_VIDEO_2_MUSIC },
-  { title: "Color Grade 1", category: "COLOR GRADE", videoSrc: PORTFOLIO_VIDEO_3_COLOR },
-  { title: "Color Grade 2", category: "COLOR GRADE", videoSrc: PORTFOLIO_VIDEO_4_COLOR },
+  { title: "Jakk Move", category: "MUSIC VIDEO", videoSrc: PORTFOLIO_VIDEO_1_MUSIC, artist: "LazerdIM700" },
+  { title: "Dream", category: "MUSIC VIDEO", videoSrc: PORTFOLIO_VIDEO_2_MUSIC, artist: "SiyahXO" },
+  { title: "Nine Vicious", category: "COLOR GRADE", videoSrc: PORTFOLIO_VIDEO_3_COLOR, artist: "Cosign" },
+  { title: "BoofPaxkMooky", category: "COLOR GRADE", videoSrc: PORTFOLIO_VIDEO_4_COLOR },
   { title: "Showcase 1", category: "3D VFX", videoSrc: PORTFOLIO_VIDEO_5_3D },
   { title: "Showcase 2", category: "3D VFX", videoSrc: PORTFOLIO_VIDEO_6_3D },
 ] as const;
@@ -484,6 +484,9 @@ function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: numbe
             </div>
             <div className="relative z-[1] syn-glass p-6">
               <h3 className="font-strong text-[22px] text-[var(--text-primary)]">{p.title}</h3>
+              {"artist" in p ? (
+                <p className="font-mono mt-[2px] text-[10px] tracking-[0.2em] text-[var(--text-secondary)]">{p.artist}</p>
+              ) : null}
             </div>
           </Link>
         </StarBorder>

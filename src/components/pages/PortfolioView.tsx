@@ -46,22 +46,25 @@ const FILTERS: readonly PortfolioFilter[] = [
 
 const PROJECTS = [
   {
-    title: "Video 1",
+    title: "Jakk Move",
     category: FILTERS[1],
     videoSrc: PORTFOLIO_VIDEO_1_MUSIC,
+    artist: "LazerdIM700",
   },
   {
-    title: "Video 2",
+    title: "Dream",
     category: FILTERS[1],
     videoSrc: PORTFOLIO_VIDEO_2_MUSIC,
+    artist: "SiyahXO",
   },
   {
-    title: "Color Grade 1",
+    title: "Nine Vicious",
     category: FILTERS[2],
     videoSrc: PORTFOLIO_VIDEO_3_COLOR,
+    artist: "Cosign",
   },
   {
-    title: "Color Grade 2",
+    title: "BoofPaxkMooky",
     category: FILTERS[2],
     videoSrc: PORTFOLIO_VIDEO_4_COLOR,
   },
@@ -223,6 +226,11 @@ function GridCard({
         </div>
             <div className="syn-glass space-y-1 p-5">
               <h3 className="font-ui text-[20px] tracking-[0.04em] text-[var(--text-primary)]">{p.title}</h3>
+              {p.artist ? (
+                <p className="font-mono mt-[2px] text-[10px] tracking-[0.2em] text-[var(--text-secondary)]">
+                  {p.artist}
+                </p>
+              ) : null}
             </div>
           </button>
         </GlassCard>
@@ -398,6 +406,11 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
                           className="font-display text-[clamp(36px,6vw,72px)]"
                         />
                       </h2>
+                      {active.artist ? (
+                        <p className="font-mono mt-[2px] text-[10px] tracking-[0.2em] text-[var(--text-secondary)]">
+                          {active.artist}
+                        </p>
+                      ) : null}
                       <p className="font-mono mt-4 text-[13px] leading-[1.8] text-[var(--text-secondary)]">{active.desc}</p>
                       <div className="mt-8 flex flex-wrap items-center gap-4">
                         <GlassButton variant="gold" href={INSTAGRAM_URL}>

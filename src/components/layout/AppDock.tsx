@@ -33,7 +33,7 @@ export function AppDock() {
   const router = useRouter();
   const pathname = usePathname();
   const compact = useCompactDock();
-  const iconPx = compact ? 16 : 20;
+  const iconPx = 20;
   const baseItemSize = compact ? 40 : 48;
   const magnification = compact ? 52 : 64;
   const panelHeight = compact ? 56 : 64;
@@ -62,8 +62,8 @@ export function AppDock() {
                 <span className="relative inline-flex">
                   <Icon
                     size={iconPx}
-                    strokeWidth={1.35}
-                    className={cn(active ? "syn-dock-active-icon" : "text-[var(--text-secondary)]")}
+                    strokeWidth={1.5}
+                    className={cn(active ? "syn-dock-active-icon" : "syn-dock-icon-inactive")}
                   />
                   {path === "/shop" ? (
                     <span className="pointer-events-none absolute -right-1 -top-0.5 rounded px-[3px] py-px font-mono text-[6px] font-bold uppercase tracking-[0.08em] text-[#050505] [background:linear-gradient(135deg,var(--gold-bright),var(--gold))]">
