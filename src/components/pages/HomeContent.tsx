@@ -40,9 +40,7 @@ import {
   PORTFOLIO_VIDEO_5_3D,
   PORTFOLIO_VIDEO_6_3D,
 } from "@/lib/portfolio-media";
-import { useInViewVideoPlayback } from "@/hooks/useInViewVideoPlayback";
 import { motionTransition } from "@/lib/motion-defaults";
-import { SYN_VIDEO_BASE_STYLE, VIDEO_LOADING_LAZY } from "@/lib/video-presentation";
 import { HomeScrollBG } from "@/components/backgrounds/HomeScrollBG";
 import { HomeScrollSnap } from "@/components/home/HomeScrollSnap";
 import { useMarqueeScrollSpeed } from "@/hooks/useMarqueeScrollSpeed";
@@ -401,15 +399,6 @@ function StatsBar() {
 }
 
 function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: number }) {
-  const [videoFailed, setVideoFailed] = useState(false);
-  const [videoReady, setVideoReady] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  useInViewVideoPlayback(videoRef, {
-    threshold: 0.3,
-    rootMargin: "200px 0px",
-    enabled: !videoFailed,
-  });
-
   return (
     <ScrollReveal delay={delay}>
       <TiltGlare
@@ -437,35 +426,20 @@ function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: numbe
             <div className="pointer-events-none absolute inset-0 z-[2] rounded-[inherit] bg-gradient-to-br from-[rgba(184,190,199,0.04)_0%,transparent_50%] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <div className="relative w-full overflow-hidden bg-[#0c0c0c]">
               <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden" }}>
-                {!videoReady && !videoFailed ? (
-                  <div
-                    className="absolute inset-0 z-[2] animate-pulse bg-gradient-to-br from-[#141414] via-[#0a0a0a] to-[#050505]"
-                    aria-hidden
-                  />
-                ) : null}
-                {!videoFailed ? (
-                  <video
-                    ref={videoRef}
-                    src={p.videoSrc}
-                    muted
-                    loop
-                    playsInline
-                    preload="none"
-                    {...VIDEO_LOADING_LAZY}
-                    className="card-preview-video h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                    style={SYN_VIDEO_BASE_STYLE}
-                    onLoadedData={() => setVideoReady(true)}
-                    onError={() => {
-                      setVideoFailed(true);
-                    }}
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center bg-[#0c0c0c] px-3">
-                    <span className="font-mono text-center text-[clamp(12px,2.5vw,18px)] text-[var(--text-secondary)]">
-                      {p.title}
-                    </span>
-                  </div>
-                )}
+                <iframe
+                  src={p.videoSrc}
+                  title={`${p.title} preview`}
+                  loading="lazy"
+                  allow="autoplay"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    border: "none",
+                    pointerEvents: "none",
+                  }}
+                />
               </div>
               <span className="font-mono absolute left-3 top-3 z-[3] bg-[rgba(5,5,5,0.75)] px-2.5 py-1 text-[8px] uppercase tracking-[0.2em]">
                 <ShinyText speed={3} className="font-mono text-[8px] uppercase tracking-[0.2em]">

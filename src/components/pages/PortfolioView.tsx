@@ -1,11 +1,10 @@
 "use client";
 
 /**
- * All 6 showcase video sources are imported from @/lib/portfolio-media:
- * PORTFOLIO_VIDEO_1_MUSIC … PORTFOLIO_VIDEO_6_3D.
+ * Showcase embeds from @/lib/portfolio-media (Drive `/preview` or direct CDN for 3D).
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Play, X } from "lucide-react";
@@ -28,10 +27,9 @@ import {
   PORTFOLIO_VIDEO_4_COLOR,
   PORTFOLIO_VIDEO_5_3D,
   PORTFOLIO_VIDEO_6_3D,
+  SHOWREEL_2025_VIDEO,
 } from "@/lib/portfolio-media";
-import { useInViewVideoPlayback } from "@/hooks/useInViewVideoPlayback";
 import { MOTION_TRANSITION } from "@/lib/motion-defaults";
-import { SYN_VIDEO_BASE_STYLE, VIDEO_LOADING_LAZY } from "@/lib/video-presentation";
 import { cn } from "@/lib/utils";
 
 /** Tab labels; project `category` must use these exact strings (indices 1–3) for filtering. */
@@ -82,41 +80,15 @@ const PROJECTS = [
 }));
 
 function ModalVideo({ src, title }: { src: string; title: string }) {
-  const [failed, setFailed] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v || failed) return;
-    void v.play().catch(() => {});
-    return () => {
-      v.pause();
-    };
-  }, [src, failed]);
-
   return (
     <div className="relative aspect-video overflow-hidden rounded-[20px] bg-black">
-      {!failed ? (
-        <video
-          ref={videoRef}
-          src={src}
-          className="h-full w-full object-cover"
-          style={SYN_VIDEO_BASE_STYLE}
-          crossOrigin="anonymous"
-          muted
-          loop
-          playsInline
-          preload="none"
-          {...VIDEO_LOADING_LAZY}
-          onError={() => {
-            setFailed(true);
-          }}
-        />
-      ) : (
-        <div className="absolute inset-0 flex items-center justify-center bg-[#0c0c0c] px-4 text-center">
-          <span className="font-mono text-[var(--text-secondary)]">{title}</span>
-        </div>
-      )}
+      <iframe
+        src={src}
+        title={title}
+        allow="autoplay"
+        className="absolute inset-0 h-full w-full border-0"
+        style={{ width: "100%", height: "100%", border: "none" }}
+      />
     </div>
   );
 }
@@ -124,24 +96,11 @@ function ModalVideo({ src, title }: { src: string; title: string }) {
 function GridCard({
   p,
   onOpen,
-  previewsLocked,
-  onAmbientPreviewChange,
 }: {
   p: (typeof PROJECTS)[0];
   onOpen: () => void;
-  previewsLocked: boolean;
-  onAmbientPreviewChange: (playing: boolean) => void;
 }) {
   const [hover, setHover] = useState(false);
-  const [videoFailed, setVideoFailed] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useInViewVideoPlayback(videoRef, {
-    threshold: 0.3,
-    rootMargin: "200px 0px",
-    enabled: !previewsLocked && !videoFailed,
-    onPlayingChange: onAmbientPreviewChange,
-  });
 
   return (
     <motion.div
@@ -178,28 +137,20 @@ function GridCard({
         />
         <div className="relative w-full overflow-hidden rounded-t-[20px] bg-[#0c0c0c]">
           <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden" }}>
-            {!videoFailed ? (
-              <video
-                ref={videoRef}
-                src={p.videoSrc}
-                muted
-                loop
-                playsInline
-                preload="none"
-                {...VIDEO_LOADING_LAZY}
-                className="card-preview-video transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                style={SYN_VIDEO_BASE_STYLE}
-                onError={() => {
-                  setVideoFailed(true);
-                }}
-              />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center bg-[#0c0c0c] px-3">
-                <span className="font-mono text-center text-[clamp(14px,3vw,22px)] text-[var(--text-secondary)]">
-                  {p.title}
-                </span>
-              </div>
-            )}
+            <iframe
+              src={p.videoSrc}
+              title={`${p.title} preview`}
+              loading="lazy"
+              allow="autoplay"
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                border: "none",
+                pointerEvents: "none",
+              }}
+            />
           </div>
           <div
             className={cn(
@@ -244,15 +195,12 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
   const [filter, setFilter] = useState<PortfolioFilter>("ALL");
   const [openId, setOpenId] = useState<string | null>(null);
 
-  const onAmbientPreviewChange = useCallback((_playing: boolean) => {}, []);
-
   const filtered = useMemo(() => {
     if (filter === "ALL") return PROJECTS;
     return PROJECTS.filter((p) => p.category === filter);
   }, [filter]);
 
   const active = PROJECTS.find((p) => p.title === openId) ?? null;
-  const previewsLocked = active != null;
   const suppressAmbientAnimations = false;
 
   useEffect(() => {
@@ -326,7 +274,7 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
           }}
         >
           <iframe
-            src="https://drive.google.com/file/d/1SDkxS__IBrgbu5o22xyYrO7KA0TzisP3/preview"
+            src={SHOWREEL_2025_VIDEO}
             style={{
               position: "absolute",
               inset: 0,
@@ -334,7 +282,7 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
               height: "100%",
               border: "none",
             }}
-            allow="autoplay"
+            allow="autoplay; fullscreen"
             title="Showreel"
           />
         </div>
@@ -351,12 +299,7 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
               className="portfolio-card-reveal mb-6 break-inside-avoid"
               style={{ "--i": i } as CSSProperties}
             >
-              <GridCard
-                p={p}
-                onOpen={() => setOpenId(p.title)}
-                previewsLocked={previewsLocked}
-                onAmbientPreviewChange={onAmbientPreviewChange}
-              />
+              <GridCard p={p} onOpen={() => setOpenId(p.title)} />
             </div>
           ))}
         </div>
