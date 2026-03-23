@@ -114,14 +114,14 @@ function GridCard({
         tiltAmount={6}
         tiltClassName="rounded-[24px] shadow-[0_32px_80px_rgba(0,0,0,0.6)]"
       >
-        <div className="syn-card-premium !block overflow-hidden">
+        <div className="syn-card-premium group !block overflow-hidden min-h-[400px]">
           <button
             type="button"
             data-cursor="hover"
             onClick={onOpen}
             className="group relative w-full text-left"
           >
-            <div className="relative w-full overflow-hidden bg-[#030308]">
+            <div className="hud-scanline relative w-full overflow-hidden bg-[#030308]">
               <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden" }}>
                 <iframe
                   src={p.videoSrc}
@@ -139,9 +139,15 @@ function GridCard({
                   }}
                 />
               </div>
-              <span className="font-mono absolute left-4 top-4 z-[4] bg-[var(--bg-base)] border border-[var(--border-accent)] px-3 py-1.5 text-[8px] uppercase tracking-[0.3em] font-bold text-[var(--accent-bright)] backdrop-blur-md">
-                {p.category}
-              </span>
+              <div className="absolute left-4 top-4 z-[4] flex items-center gap-2">
+                <span className="font-mono bg-[var(--bg-base)] border border-[var(--border-accent)] px-3 py-1.5 text-[8px] uppercase tracking-[0.3em] font-bold text-[var(--accent-bright)] backdrop-blur-md">
+                  {p.category}
+                </span>
+                <span className="hud-text-sm hidden group-hover:block animate-in fade-in slide-in-from-left-2">
+                  RES_4K_VFX
+                </span>
+              </div>
+
               <div className="pointer-events-none absolute inset-0 z-[3] flex items-center justify-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[var(--border-accent)] bg-[rgba(99,102,241,0.2)] text-white shadow-[0_0_40px_rgba(99,102,241,0.3)] backdrop-blur-md">
                   <Play className="h-7 w-7 translate-x-0.5" fill="currentColor" strokeWidth={0} aria-hidden />
@@ -153,21 +159,25 @@ function GridCard({
               />
             </div>
             <div className="relative z-[1] p-8">
-              <h3 className="font-ui text-[22px] font-bold tracking-[0.05em] text-[var(--text-primary)] transition-colors duration-400 group-hover:text-[var(--accent-bright)]">
+              <div className="hud-text-sm mb-2 opacity-30 flex items-center gap-2">
+                <span className="h-1 w-1 bg-[var(--accent)] rounded-full animate-pulse" />
+                VERIFIED_VFX_SESSION
+              </div>
+              <h3 className="font-ui text-[24px] font-bold tracking-[0.05em] text-[var(--text-primary)] transition-colors duration-400 group-hover:text-[var(--accent-bright)] uppercase">
                 {p.title}
               </h3>
               {p.artist ? (
-                <p className="font-mono mt-1 text-[10px] tracking-[0.2em] text-[var(--text-secondary)] uppercase">
-                  {p.artist}
+                <p className="font-mono mt-1 text-[11px] tracking-[0.3em] text-[var(--text-secondary)] uppercase">
+                  ● {p.artist}
                 </p>
               ) : null}
-              <div className="mt-6 flex items-center gap-2">
-                <div className="h-px flex-1 bg-gradient-to-r from-[var(--border-accent)] to-transparent" />
-                <span className="font-mono text-[8px] tracking-[0.2em] text-[var(--accent-dim)]">VIEW PROJECT</span>
+              <div className="mt-8 flex items-center gap-2">
+                <div className="h-[2px] w-8 bg-[var(--accent)]" />
+                <span className="font-mono text-[8px] tracking-[0.4em] text-[var(--accent-dim)] group-hover:text-[var(--accent-bright)] transition-colors">DECRYPT_DATA</span>
               </div>
             </div>
           </button>
-          <BorderBeam size={150} duration={4} colorFrom="var(--accent)" colorTo="var(--gold)">
+          <BorderBeam size={200} duration={5} colorFrom="var(--accent)" colorTo="var(--gold)">
             <div className="absolute inset-0" />
           </BorderBeam>
         </div>
