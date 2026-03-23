@@ -3,11 +3,11 @@ import "./globals.css";
 import { AppDock } from "@/components/layout/AppDock";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { GlobalSiteEffects } from "@/components/layout/GlobalSiteEffects";
-import { MaintenancePage } from "@/components/pages/MaintenancePage";
+import MaintenancePage from "@/components/pages/MaintenancePage";
 import { FuturisticHUD } from "@/components/ui/FuturisticHUD";
 
 /* ─── flip to false when the revamp is done ─── */
-const MAINTENANCE_MODE = false;
+const MAINTENANCE_MODE = true;
 
 export const metadata: Metadata = {
   title: "VFXSYN | ULTIMATE VISUAL DISRUPTION",
