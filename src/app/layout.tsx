@@ -6,14 +6,14 @@ import { GlobalSiteEffects } from "@/components/layout/GlobalSiteEffects";
 import { MaintenancePage } from "@/components/pages/MaintenancePage";
 
 /* ─── flip to false when the revamp is done ─── */
-const MAINTENANCE_MODE = true;
+const MAINTENANCE_MODE = false;
 
 export const metadata: Metadata = {
-  title: "SYN",
+  title: "VFXSYN | ATLANTA VFX & 3D",
   description:
-    "VFXSYN — Atlanta VFX artist. 3D animation, color grading, music videos, and VFX packs.",
+    "VFXSYN — Atlanta VFX artist. Disrupting reality with 3D animation, color grading, and music video visuals.",
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    icon: "/favicon.ico",
   },
 };
 

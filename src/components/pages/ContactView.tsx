@@ -12,6 +12,7 @@ import { ContactAuroraBackdrop } from "@/components/backgrounds/ContactAuroraBac
 import { INSTAGRAM_URL } from "@/lib/constants";
 import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { SynAnimatedList } from "@/components/ui/SynAnimatedList";
+import { BorderBeam } from "@/components/react-bits/BorderBeam";
 
 const AVAILABLE = true;
 
@@ -71,7 +72,7 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
   const line = (on: boolean) => ({
     borderBottomWidth: 1,
     borderBottomStyle: "solid" as const,
-    borderBottomColor: on ? "var(--gold)" : "rgba(255,255,255,0.08)",
+    borderBottomColor: on ? "var(--accent-bright)" : "rgba(255,255,255,0.08)",
   });
 
   return (
@@ -83,13 +84,13 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
       <div className="mx-auto mt-16 grid max-w-[1200px] gap-16 lg:grid-cols-[40%_60%]">
         <aside className="relative lg:pr-12">
           <div
-            className={`inline-flex min-h-[44px] items-center gap-2 border border-[var(--border-subtle)] px-4 py-2 ${
-              AVAILABLE ? "text-[var(--gold)]" : "text-[var(--text-secondary)]"
+            className={`inline-flex min-h-[44px] items-center gap-2 border border-[var(--border-accent)] bg-[rgba(99,102,241,0.05)] px-4 py-2 ${
+              AVAILABLE ? "text-[var(--accent-bright)]" : "text-[var(--text-secondary)]"
             }`}
           >
-            <span>●</span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">
-              {AVAILABLE ? "AVAILABLE" : "BOOKED"}
+            <span className="animate-pulse">●</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent-bright)]">
+              {AVAILABLE ? "AVAILABLE FOR WORK" : "FULLY BOOKED"}
             </span>
           </div>
 
@@ -130,12 +131,12 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
           </p>
 
           <div
-            className="pointer-events-none absolute right-0 top-[5%] hidden h-[90%] w-[2px] overflow-hidden rounded-full lg:block"
+            className="pointer-events-none absolute right-0 top-[5%] hidden h-[90%] w-[1px] overflow-hidden rounded-full lg:block opacity-20"
             style={{
               background:
-                "linear-gradient(180deg, transparent, #D4D9E0, #B8BEC7, #6B7280, transparent)",
+                "linear-gradient(180deg, transparent, #6366F1, #818CF8, #6366F1, transparent)",
               backgroundSize: "100% 300%",
-              animation: "saberRotate 3.5s linear infinite",
+              animation: "saberRotate 4s linear infinite",
             }}
             aria-hidden
           />
@@ -144,15 +145,11 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
         <div>
           <TiltGlare
             className="w-full rounded-[24px]"
-            tiltAmount={6}
-            tiltClassName="rounded-[24px] shadow-[0_12px_42px_rgba(0,0,0,0.5)]"
+            tiltAmount={4}
+            tiltClassName="rounded-[24px] shadow-[0_32px_120px_rgba(0,0,0,0.7)]"
           >
-            <StarBorder
-              className="w-full !block rounded-[24px]"
-              innerClassName="relative overflow-hidden rounded-[24px] syn-glass p-0"
-            >
-              <GlassCard saber={false} rounded={24} className="overflow-hidden border-0 border-transparent bg-transparent shadow-none">
-                <div className="p-8 md:p-10">
+            <div className="syn-card-premium !block overflow-hidden">
+              <div className="p-8 md:p-12">
                 <AnimatePresence mode="wait">
                   {submitted ? (
                     <motion.div
@@ -163,12 +160,12 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                       transition={MOTION_TRANSITION}
                       className="motion-gpu-hint flex min-h-[280px] flex-col items-center justify-center py-8 text-center"
                     >
-                      <CheckCircle className="h-12 w-12 text-[var(--gold)]" strokeWidth={1.25} />
-                      <p className="mt-6 font-display text-[60px] leading-none tracking-[0.08em] text-[var(--gold)]">
+                      <CheckCircle className="h-12 w-12 text-[var(--accent-bright)]" strokeWidth={1} />
+                      <p className="mt-6 font-display text-[60px] leading-none tracking-[0.1em] text-white">
                         SENT.
                       </p>
-                      <p className="font-mono mt-4 text-[13px] text-[var(--text-secondary)]">
-                        I&apos;ll be in touch on Instagram soon.
+                      <p className="font-mono mt-4 text-[13px] text-[var(--accent-bright)] uppercase tracking-[0.2em]">
+                        INBOX DISRUPTED.
                       </p>
                     </motion.div>
                   ) : (
@@ -310,13 +307,18 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                           show: { opacity: 1, x: 0, transition: MOTION_TRANSITION },
                         }}
                       >
-                      <GlassButton variant="gold" className="w-full justify-center" buttonType="submit" disabled={submitting}>
-                        {submitting ? "SENDING..." : "SEND IT →"}
+                      <GlassButton 
+                        variant="gold" 
+                        className="syn-btn-accent-glow w-full justify-center border-[var(--border-accent)]" 
+                        buttonType="submit" 
+                        disabled={submitting}
+                      >
+                        {submitting ? "DISRUPTING..." : "SEND PROJECT BRIEF →"}
                       </GlassButton>
                       {submitError ? (
-                        <div className="mt-3 flex items-center gap-2 text-red-400">
+                        <div className="mt-4 flex items-center gap-2 text-red-500">
                           <AlertCircle className="h-4 w-4" />
-                          <span className="font-mono text-[11px]">{submitError}</span>
+                          <span className="font-mono text-[11px] uppercase tracking-[0.1em]">{submitError}</span>
                         </div>
                       ) : null}
                       </motion.div>
@@ -324,8 +326,10 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                   )}
                 </AnimatePresence>
               </div>
-            </GlassCard>
-            </StarBorder>
+              <BorderBeam size={120} duration={4} colorFrom="var(--accent)" colorTo="var(--gold)">
+                <div className="absolute inset-0" />
+              </BorderBeam>
+            </div>
           </TiltGlare>
 
           <p className="font-mono mt-8 text-[11px] text-[var(--text-secondary)]">

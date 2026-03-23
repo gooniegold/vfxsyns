@@ -2,7 +2,7 @@
 // Create app → Configure Storefront API → copy Public Storefront access token
 // Domain: your-store.myshopify.com (no https://)
 
-const STOREFRONT_API_VERSION = "2024-10";
+const STOREFRONT_API_VERSION = "2025-01";
 
 function getConfig() {
   const domain = process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN;

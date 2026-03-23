@@ -10,6 +10,9 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
 import { FAQSection } from "@/components/sections/FAQSection";
 import { StatementStrip } from "@/components/sections/StatementStrip";
+import { ProcessSection } from "@/components/sections/ProcessSection";
+import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
+import { MarqueeLogos } from "@/components/sections/MarqueeLogos";
 import GradientText from "@/components/react-bits/GradientText";
 import { HeroVFXSynTitle } from "@/components/react-bits/HeroVFXSynTitle";
 import { HeroTitleSpotlight } from "@/components/hero/HeroTitleSpotlight";
@@ -90,7 +93,7 @@ function HeroSection() {
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "32%"]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
   const burst = useGoldConfettiOnce();
 
   return (
@@ -98,98 +101,94 @@ function HeroSection() {
       <section
         ref={sectionRef}
         data-home-bg="hero"
-        className="syn-home-snap-section relative z-[1] flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center"
+        className="syn-home-snap-section relative z-[1] flex min-h-[96vh] flex-col items-center justify-center overflow-hidden px-6 text-center"
       >
         <motion.div
           style={{ y: bgY }}
           className="pointer-events-none absolute inset-0 z-0 min-h-full w-full"
           aria-hidden
         >
-          <HeroBackground />
+          <HeroBackground videoSrc={PORTFOLIO_VIDEO_5_3D} />
         </motion.div>
+        
         <HeroHyperspeed />
         <HeroAuroraLayer />
+        
+        {/* premium overlays */}
         <div
-          className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(184,190,199,0.06)_0%,transparent_70%)]"
+          className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(99,102,241,0.12)_0%,transparent_70%)]"
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(5,5,5,0.7)_100%)]"
+          className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(3,3,8,0.85)_100%)]"
           aria-hidden
         />
+        
         <HeroFloatingShapes />
         <HeroMeteors />
-        <div className="relative z-[10] flex min-h-screen w-full max-w-[1100px] flex-col items-center justify-center px-6 py-24">
+
+        <div className="relative z-[10] flex min-h-[96vh] w-full max-w-[1200px] flex-col items-center justify-center px-6 py-24">
           <motion.p
-            className="motion-gpu-hint font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--gold)]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={motionTransition()}
+            className="motion-gpu-hint font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--accent-bright)]"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={motionTransition(0.2)}
           >
             <TypingText
-              text="● ATLANTA, GA — VFX ARTIST"
-              speedMs={38}
-              className="font-mono text-[10px] uppercase tracking-[0.2em]"
+              text="● ATLANTA, GA — DISRUPTING VISUALS"
+              speedMs={35}
+              className="font-mono text-[10px] uppercase tracking-[0.4em]"
             />
           </motion.p>
 
-          <div className="mx-auto mt-4 flex max-w-[95vw] flex-wrap justify-center gap-[0.04em]">
+          <div className="mx-auto mt-6 flex max-w-[95vw] flex-wrap justify-center gap-[0.04em]">
             <HeroTitleSpotlight>
               <HeroVFXSynTitle />
             </HeroTitleSpotlight>
           </div>
 
-          <motion.p
-            className="motion-gpu-hint font-body mt-6 max-w-2xl px-2 text-[clamp(14px,1.8vw,20px)] italic leading-relaxed text-[var(--text-secondary)]"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={motionTransition(0.5)}
+          <motion.div
+            className="motion-gpu-hint mt-6 flex flex-col items-center gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={motionTransition(1)}
           >
-            <WordRotate
-              words={["3D Animations", "Color Grading", "Music Videos"]}
-              intervalMs={2000}
-              startDelayMs={500}
-              className="min-h-[1.4em] justify-center text-[clamp(14px,1.8vw,20px)]"
-            />
-          </motion.p>
+            <p className="font-ui text-[clamp(14px,1.8vw,22px)] font-bold tracking-[0.1em] text-[var(--text-primary)]">
+              CRAFTING THE FUTURE OF VFX
+            </p>
+            <div className="h-px w-24 bg-gradient-to-r from-transparent via-[var(--accent-bright)] to-transparent" />
+          </motion.div>
 
           <motion.div
-            className="motion-gpu-hint hero-gold-line mx-auto mt-7 h-px w-10 bg-[var(--gold)]"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={motionTransition(0.65)}
-            style={{ transformOrigin: "center" }}
-          />
-
-          <motion.div
-            className="motion-gpu-hint mt-8 flex w-full max-w-2xl flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap"
-            initial={{ opacity: 0, y: 16 }}
+            className="motion-gpu-hint mt-10 flex w-full max-w-2xl flex-col items-center justify-center gap-6 sm:flex-row sm:flex-wrap"
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={motionTransition(0.8)}
+            transition={motionTransition(1.2)}
           >
-            <MagneticButton className="w-full max-w-[260px] sm:w-auto">
-              <RippleSurface className="w-full rounded-[2px]">
+            <MagneticButton className="w-full max-w-[280px] sm:w-auto">
+              <BorderBeam className="w-full rounded-[4px]" colorFrom="#6366F1" colorTo="#B8BEC7">
                 <ShimmerButton
-                  className="w-full min-h-[44px] rounded-[2px]"
-                  background="#050505"
-                  shimmerColor="#B8BEC7"
+                  className="syn-btn-accent-glow w-full min-h-[52px] rounded-[4px]"
+                  background="var(--bg-card)"
+                  shimmerColor="var(--accent)"
                 >
                   <Link
                     href="/portfolio"
                     data-cursor="hover"
-                    className="btn-gold-glow font-strong flex min-h-[44px] w-full items-center justify-center border border-[var(--border-gold)] bg-transparent px-7 py-[14px] text-[10px] font-bold tracking-[0.25em] text-[var(--text-gold)] transition-all duration-200 hover:border-[var(--gold)] hover:bg-[var(--gold-glow)]"
+                    className="font-strong flex min-h-[52px] w-full items-center justify-center px-10 py-[16px] text-[11px] font-bold tracking-[0.3em] text-white transition-all duration-300 hover:scale-[1.02]"
                   >
-                    VIEW WORK
+                    EXPLOIT WORK
                   </Link>
                 </ShimmerButton>
-              </RippleSurface>
+              </BorderBeam>
             </MagneticButton>
-            <MagneticButton className="w-full max-w-[260px] sm:w-auto">
-              <BorderBeam className="w-full rounded-[2px]">
+
+            <MagneticButton className="w-full max-w-[280px] sm:w-auto">
+              <StarBorder className="w-full rounded-[4px]">
                 <ShimmerButton
-                  className="w-full min-h-[44px] rounded-[2px]"
-                  background="var(--gold)"
-                  shimmerColor="rgba(5,5,5,0.28)"
+                  className="w-full min-h-[52px] rounded-[4px]"
+                  background="rgba(184, 190, 199, 0.08)"
+                  shimmerColor="white"
                 >
                   <a
                     href={INSTAGRAM_URL}
@@ -197,41 +196,27 @@ function HeroSection() {
                     rel="noopener noreferrer"
                     data-cursor="hover"
                     onClick={burst}
-                    className="btn-gold-glow font-strong flex min-h-[44px] w-full items-center justify-center px-9 py-[14px] text-[10px] font-bold tracking-[0.25em] text-[#050505] transition-transform duration-200 hover:scale-[1.02] hover:bg-[var(--gold-bright)]"
+                    className="font-strong flex min-h-[52px] w-full items-center justify-center px-10 py-[16px] text-[11px] font-bold tracking-[0.3em] text-[var(--gold)] transition-colors duration-300 hover:text-white"
                   >
-                    GET IN TOUCH
+                    GET STARTED
                   </a>
                 </ShimmerButton>
-              </BorderBeam>
-            </MagneticButton>
-            <MagneticButton className="w-full max-w-[260px] sm:w-auto">
-              <RippleSurface className="w-full rounded-[2px]">
-                <ShimmerButton
-                  className="w-full min-h-[44px] rounded-[2px]"
-                  background="#050505"
-                  shimmerColor="#B8BEC7"
-                >
-                  <Link
-                    href="/shop"
-                    data-cursor="hover"
-                    className="btn-gold-glow font-strong flex min-h-[44px] w-full items-center justify-center border border-[var(--border-subtle)] bg-transparent px-7 py-[14px] text-[10px] font-bold tracking-[0.25em] text-[var(--text-secondary)] transition-all duration-200 hover:border-[var(--border-gold)] hover:text-[var(--text-gold)]"
-                  >
-                    VIEW SHOP
-                  </Link>
-                </ShimmerButton>
-              </RippleSurface>
+              </StarBorder>
             </MagneticButton>
           </motion.div>
         </div>
 
-        <div className="pointer-events-none absolute bottom-12 left-1/2 z-[10] flex -translate-x-1/2 flex-col items-center gap-2">
-          <motion.span
-            className="font-mono text-[8px] uppercase tracking-[0.2em] text-[var(--text-secondary)]"
-            style={{ animation: "vfxsyn-scroll-line 2s ease-in-out infinite" }}
+        <div className="pointer-events-none absolute bottom-12 left-1/2 z-[10] flex -translate-x-1/2 flex-col items-center gap-3">
+          <motion.div 
+            className="flex flex-col items-center"
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
-            SCROLL
-          </motion.span>
-          <div className="h-10 w-px bg-[var(--gold)]" style={{ animation: "vfxsyn-scroll-line 2s ease-in-out infinite" }} />
+            <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[var(--accent-bright)]">
+              SHAPE REALITY
+            </span>
+            <div className="mt-2 h-12 w-[1px] bg-gradient-to-b from-[var(--accent-bright)] to-transparent" />
+          </motion.div>
         </div>
       </section>
     </ScrollReveal>
@@ -402,29 +387,17 @@ function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: numbe
   return (
     <ScrollReveal delay={delay}>
       <TiltGlare
-        className="group/card w-full rounded-[16px] transition-colors duration-300"
-        tiltAmount={8}
-        tiltClassName="rounded-[16px] shadow-[0_12px_42px_rgba(0,0,0,0.5)]"
+        className="group/card w-full rounded-[20px] transition-colors duration-300"
+        tiltAmount={6}
+        tiltClassName="rounded-[20px] shadow-[0_24px_64px_rgba(0,0,0,0.6)]"
       >
-        <StarBorder
-          className="w-full !block rounded-[16px]"
-          innerClassName="relative overflow-hidden rounded-[16px] border border-[var(--border-subtle)] bg-transparent p-0 transition-colors duration-300 group-hover/card:border-[var(--border-gold)]"
-        >
+        <div className="syn-card-premium !block overflow-hidden">
           <Link
             href="/portfolio"
             data-cursor="hover"
             className="group relative block text-left no-underline"
           >
-            <span
-              className="pointer-events-none absolute inset-0 z-[4] opacity-0 transition-opacity duration-[400ms] group-hover:opacity-50"
-              style={{
-                background:
-                  "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px)",
-              }}
-              aria-hidden
-            />
-            <div className="pointer-events-none absolute inset-0 z-[2] rounded-[inherit] bg-gradient-to-br from-[rgba(184,190,199,0.04)_0%,transparent_50%] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            <div className="relative w-full overflow-hidden bg-[#0c0c0c]">
+            <div className="relative w-full overflow-hidden bg-[#030308]">
               <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden" }}>
                 <iframe
                   src={p.videoSrc}
@@ -438,32 +411,44 @@ function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: numbe
                     height: "100%",
                     border: "none",
                     pointerEvents: "none",
+                    scale: "1.05",
                   }}
                 />
               </div>
-              <span className="font-mono absolute left-3 top-3 z-[3] bg-[rgba(5,5,5,0.75)] px-2.5 py-1 text-[8px] uppercase tracking-[0.2em]">
-                <ShinyText speed={3} className="font-mono text-[8px] uppercase tracking-[0.2em]">
-                  {p.category}
-                </ShinyText>
+              <span className="font-mono absolute left-4 top-4 z-[4] bg-[var(--bg-base)] border border-[var(--border-accent)] px-3 py-1.5 text-[8px] uppercase tracking-[0.3em] font-bold text-[var(--accent-bright)] backdrop-blur-md">
+                {p.category}
               </span>
-              <div className="pointer-events-none absolute inset-0 z-[3] flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[var(--border-gold)] bg-[rgba(5,5,5,0.55)] text-[var(--gold)] shadow-[0_0_24px_rgba(184,190,199,0.2)] backdrop-blur-sm">
-                  <Play className="h-6 w-6 translate-x-0.5" fill="currentColor" strokeWidth={0} aria-hidden />
-                </span>
+              
+              <div className="pointer-events-none absolute inset-0 z-[3] flex items-center justify-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[var(--border-accent)] bg-[rgba(99,102,241,0.2)] text-white shadow-[0_0_40px_rgba(99,102,241,0.3)] backdrop-blur-md">
+                  <Play className="h-7 w-7 translate-x-0.5" fill="currentColor" strokeWidth={0} aria-hidden />
+                </div>
               </div>
+              
               <ArrowUpRight
-                className="absolute right-3 top-3 z-[3] h-5 w-5 text-[var(--gold)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                className="absolute right-4 top-4 z-[4] h-6 w-6 text-[var(--accent-bright)] opacity-0 transition-all duration-400 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0"
                 strokeWidth={1.5}
               />
             </div>
-            <div className="relative z-[1] syn-glass p-6">
-              <h3 className="font-strong text-[22px] text-[var(--text-primary)]">{p.title}</h3>
+            <div className="relative z-[1] p-8">
+              <h3 className="font-ui text-[24px] font-bold tracking-[0.05em] text-[var(--text-primary)] transition-colors duration-400 group-hover:text-[var(--accent-bright)]">
+                {p.title}
+              </h3>
               {"artist" in p ? (
-                <p className="font-mono mt-[2px] text-[10px] tracking-[0.2em] text-[var(--text-secondary)]">{p.artist}</p>
+                <p className="font-mono mt-1 text-[11px] tracking-[0.2em] text-[var(--text-secondary)] uppercase">
+                  {p.artist}
+                </p>
               ) : null}
+              <div className="mt-6 flex items-center gap-2">
+                <div className="h-px flex-1 bg-gradient-to-r from-[var(--border-accent)] to-transparent" />
+                <span className="font-mono text-[9px] tracking-[0.2em] text-[var(--accent-dim)]">EXPLORE PROJECT</span>
+              </div>
             </div>
           </Link>
-        </StarBorder>
+          <BorderBeam size={150} duration={4} delay={delay + 1} colorFrom="var(--accent)" colorTo="var(--gold)">
+            <div className="absolute inset-0" />
+          </BorderBeam>
+        </div>
       </TiltGlare>
     </ScrollReveal>
   );
@@ -557,26 +542,23 @@ function PacksTeaser() {
                 glareColor="rgba(184,190,199,0.15)"
                 tiltClassName="rounded-[16px] shadow-[0_12px_42px_rgba(0,0,0,0.48)] [transform-style:preserve-3d]"
               >
-                <StarBorder
-                  className="w-full !block rounded-[16px]"
-                  innerClassName="relative min-h-[220px] overflow-hidden rounded-[16px] syn-glass p-0"
-                >
+                <div className="syn-card-premium !block overflow-hidden min-h-[220px]">
                   <div className="pack-card-animated-bg" aria-hidden />
                   <PackRibbon />
                   {p.isNew ? (
-                    <span className="font-syne-mono pointer-events-none absolute right-3 top-3 z-[2] bg-[var(--gold)] px-2 py-1 text-[8px] uppercase tracking-[0.2em] text-[#050505]">
+                    <span className="font-syne-mono pointer-events-none absolute right-3 top-3 z-[2] bg-[var(--accent)] px-2 py-1 text-[8px] uppercase tracking-[0.2em] text-white">
                       NEW
                     </span>
                   ) : null}
                   <div className="relative z-[1] p-6">
-                    <span className="font-syne-mono text-[11px] uppercase tracking-[0.3em] text-[var(--gold)]">{p.assets}</span>
+                    <span className="font-syne-mono text-[11px] uppercase tracking-[0.3em] text-[var(--accent-bright)]">{p.assets}</span>
                     <h3 className="font-ui mt-3 text-[22px] text-[var(--text-primary)]">{p.name}</h3>
                     <p className="font-body mt-2 text-[12px] text-[var(--text-secondary)]">{p.desc}</p>
-                    <button type="button" disabled className="pack-coming-soon-btn disabled:cursor-not-allowed disabled:opacity-100">
+                    <button type="button" disabled className="pack-coming-soon-btn disabled:cursor-not-allowed disabled:opacity-100 border-[var(--border-accent)] text-[var(--accent-bright)]">
                       COMING SOON
                     </button>
                   </div>
-                </StarBorder>
+                </div>
               </TiltGlare>
             </ScrollReveal>
           ))}
@@ -593,12 +575,21 @@ export function HomeContent() {
       <HomeScrollBG />
       <HomeScrollSnap />
       <HeroSection />
+      <MarqueeLogos />
       <MarqueeStrip />
+      <hr className="syn-section-divider" />
+      <hr className="syn-section-divider" />
       <FeaturedWorkSection />
+      <hr className="syn-section-divider" />
       <StatsBar />
+      <ProcessSection />
+      <hr className="syn-section-divider" />
       <StatementStrip />
       <WhyChooseUsSection />
+      <hr className="syn-section-divider" />
+      <TestimonialsSection />
       <PacksTeaser />
+      <hr className="syn-section-divider" />
       <FAQSection />
     </div>
   );

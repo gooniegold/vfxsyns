@@ -19,6 +19,7 @@ import { INSTAGRAM_URL } from "@/lib/constants";
 import { SynAnimatedList } from "@/components/ui/SynAnimatedList";
 import { cn } from "@/lib/utils";
 import { SynSpinner } from "@/components/ui/SynSpinner";
+import { BorderBeam } from "@/components/react-bits/BorderBeam";
 
 function productImage(p: ShopifyProductNode) {
   return p.images.edges[0]?.node?.url;
@@ -104,26 +105,31 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
     <div className="relative bg-[var(--bg-base)]">
       {pageHeader}
 
-      <section className="relative z-[1] border-y border-[var(--border-subtle)] bg-transparent px-6 py-14 md:px-10">
-        <div className="mx-auto max-w-[600px] text-left">
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--gold)]">What&apos;s included</p>
-          <h2 className="font-ui mt-3 text-[20px] tracking-[0.06em] text-[var(--text-primary)]">
-            Services &amp; delivery
+      <section className="relative z-[1] border-y border-[var(--border-accent)] bg-[rgba(99,102,241,0.03)] px-6 py-20 md:px-10">
+        <div className="mx-auto max-w-[800px] text-center flex flex-col items-center">
+          <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--accent-bright)]">
+            <ShinyText speed={3}>WHAT&apos;S INCLUDED</ShinyText>
+          </p>
+          <h2 className="font-display mt-6 text-[clamp(32px,5vw,64px)] tracking-[0.05em] text-[var(--text-primary)]">
+            PREMIUM WORKFLOW
           </h2>
-          <SynAnimatedList
-            className="mt-8 w-full bg-transparent"
-            itemClassName="bg-transparent"
-            trigger="scroll"
-            bullet="diamond"
-            items={[
-              "✦ 3D Animation & Simulation",
-              "✦ Cinematic Color Grading",
-              "✦ Music Video VFX",
-              "✦ Motion Graphics",
-              "✦ Instant Pack Delivery",
-              "✦ Custom Project Quotes",
-            ]}
-          />
+          <div className="h-px w-32 bg-gradient-to-r from-transparent via-[var(--accent-bright)] to-transparent mt-6 mb-10" />
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 w-full opacity-80">
+            {[
+              "3D Animation & Simulation",
+              "Cinematic Color Grading",
+              "Music Video VFX",
+              "Motion Graphics",
+              "Instant Pack Delivery",
+              "Custom Project Quotes",
+            ].map((item) => (
+              <div key={item} className="flex items-center gap-3 font-ui text-[14px] font-bold tracking-[0.1em] text-[var(--text-secondary)] hover:text-white transition-colors">
+                <span className="text-[var(--accent-bright)]">✦</span>
+                {item}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -148,56 +154,43 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
           {error ? (
             <div className="flex flex-col items-center py-16 text-center">
               {error === "not_configured" ? (
-                <div className="w-full bg-[#050505] px-4 py-16">
+                <div className="w-full bg-[#030308] px-4 py-24">
                   <div className="relative mx-auto flex min-h-[1.2em] w-full max-w-[95vw] items-center justify-center">
                     <FuzzyText
                       fontSize="clamp(56px, 10vw, 140px)"
                       fontWeight={400}
                       fontFamily="var(--font-display), serif"
                       gradient={null}
-                      color="#B8BEC7"
+                      color="#6366F1"
                       enableHover
-                      baseIntensity={0.14}
-                      hoverIntensity={0.45}
+                      baseIntensity={0.2}
+                      hoverIntensity={0.6}
                       glitchMode
-                      glitchInterval={2400}
-                      glitchDuration={180}
+                      glitchInterval={2000}
+                      glitchDuration={200}
                       className="relative z-[1] mx-auto"
                     >
                       COMING SOON
                     </FuzzyText>
                   </div>
-                  <p
-                    className="font-mono mx-auto max-w-md text-[14px] text-[var(--text-secondary)]"
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      letterSpacing: "0.15em",
-                      marginTop: "24px",
-                    }}
-                  >
-                    VFX Packs dropping soon.
+                  <p className="font-mono mx-auto max-w-md text-[13px] tracking-[0.2em] text-[var(--text-secondary)] mt-8 uppercase">
+                    VFX PACKS — THE NEXT EVOLUTION
                   </p>
-                  <div
-                    className="mt-6 w-full"
-                    style={{ display: "block", margin: "24px auto 0", width: "fit-content", maxWidth: "100%" }}
-                  >
-                    <GlassButton variant="gold" href={INSTAGRAM_URL}>
-                      DM @vfxsyn
+                  <div className="mt-12 w-full flex justify-center">
+                    <GlassButton variant="gold" href={INSTAGRAM_URL} className="syn-btn-accent-glow border-[var(--border-accent)]">
+                      DM @vfxsyn FOR EARLY ACCESS
                     </GlassButton>
                   </div>
                 </div>
               ) : (
                 <>
                   <h2 className="font-display text-[clamp(56px,8vw,120px)] text-[var(--text-primary)]">
-                    <HoverSplitHeading text="SHOP COMING SOON" speed={3} className="font-display text-[clamp(56px,8vw,120px)]" />
+                    <HoverSplitHeading text="STOREFRONT OFFLINE" speed={3} className="font-display text-[clamp(56px,8vw,120px)]" />
                   </h2>
                   <p className="font-body mt-4 max-w-md text-[14px] text-[var(--text-secondary)]">
-                    Something went wrong loading the storefront. DM @vfxsyn on Instagram to purchase directly.
+                    Direct purchase available via Instagram.
                   </p>
-                  <div
-                    className="w-full"
-                    style={{ display: "block", margin: "24px auto 0", width: "fit-content", maxWidth: "100%" }}
-                  >
+                  <div className="mt-10 w-full flex justify-center">
                     <GlassButton variant="gold" href={INSTAGRAM_URL}>
                       DM @vfxsyn
                     </GlassButton>
@@ -223,62 +216,63 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
                 return (
                   <ScrollReveal key={p.id} delay={i * 0.05}>
                     <TiltGlare
-                      className="group/card w-full rounded-[12px]"
-                      tiltAmount={7}
-                      tiltClassName="rounded-[12px] shadow-[0_12px_40px_rgba(0,0,0,0.48)]"
+                      className="group/card w-full rounded-[24px]"
+                      tiltAmount={6}
+                      tiltClassName="rounded-[24px] shadow-[0_32px_80px_rgba(0,0,0,0.6)]"
                     >
-                      <StarBorder
-                        className="w-full !block rounded-[12px]"
-                        innerClassName="relative overflow-hidden rounded-[12px] syn-glass p-0 transition-colors group-hover/card:border-[var(--border-gold)]"
-                      >
+                      <div className="syn-card-premium !block overflow-hidden">
                         <div data-cursor="hover">
-                      <div className="relative aspect-[4/3] overflow-hidden bg-[#0c0c0c]">
-                        {img ? (
-                          /* eslint-disable-next-line @next/next/no-img-element */
-                          <img
-                            src={img}
-                            alt=""
-                            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                          />
-                        ) : (
-                          <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#111] to-[#050505] font-mono text-[14px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">
-                            VFX PACK
-                          </div>
-                        )}
-                        <span className="font-mono absolute left-2 top-2 syn-glass px-2 py-1 text-[8px] uppercase tracking-[0.2em]">
-                          <ShinyText speed={3} className="font-mono text-[8px] uppercase tracking-[0.2em]">
-                            VFX PACK
-                          </ShinyText>
-                        </span>
-                      </div>
-                      <div className="p-5">
-                        <h3 className="font-ui text-[20px] text-[var(--text-primary)]">{p.title}</h3>
-                        <p className="font-body mt-2 line-clamp-3 text-[12px] leading-relaxed text-[var(--text-secondary)]">
-                          {(p.description || "").slice(0, 120)}
-                          {(p.description || "").length > 120 ? "…" : ""}
-                        </p>
-                        <p className="font-mono mt-4 text-[18px] text-[var(--gold)]">
-                          {formatPrice(price.amount, price.currencyCode)}
-                        </p>
-                        <button
-                          type="button"
-                          data-cursor="hover"
-                          disabled={vid == null || busy}
-                          onClick={() => handleBuyNow(p)}
-                          className="font-ui btn-gold-glow mt-4 flex min-h-[48px] w-full items-center justify-center bg-[var(--gold)] text-[11px] uppercase tracking-[0.2em] text-[#050505] transition hover:bg-[var(--gold-bright)] disabled:opacity-50"
-                        >
-                          {busy ? (
-                            <span className="inline-flex items-center gap-2">
-                              <SynSpinner className="h-4 w-4 border border-[rgba(184,190,199,0.35)] border-t-[#050505]" />
-                              Opening checkout…
+                          <div className="relative aspect-[4/3] overflow-hidden bg-[#030308]">
+                            {img ? (
+                              <img
+                                src={img}
+                                alt=""
+                                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                              />
+                            ) : (
+                              <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#0c0c0c] to-[#030308] font-mono text-[12px] uppercase tracking-[0.3em] text-[var(--text-secondary)]">
+                                <ShinyText speed={3}>VFX PACK</ShinyText>
+                              </div>
+                            )}
+                            <span className="font-mono absolute left-4 top-4 z-[4] bg-[var(--bg-base)] border border-[var(--border-accent)] px-3 py-1.5 text-[8px] uppercase tracking-[0.3em] font-bold text-[var(--accent-bright)] backdrop-blur-md">
+                              ASSET PACK
                             </span>
-                          ) : (
-                            "BUY NOW — INSTANT DELIVERY"
-                          )}
-                        </button>
-                      </div>
+                          </div>
+                          <div className="p-8">
+                            <h3 className="font-ui text-[24px] font-bold tracking-[0.05em] text-[var(--text-primary)] transition-colors duration-400 group-hover:text-[var(--accent-bright)]">
+                              {p.title}
+                            </h3>
+                            <p className="font-body mt-3 line-clamp-2 text-[13px] leading-relaxed text-[var(--text-secondary)] min-h-[40px]">
+                              {p.description || "Premium VFX assets for professional creators."}
+                            </p>
+                            <div className="mt-6 flex items-center justify-between">
+                              <span className="font-display text-[20px] font-black text-white">
+                                {formatPrice(price.amount, price.currencyCode)}
+                              </span>
+                              <div className="h-px w-12 bg-[var(--border-accent)]" />
+                            </div>
+                            <button
+                              type="button"
+                              data-cursor="hover"
+                              disabled={vid == null || busy}
+                              onClick={() => handleBuyNow(p)}
+                              className="font-ui syn-btn-accent-glow mt-8 flex min-h-[52px] w-full items-center justify-center rounded-[4px] bg-[var(--bg-card)] border border-[var(--border-accent)] text-[11px] font-bold uppercase tracking-[0.3em] text-white transition-all duration-300 hover:scale-[1.02] disabled:opacity-50"
+                            >
+                              {busy ? (
+                                <span className="inline-flex items-center gap-2">
+                                  <SynSpinner className="h-4 w-4 border border-[rgba(99,102,241,0.35)] border-t-white" />
+                                  SECURE CHECKOUT...
+                                </span>
+                              ) : (
+                                "BUY NOW"
+                              )}
+                            </button>
+                          </div>
                         </div>
-                      </StarBorder>
+                        <BorderBeam size={150} duration={4} colorFrom="var(--accent)" colorTo="var(--gold)">
+                          <div className="absolute inset-0" />
+                        </BorderBeam>
+                      </div>
                     </TiltGlare>
                   </ScrollReveal>
                 );
@@ -289,29 +283,26 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
       </section>
 
       <section className="relative z-[1] border-y border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-6 py-16 md:px-10">
-        <div className="mx-auto grid max-w-[1100px] gap-10 md:grid-cols-3 md:gap-0">
+        <div className="mx-auto grid max-w-[1200px] gap-8 md:grid-cols-3">
           {[
-            { icon: "⚡", t: "Instant Delivery", d: "Download link sent to your email immediately" },
-            { icon: "🔒", t: "Secure Checkout", d: "Powered by Shopify + Stripe" },
-            { icon: "♾️", t: "Lifetime Access", d: "Re-download anytime, forever" },
-          ].map((x, i) => (
+            { icon: "⚡", t: "Instant Delivery", d: "Download link sent immediately after purchase." },
+            { icon: "🛡️", t: "Secure Checkout", d: "Industry-standard encryption via Stripe." },
+            { icon: "✨", t: "Lifetime Access", d: "Updates and re-downloads included forever." },
+          ].map((x) => (
             <TiltGlare
               key={x.t}
-              className="w-full rounded-[14px]"
-              tiltAmount={6}
-              tiltClassName="rounded-[14px] shadow-[0_10px_36px_rgba(0,0,0,0.4)]"
+              className="w-full rounded-[20px]"
+              tiltAmount={4}
+              tiltClassName="rounded-[20px]"
             >
-              <StarBorder
-                className="w-full !block rounded-[14px]"
-                innerClassName={cn(
-                  "flex flex-col gap-2 rounded-[14px] syn-glass px-5 py-6 text-center md:text-left",
-                  i > 0 && "md:border-l-0",
-                )}
-              >
-                <span className="text-xl">{x.icon}</span>
-                <p className="font-ui text-[9px] uppercase tracking-[0.2em] text-[var(--gold)]">{x.t}</p>
-                <p className="font-body text-[12px] text-[var(--text-secondary)]">{x.d}</p>
-              </StarBorder>
+              <div className="syn-card-premium flex flex-col items-center gap-4 p-8 text-center min-h-[180px]">
+                <span className="text-3xl filter saturate-0 group-hover:saturate-100 transition-all">{x.icon}</span>
+                <p className="font-ui text-[12px] font-bold uppercase tracking-[0.25em] text-[var(--accent-bright)]">{x.t}</p>
+                <p className="font-body text-[13px] text-[var(--text-secondary)] leading-relaxed">{x.d}</p>
+                <BorderBeam size={80} duration={8} colorFrom="var(--accent-dim)" colorTo="transparent">
+                  <div className="absolute inset-0" />
+                </BorderBeam>
+              </div>
             </TiltGlare>
           ))}
         </div>

@@ -1,0 +1,26 @@
+"use client";
+
+import { motion } from "framer-motion";
+import ShinyText from "@/components/react-bits/ShinyText";
+
+const LOGOS = [
+  "ADOBE", "AFTER EFFECTS", "PREMIERE PRO", "MAXON", "CINEMA 4D", "RED GIANT", "UNREAL ENGINE", "DAVINCI RESOLVE"
+];
+
+export function MarqueeLogos() {
+  return (
+    <section className="relative z-[1] border-y border-[var(--border-accent)] bg-[var(--bg-elevated)] py-8 overflow-hidden">
+      <div className="flex w-max gap-12 animate-[vfxsyn-marquee_30s_linear_infinite] hover:[animation-play-state:paused]">
+        {[0, 1].map((c) => (
+          <div key={c} className="flex gap-12 items-center">
+            {LOGOS.map((l) => (
+              <span key={l} className="font-display text-[24px] font-black tracking-[0.15em] text-[var(--text-secondary)] opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
+                <ShinyText speed={3} className="font-display">{l}</ShinyText>
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}

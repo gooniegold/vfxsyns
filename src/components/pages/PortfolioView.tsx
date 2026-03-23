@@ -15,6 +15,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { SaberBorder } from "@/components/ui/SaberBorder";
 import { StarBorder } from "@/components/ui/StarBorder";
 import { TiltGlare } from "@/components/ui/TiltGlare";
+import { BorderBeam } from "@/components/react-bits/BorderBeam";
 import {
   PortfolioPageBackground,
   type PortfolioFilter,
@@ -100,92 +101,77 @@ function GridCard({
   p: (typeof PROJECTS)[0];
   onOpen: () => void;
 }) {
-  const [hover, setHover] = useState(false);
-
   return (
     <motion.div
       className="break-inside-avoid"
-      initial={{ clipPath: "inset(0 100% 0 0)" }}
-      whileInView={{ clipPath: "inset(0 0% 0 0)" }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={MOTION_TRANSITION}
     >
-    <TiltGlare
-      className="group/card w-full rounded-[20px] transition-colors duration-300"
-      tiltAmount={8}
-      tiltClassName="rounded-[20px] shadow-[0_12px_42px_rgba(0,0,0,0.5)]"
-    >
-      <StarBorder
-        className="w-full !block rounded-[20px]"
-        innerClassName="relative overflow-hidden rounded-[20px] border border-[var(--border-subtle)] bg-transparent p-0 transition-colors duration-300 group-hover/card:border-[var(--border-gold)]"
+      <TiltGlare
+        className="group/card w-full rounded-[24px] transition-colors duration-300"
+        tiltAmount={6}
+        tiltClassName="rounded-[24px] shadow-[0_32px_80px_rgba(0,0,0,0.6)]"
       >
-        <GlassCard saber={false} rounded={20} className="overflow-hidden border-0 border-transparent bg-transparent shadow-none">
+        <div className="syn-card-premium !block overflow-hidden">
           <button
             type="button"
             data-cursor="hover"
             onClick={onOpen}
             className="group relative w-full text-left"
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
           >
-        <span
-          className={cn(
-            "pointer-events-none absolute inset-0 z-[4] opacity-0 transition-opacity duration-[400ms] group-hover:opacity-50",
-            "bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(0,0,0,0.03)_2px,rgba(0,0,0,0.03)_4px)]",
-          )}
-          aria-hidden
-        />
-        <div className="relative w-full overflow-hidden rounded-t-[20px] bg-[#0c0c0c]">
-          <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden" }}>
-            <iframe
-              src={p.videoSrc}
-              title={`${p.title} preview`}
-              loading="lazy"
-              allow="autoplay"
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                border: "none",
-                pointerEvents: "none",
-              }}
-            />
-          </div>
-          <div
-            className={cn(
-              "pointer-events-none absolute inset-0 z-[1] bg-black/0 transition-colors duration-300",
-              hover ? "bg-black/15" : "",
-            )}
-          />
-          <span className="font-mono absolute left-3 top-3 z-[3] rounded-full syn-glass px-3 py-1.5 text-[9px] uppercase tracking-[0.2em]">
-            <ShinyText speed={3} className="font-mono text-[9px] uppercase tracking-[0.2em]">
-              {p.category}
-            </ShinyText>
-          </span>
-          <div className="pointer-events-none absolute inset-0 z-[3] flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[var(--border-gold)] bg-[rgba(5,5,5,0.55)] text-[var(--gold)] shadow-[0_0_20px_rgba(184,190,199,0.2)] backdrop-blur-sm">
-              <Play className="h-6 w-6 translate-x-0.5" fill="currentColor" strokeWidth={0} aria-hidden />
-            </span>
-          </div>
-          <ArrowUpRight
-            className="pointer-events-none absolute right-3 top-3 z-[3] h-5 w-5 text-[var(--gold)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            strokeWidth={1.25}
-            aria-hidden
-          />
-        </div>
-            <div className="syn-glass space-y-1 p-5">
-              <h3 className="font-ui text-[20px] tracking-[0.04em] text-[var(--text-primary)]">{p.title}</h3>
+            <div className="relative w-full overflow-hidden bg-[#030308]">
+              <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden" }}>
+                <iframe
+                  src={p.videoSrc}
+                  title={`${p.title} preview`}
+                  loading="lazy"
+                  allow="autoplay"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    border: "none",
+                    pointerEvents: "none",
+                    scale: "1.05",
+                  }}
+                />
+              </div>
+              <span className="font-mono absolute left-4 top-4 z-[4] bg-[var(--bg-base)] border border-[var(--border-accent)] px-3 py-1.5 text-[8px] uppercase tracking-[0.3em] font-bold text-[var(--accent-bright)] backdrop-blur-md">
+                {p.category}
+              </span>
+              <div className="pointer-events-none absolute inset-0 z-[3] flex items-center justify-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[var(--border-accent)] bg-[rgba(99,102,241,0.2)] text-white shadow-[0_0_40px_rgba(99,102,241,0.3)] backdrop-blur-md">
+                  <Play className="h-7 w-7 translate-x-0.5" fill="currentColor" strokeWidth={0} aria-hidden />
+                </div>
+              </div>
+              <ArrowUpRight
+                className="absolute right-4 top-4 z-[4] h-6 w-6 text-[var(--accent-bright)] opacity-0 transition-all duration-400 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0"
+                strokeWidth={1.5}
+              />
+            </div>
+            <div className="relative z-[1] p-8">
+              <h3 className="font-ui text-[22px] font-bold tracking-[0.05em] text-[var(--text-primary)] transition-colors duration-400 group-hover:text-[var(--accent-bright)]">
+                {p.title}
+              </h3>
               {p.artist ? (
-                <p className="font-mono mt-[2px] text-[10px] tracking-[0.2em] text-[var(--text-secondary)]">
+                <p className="font-mono mt-1 text-[10px] tracking-[0.2em] text-[var(--text-secondary)] uppercase">
                   {p.artist}
                 </p>
               ) : null}
+              <div className="mt-6 flex items-center gap-2">
+                <div className="h-px flex-1 bg-gradient-to-r from-[var(--border-accent)] to-transparent" />
+                <span className="font-mono text-[8px] tracking-[0.2em] text-[var(--accent-dim)]">VIEW PROJECT</span>
+              </div>
             </div>
           </button>
-        </GlassCard>
-      </StarBorder>
-    </TiltGlare>
+          <BorderBeam size={150} duration={4} colorFrom="var(--accent)" colorTo="var(--gold)">
+            <div className="absolute inset-0" />
+          </BorderBeam>
+        </div>
+      </TiltGlare>
     </motion.div>
   );
 }
@@ -233,8 +219,8 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
               onClick={() => setFilter(f)}
               size="sm"
               className={cn(
-                "syn-filter-chip min-h-[44px] font-ui uppercase tracking-[0.12em]",
-                filter === f && "syn-filter-active text-gradient border-[var(--gold)] bg-[rgba(184,190,199,0.08)]",
+                "syn-filter-chip min-h-[44px] font-ui uppercase tracking-[0.15em] border-[var(--border-accent)]",
+                filter === f && "syn-filter-active bg-[rgba(99,102,241,0.1)] text-[var(--accent-bright)] border-[var(--accent)]",
               )}
             >
               {f}
@@ -263,16 +249,7 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
         >
           ● SHOWREEL
         </p>
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            aspectRatio: "16/9",
-            border: "1px solid rgba(184,190,199,0.15)",
-            overflow: "hidden",
-            borderRadius: 8,
-          }}
-        >
+        <div className="relative w-full aspect-video syn-card-premium overflow-hidden border-[var(--border-accent)]">
           <iframe
             src={SHOWREEL_2025_VIDEO}
             style={{
@@ -285,6 +262,9 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
             allow="autoplay; fullscreen"
             title="Showreel"
           />
+          <BorderBeam size={100} duration={6} colorFrom="var(--accent)" colorTo="var(--gold)">
+            <div className="absolute inset-0" />
+          </BorderBeam>
         </div>
       </section>
 
