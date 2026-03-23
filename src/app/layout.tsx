@@ -5,6 +5,7 @@ import { SiteShell } from "@/components/layout/SiteShell";
 import { GlobalSiteEffects } from "@/components/layout/GlobalSiteEffects";
 import MaintenancePage from "@/components/pages/MaintenancePage";
 import { FuturisticHUD } from "@/components/ui/FuturisticHUD";
+import { Analytics } from "@vercel/analytics/next";
 
 /* ─── flip to false when the revamp is done ─── */
 const MAINTENANCE_MODE = true;
@@ -48,6 +49,7 @@ export default function RootLayout({
             <SiteShell>{children}</SiteShell>
           </>
         )}
+        <Analytics />
       </body>
     </html>
   );
