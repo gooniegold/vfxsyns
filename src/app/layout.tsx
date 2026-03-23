@@ -4,14 +4,15 @@ import { AppDock } from "@/components/layout/AppDock";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { GlobalSiteEffects } from "@/components/layout/GlobalSiteEffects";
 import { MaintenancePage } from "@/components/pages/MaintenancePage";
+import { FuturisticHUD } from "@/components/ui/FuturisticHUD";
 
 /* ─── flip to false when the revamp is done ─── */
 const MAINTENANCE_MODE = false;
 
 export const metadata: Metadata = {
-  title: "VFXSYN | ATLANTA VFX & 3D",
+  title: "VFXSYN | ULTIMATE VISUAL DISRUPTION",
   description:
-    "VFXSYN — Atlanta VFX artist. Disrupting reality with 3D animation, color grading, and music video visuals.",
+    "VFX Artist based in Atlanta, GA. High-end 3D animation, color grading, and music video visuals. 100M+ views generated. Redefining the aesthetic.",
   icons: {
     icon: "/favicon.ico",
   },
@@ -27,7 +28,7 @@ export default function RootLayout({
       <head>
         <link
           rel="icon"
-          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23B8BEC7'>S</text></svg>"
+          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23020205'/><path d='M30 70 L50 30 L70 70' stroke='%236366f1' stroke-width='8' fill='none' stroke-linejoin='round'/></svg>"
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -41,6 +42,7 @@ export default function RootLayout({
           <MaintenancePage />
         ) : (
           <>
+            <FuturisticHUD />
             <GlobalSiteEffects />
             <AppDock />
             <SiteShell>{children}</SiteShell>

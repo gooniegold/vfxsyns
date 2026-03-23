@@ -1,16 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion, useSpring, useMotionValue } from "framer-motion";
 import { subscribeMatchMedia } from "@/lib/safe-media";
-import { cn } from "@/lib/utils";
 
 const HOVER_SELECTORS =
   'a, button, [role="button"], [data-cursor="hover"], [data-cursor-hover], input, textarea, select, summary, label[for]';
 
 export function SynCustomCursor() {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
   const [hover, setHover] = useState(false);
   const [reduced, setReduced] = useState(false);
+  
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 30, stiffness: 200, mass: 0.6 };
+  const cursorX = useSpring(mouseX, springConfig);
+  const cursorY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
     return subscribeMatchMedia("(prefers-reduced-motion: reduce)", setReduced);
@@ -21,40 +27,60 @@ export function SynCustomCursor() {
     const root = document.documentElement;
     root.classList.add("syn-dot-cursor");
 
-    const move = (e: MouseEvent) => {
-      setPos({ x: e.clientX, y: e.clientY });
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+
       const el = document.elementFromPoint(e.clientX, e.clientY);
-      if (!el) {
-        setHover(false);
-        return;
+      if (el) {
+        setHover(Boolean(el.closest(HOVER_SELECTORS)));
       }
-      const interactive = el.closest(HOVER_SELECTORS);
-      setHover(Boolean(interactive));
     };
 
-    window.addEventListener("mousemove", move, { passive: true });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
-      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mousemove", handleMouseMove);
       root.classList.remove("syn-dot-cursor");
     };
-  }, [reduced]);
+  }, [reduced, mouseX, mouseY]);
 
   if (reduced) return null;
 
   return (
-    <div
-      aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[100000]"
-      style={{
-        transform: `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%)`,
-      }}
-    >
-      <div
-        className={cn(
-          "rounded-full border border-[rgba(212,217,224,0.55)] bg-[radial-gradient(circle_at_30%_30%,#f2efe8,#b8bec7_45%,#6b7280)] shadow-[0_0_12px_rgba(184,190,199,0.35)] transition-[width,height,opacity] duration-200 ease-out",
-          hover ? "h-9 w-9 opacity-95" : "h-2.5 w-2.5 opacity-90",
-        )}
+    <div className="pointer-events-none fixed inset-0 z-[100000]">
+      {/* ── main dot ── */}
+      <motion.div
+        className="fixed left-0 top-0 h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_10px_var(--accent)]"
+        style={{ x: cursorX, y: cursorY, translateX: "-50%", translateY: "-50%" }}
       />
+      
+      {/* ── outer ring ── */}
+      <motion.div
+        className="fixed left-0 top-0 rounded-full border border-[var(--accent)] transition-all duration-300"
+        animate={{
+          width: hover ? 64 : 32,
+          height: hover ? 64 : 32,
+          opacity: hover ? 0.8 : 0.3,
+          boxShadow: hover ? "0 0 20px var(--accent-glow)" : "0 0 0px transparent",
+        }}
+        style={{
+          x: cursorX,
+          y: cursorY,
+          translateX: "-50%",
+          translateY: "-50%",
+        }}
+      />
+
+      {/* ── hud flair ── */}
+      <motion.div
+        className="fixed left-0 top-0 h-[22px] w-[22px]"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+        style={{ x: cursorX, y: cursorY, translateX: "-50%", translateY: "-50%", opacity: hover ? 1 : 0 }}
+      >
+        <div className="absolute left-0 top-0 h-1 w-1 border-l border-t border-[var(--accent-bright)]" />
+        <div className="absolute right-0 bottom-0 h-1 w-1 border-r border-b border-[var(--accent-bright)]" />
+      </motion.div>
     </div>
   );
 }

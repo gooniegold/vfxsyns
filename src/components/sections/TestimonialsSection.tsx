@@ -5,21 +5,23 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import ShinyText from "@/components/react-bits/ShinyText";
 import { motionTransition } from "@/lib/motion-defaults";
 
+import { Gem, Zap, Aperture, Quote } from "lucide-react";
+
 const TESTIMONIALS = [
   {
-    quote: "The VFX work is unlike anything else. Transformed my music video into a cinematic masterpiece.",
-    author: "LAZERDIM700",
-    role: "Artist",
+    quote: "UNRIVALED VISUAL FIDELITY. TRANSFORMED OUR PRODUCTION INTO A CINEMATIC BENCHMARK.",
+    category: "ELITE VFX",
+    icon: Zap,
   },
   {
-    quote: "Professional, fast, and insane attention to detail. The only person I trust with my color grading.",
-    author: "COSIGN",
-    role: "Director",
+    quote: "DISRUPTIVE COLOR GRADING THAT REDEFINED OUR ENTIRE AESTHETIC FOR THE CURRENT CYCLE.",
+    category: "PLATINUM COLOR",
+    icon: Aperture,
   },
   {
-    quote: "VFXSYN is on another level. The 3D animations are industry standard and the workflow is seamless.",
-    author: "SIYAHXO",
-    role: "VFX Artist",
+    quote: "TECHNICAL PRECISION MEETS PURE CREATIVE CHAOS. THE ONLY CHOICE FOR S-TIER 3D ASSETS.",
+    category: "PREMIUM 3D",
+    icon: Gem,
   },
 ] as const;
 
@@ -47,24 +49,33 @@ export function TestimonialsSection() {
 
           <div className="relative z-[1] mt-16 grid gap-8 md:grid-cols-3">
             {TESTIMONIALS.map((t, i) => (
-              <ScrollReveal key={t.author} delay={i * 0.1}>
-                <div className="syn-card-premium group relative flex flex-col justify-between p-10 min-h-[280px]">
-                  <div className="absolute top-6 left-8 text-6xl opacity-[0.03] pointer-events-none" aria-hidden>
-                    "
+              <ScrollReveal key={t.category} delay={i * 0.1}>
+                <div className="hud-scanline syn-card-premium group relative flex flex-col justify-between p-10 min-h-[300px] overflow-hidden">
+                  <div className="absolute top-6 right-6 opacity-20 transition-opacity duration-500 group-hover:opacity-100">
+                    <t.icon className="h-5 w-5 text-[var(--accent)]" />
                   </div>
                   
-                  <p className="font-body relative z-[1] text-[15px] italic leading-relaxed text-[var(--text-primary)] group-hover:text-white transition-colors duration-300">
+                  <div className="hud-text-sm mb-8 flex items-center gap-2">
+                    <span className="h-1 w-1 rounded-full bg-[var(--accent)] animate-pulse" />
+                    STATUS: VERIFIED_CLIENT
+                  </div>
+                  
+                  <p className="font-display relative z-[1] text-[18px] leading-snug tracking-wide text-white transition-all duration-300 group-hover:tracking-wider">
                     "{t.quote}"
                   </p>
 
-                  <div className="mt-8 flex flex-col gap-1 border-t border-[var(--border-accent)] pt-6">
-                    <span className="font-ui text-[16px] font-bold tracking-[0.1em] text-[var(--accent-bright)]">
-                      {t.author}
-                    </span>
-                    <span className="font-mono text-[9px] tracking-[0.2em] text-[var(--text-secondary)]">
-                      {t.role}
-                    </span>
+                  <div className="mt-10 pt-6 border-t border-[var(--border-accent)]">
+                    <div className="flex items-center justify-between">
+                      <span className="font-ui text-[14px] font-bold tracking-[0.2em] text-[var(--accent-bright)]">
+                        {t.category}
+                      </span>
+                      <span className="font-mono text-[8px] opacity-30">
+                        REF: {Math.random().toString(16).slice(2, 10).toUpperCase()}
+                      </span>
+                    </div>
                   </div>
+                  
+                  <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-[var(--accent)] transition-all duration-700 group-hover:w-full" />
                 </div>
               </ScrollReveal>
             ))}

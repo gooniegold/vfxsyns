@@ -12,7 +12,7 @@ import { FAQSection } from "@/components/sections/FAQSection";
 import { StatementStrip } from "@/components/sections/StatementStrip";
 import { ProcessSection } from "@/components/sections/ProcessSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
-import { MarqueeLogos } from "@/components/sections/MarqueeLogos";
+import { MarqueeLogos } from "../sections/MarqueeLogos";
 import GradientText from "@/components/react-bits/GradientText";
 import { HeroVFXSynTitle } from "@/components/react-bits/HeroVFXSynTitle";
 import { HeroTitleSpotlight } from "@/components/hero/HeroTitleSpotlight";
@@ -36,12 +36,10 @@ import { PackRibbon } from "@/components/react-bits/PackRibbon";
 import { INSTAGRAM_URL } from "@/lib/constants";
 import { SYN_STAT_GRADIENT } from "@/lib/syn-styles";
 import {
-  PORTFOLIO_VIDEO_1_MUSIC,
-  PORTFOLIO_VIDEO_2_MUSIC,
-  PORTFOLIO_VIDEO_3_COLOR,
-  PORTFOLIO_VIDEO_4_COLOR,
-  PORTFOLIO_VIDEO_5_3D,
-  PORTFOLIO_VIDEO_6_3D,
+  SHOWREEL_VIDEO,
+  LAZERDIM_JAKKMOVE,
+  SIYAH_XO,
+  ABOUT_ME_PHOTO,
 } from "@/lib/portfolio-media";
 import { motionTransition } from "@/lib/motion-defaults";
 import { HomeScrollBG } from "@/components/backgrounds/HomeScrollBG";
@@ -73,12 +71,9 @@ const MARQUEE = [
 ];
 
 const FEATURED = [
-  { title: "Jakk Move", category: "MUSIC VIDEO", videoSrc: PORTFOLIO_VIDEO_1_MUSIC, artist: "LazerdIM700" },
-  { title: "Dream", category: "MUSIC VIDEO", videoSrc: PORTFOLIO_VIDEO_2_MUSIC, artist: "SiyahXO" },
-  { title: "Nine Vicious", category: "COLOR GRADE", videoSrc: PORTFOLIO_VIDEO_3_COLOR, artist: "Cosign" },
-  { title: "BoofPaxkMooky", category: "COLOR GRADE", videoSrc: PORTFOLIO_VIDEO_4_COLOR },
-  { title: "Showcase 1", category: "3D VFX", videoSrc: PORTFOLIO_VIDEO_5_3D },
-  { title: "Showcase 2", category: "3D VFX", videoSrc: PORTFOLIO_VIDEO_6_3D },
+  { title: "JAKK MOVE", category: "MUSIC VIDEO", videoSrc: LAZERDIM_JAKKMOVE, artist: "LAZERDIM700" },
+  { title: "DIAMOND", category: "MUSIC VIDEO", videoSrc: SIYAH_XO, artist: "SIYAH XO" },
+  { title: "SHOWREEL", category: "VFX SHOWCASE", videoSrc: SHOWREEL_VIDEO, artist: "VFXSYN" },
 ] as const;
 
 const PACKS = [
@@ -108,7 +103,7 @@ function HeroSection() {
           className="pointer-events-none absolute inset-0 z-0 min-h-full w-full"
           aria-hidden
         >
-          <HeroBackground videoSrc={PORTFOLIO_VIDEO_5_3D} />
+          <HeroBackground videoSrc={SHOWREEL_VIDEO} />
         </motion.div>
         
         <HeroHyperspeed />
@@ -569,6 +564,73 @@ function PacksTeaser() {
   );
 }
 
+function AboutSection() {
+  return (
+    <ScrollReveal>
+      <section id="about" className="syn-home-snap-section relative z-[1] px-6 py-[120px] md:px-10">
+        <div className="mx-auto flex max-w-[1400px] flex-col items-center gap-16 lg:flex-row">
+          <div className="relative w-full max-w-[500px] lg:w-1/2">
+            <TiltGlare tiltAmount={5} className="w-full rounded-[24px]">
+              <div className="syn-card-premium overflow-hidden !p-0">
+                <img 
+                  src={ABOUT_ME_PHOTO} 
+                  alt="VFXSYN" 
+                  className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                />
+                <BorderBeam colorFrom="var(--accent)" colorTo="var(--gold)">
+                  <div className="absolute inset-0" />
+                </BorderBeam>
+              </div>
+            </TiltGlare>
+            {/* HUD flair for photo */}
+            <div className="absolute -right-6 -top-6 hud-text-sm rotate-90 opacity-20 hidden md:block">
+              SCANNING_BIOMETRICS_OK
+            </div>
+          </div>
+          
+          <div className="w-full lg:w-1/2">
+            <ParallaxGhostNum n="02" />
+            <ScrollReveal>
+              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--gold)]">
+                ● THE ARCHITECT
+              </p>
+              <h2 className="font-display mt-6 text-[clamp(48px,6vw,96px)] leading-none tracking-tight">
+                ABOUT <span className="text-[var(--accent-bright)]">ME</span>
+              </h2>
+              <div className="mt-8 space-y-6 text-[15px] leading-relaxed text-[var(--text-secondary)]">
+                <p>
+                  Specializing in advanced 3D visual effects and high-end color grading. Based in Atlanta, 
+                  working globally with labels and independent artists to define the next generation of visual aesthetics.
+                </p>
+                <div className="grid grid-cols-2 gap-8 pt-4">
+                  <div>
+                    <span className="hud-text-sm block">CAPABILITIES</span>
+                    <ul className="mt-2 space-y-1 font-ui text-[13px] font-bold tracking-wider">
+                      <li>3D ANIMATION</li>
+                      <li>COMPOSITING</li>
+                      <li>COLOR GRADING</li>
+                      <li>SOUND DESIGN</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <span className="hud-text-sm block">HARDWARE</span>
+                    <ul className="mt-2 space-y-1 font-ui text-[13px] font-bold tracking-wider opacity-60">
+                      <li>RTX 4090 SIGMA</li>
+                      <li>64GB DDR5 PRO</li>
+                      <li>RED GIANT SUITE</li>
+                      <li>UNREAL ENGINE 5</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+    </ScrollReveal>
+  );
+}
+
 export function HomeContent() {
   return (
     <div id="home-page-root" className="relative">
@@ -578,6 +640,8 @@ export function HomeContent() {
       <MarqueeLogos />
       <MarqueeStrip />
       <hr className="syn-section-divider" />
+      <hr className="syn-section-divider" />
+      <AboutSection />
       <hr className="syn-section-divider" />
       <FeaturedWorkSection />
       <hr className="syn-section-divider" />

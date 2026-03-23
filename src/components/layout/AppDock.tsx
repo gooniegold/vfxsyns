@@ -1,10 +1,12 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { Home, Film, ShoppingBag, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { MagneticButton } from "@/components/react-bits/MagneticButton";
 
 const NAV = [
   { path: "/", label: "HOME", Icon: Home },
@@ -13,73 +15,70 @@ const NAV = [
   { path: "/contact", label: "CONTACT", Icon: Mail },
 ] as const;
 
-function isActivePath(pathname: string, path: string) {
-  if (path === "/") return pathname === "/";
-  return pathname === path || pathname.startsWith(`${path}/`);
-}
-
 export function AppDock() {
-  const router = useRouter();
   const pathname = usePathname();
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (
-    <nav
-      aria-label="Primary navigation"
-      className="fixed right-8 top-8 z-[9999] flex items-center gap-2 rounded-full border border-[var(--border-accent)] bg-[rgba(3,3,8,0.8)] p-2 shadow-[0_32px_64px_rgba(0,0,0,0.5)] backdrop-blur-xl"
-    >
-      {NAV.map(({ path, label, Icon }) => {
-        const active = isActivePath(pathname, path);
-        return (
-          <button
-            key={path}
-            type="button"
-            onClick={() => router.push(path)}
-            onMouseEnter={() => setHovered(path)}
-            onMouseLeave={() => setHovered(null)}
-            className={cn(
-              "relative flex h-11 w-11 items-center justify-center rounded-full transition-all duration-300",
-              active ? "text-white" : "text-[var(--text-secondary)] hover:text-white"
-            )}
-            title={label}
-          >
-            <AnimatePresence>
-              {active && (
-                <motion.div
-                  layoutId="dock-bg"
-                  className="absolute inset-0 z-0 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--accent-bright)] opacity-100"
-                  transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
-                />
-              )}
-            </AnimatePresence>
-
-            <AnimatePresence>
-              {hovered === path && !active && (
-                <motion.div
-                  layoutId="dock-hover"
-                  className="absolute inset-0 z-0 rounded-full bg-white/5"
-                  transition={{ type: "spring", bounce: 0, duration: 0.3 }}
-                />
-              )}
-            </AnimatePresence>
-
-            <Icon className="relative z-10 h-[18px] w-[18px]" strokeWidth={2} />
-            
-            <AnimatePresence>
-              {hovered === path && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 5, scale: 0.8 }}
-                  className="pointer-events-none absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-[var(--border-accent)] bg-[rgba(3,3,8,0.9)] px-3 py-1.5 font-mono text-[9px] font-bold tracking-[0.2em] text-[var(--accent-bright)] backdrop-blur-md"
+    <div className="fixed bottom-10 left-1/2 z-[9999] -translate-x-1/2">
+      <motion.nav 
+        initial={{ y: 20, opacity: 0, scale: 0.9 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        transition={{ type: "spring", damping: 25, stiffness: 120 }}
+        className="syn-glass flex items-center gap-1 rounded-full border border-[var(--border-accent)] bg-[rgba(3,3,8,0.7)] p-2 shadow-[0_32px_64px_rgba(0,0,0,0.6),0_0_40px_-10px_var(--accent-glow)] backdrop-blur-3xl"
+      >
+        {NAV.map((item) => {
+          const active = pathname === item.path;
+          return (
+            <div key={item.path} className="relative">
+              <MagneticButton>
+                <Link
+                  href={item.path}
+                  onMouseEnter={() => setHovered(item.path)}
+                  onMouseLeave={() => setHovered(null)}
+                  data-cursor="hover"
+                  className={cn(
+                    "group relative flex h-14 w-14 flex-col items-center justify-center gap-1 rounded-full transition-all duration-300",
+                    active ? "text-[var(--accent-bright)]" : "text-[var(--text-secondary)] hover:text-white"
+                  )}
                 >
-                  {label}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </button>
-        );
-      })}
-    </nav>
+                  <motion.div
+                    animate={active ? { scale: 1.1, y: -2 } : { scale: 1, y: 0 }}
+                    className="relative z-10"
+                  >
+                    <item.Icon className={cn("h-5 w-5", active && "drop-shadow-[0_0_10px_var(--accent)]")} strokeWidth={1.5} />
+                  </motion.div>
+                  
+                  <span className="font-mono text-[7px] font-bold uppercase tracking-[0.2em] opacity-30 transition-opacity duration-300 group-hover:opacity-100">
+                    {item.label}
+                  </span>
+
+                  {active && (
+                    <motion.div
+                      layoutId="active-pill"
+                      className="absolute inset-0 z-0 rounded-full bg-[var(--accent-dim)] border border-[var(--border-accent)]"
+                      transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
+                    />
+                  )}
+                </Link>
+              </MagneticButton>
+
+              <AnimatePresence>
+                {hovered === item.path && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 5, scale: 0.8 }}
+                    className="pointer-events-none absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-[var(--border-accent)] bg-[rgba(3,3,8,0.95)] px-3 py-1.5 font-mono text-[9px] font-bold tracking-[0.3em] text-[var(--accent-bright)] shadow-2xl backdrop-blur-md"
+                  >
+                    {item.label}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </motion.nav>
+    </div>
   );
 }
