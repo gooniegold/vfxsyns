@@ -19,25 +19,40 @@
   --font-body: var(--font-mono);
   --font-heading: var(--font-display);
 
-  --bg-base: #050505;
-  --bg-elevated: #0c0c0c;
-  --bg-card: #111111;
-  --bg-card-hover: #181818;
+  /* ── surfaces ──────────────────────────── */
+  --bg-base: #030308;
+  --bg-elevated: #0a0a12;
+  --bg-card: #0e0e18;
+  --bg-card-hover: #14142a;
 
+  /* ── platinum (primary) ────────────────── */
   --gold: #B8BEC7;
   --gold-bright: #D4D9E0;
   --gold-dim: #6B7280;
   --gold-glow: rgba(184, 190, 199, 0.12);
   --gold-border: rgba(184, 190, 199, 0.22);
 
-  --text-primary: #f2efe8;
-  --text-secondary: #6b6760;
-  --text-gold: #B8BEC7;
+  /* ── accent (electric indigo) ──────────── */
+  --accent: #6366F1;
+  --accent-bright: #818CF8;
+  --accent-dim: #4338CA;
+  --accent-glow: rgba(99, 102, 241, 0.15);
+  --accent-border: rgba(99, 102, 241, 0.25);
+  --accent-subtle: rgba(99, 102, 241, 0.06);
 
-  --border-subtle: rgba(255, 255, 255, 0.05);
+  /* ── text ───────────────────────────────── */
+  --text-primary: #f0eef5;
+  --text-secondary: #5a5872;
+  --text-gold: #B8BEC7;
+  --text-accent: #818CF8;
+
+  /* ── borders & shadows ─────────────────── */
+  --border-subtle: rgba(99, 102, 241, 0.08);
   --border-gold: rgba(184, 190, 199, 0.22);
+  --border-accent: rgba(99, 102, 241, 0.2);
   --shadow-gold: 0 0 60px rgba(184, 190, 199, 0.07);
   --shadow-deep: 0 24px 80px rgba(0, 0, 0, 0.8);
+  --shadow-accent: 0 0 40px rgba(99, 102, 241, 0.1);
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-motion: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -46,10 +61,10 @@
   --glass-border: var(--border-subtle);
 
   /* --glass (premium glass surface) */
-  --glass-bg: rgba(10, 10, 10, 0.45);
-  --glass-blur: blur(16px) saturate(160%);
-  --glass-edge: 1px solid rgba(184, 190, 199, 0.12);
-  --glass-elev-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --glass-bg: rgba(8, 8, 20, 0.55);
+  --glass-blur: blur(20px) saturate(180%);
+  --glass-edge: 1px solid rgba(99, 102, 241, 0.12);
+  --glass-elev-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 /**
@@ -217,12 +232,19 @@ body {
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #d4d9e0 0%, #b8bec7 35%, #6b7280 65%, #b8bec7 100%);
-  background-size: 200% 200%;
+  background: linear-gradient(135deg, #e0e4ea 0%, #818CF8 30%, #6366F1 50%, #B8BEC7 70%, #D4D9E0 100%);
+  background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: shimmerText 4s ease infinite;
+  animation: shimmerText 5s ease infinite;
+}
+
+.text-gradient-accent {
+  background: linear-gradient(135deg, #818CF8 0%, #6366F1 50%, #4338CA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .syn-dock-active-icon {
@@ -1057,6 +1079,71 @@ html.syn-home-snap {
 .syn-home-snap-section {
   scroll-snap-align: start;
   scroll-snap-stop: normal;
+}
+
+/* ── premium card (revamp) ──────────────────── */
+.syn-card-premium {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-accent);
+  box-shadow: var(--glass-elev-shadow);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.syn-card-premium:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: var(--glass-elev-shadow), 0 0 40px rgba(99, 102, 241, 0.08);
+}
+
+.syn-card-premium::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(99,102,241,0.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.syn-card-premium:hover::before {
+  opacity: 1;
+}
+
+/* ── section divider ───────────────────────── */
+.syn-section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-border), var(--border-gold), var(--accent-border), transparent);
+  border: none;
+  margin: 0;
+}
+
+/* ── accent glow button ────────────────────── */
+.syn-btn-accent-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.syn-btn-accent-glow::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--accent), var(--accent-bright), var(--gold), var(--accent));
+  background-size: 300% 300%;
+  animation: gradientShift 4s ease infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+}
+
+.syn-btn-accent-glow:hover::after {
+  opacity: 0.6;
 }
 
 @layer base {

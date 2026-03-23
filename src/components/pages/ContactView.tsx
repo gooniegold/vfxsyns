@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, useCallback, type ReactNode, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, AlertCircle } from "lucide-react";
 import ShinyText from "@/components/react-bits/ShinyText";
 import { GlassButton } from "@/components/ui/GlassButton";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -25,10 +25,48 @@ const PROJECT_TYPES = [
 
 export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [f1, setF1] = useState(false);
   const [f2, setF2] = useState(false);
   const [f3, setF3] = useState(false);
   const [f4, setF4] = useState(false);
+
+  const handleSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setSubmitError(null);
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "f1a2b3c4-d5e6-7890-abcd-ef1234567890",
+          subject: `VFXSYN Contact: ${data.get("type")}`,
+          from_name: String(data.get("name") || "Website Visitor"),
+          name: data.get("name"),
+          contact: data.get("contact"),
+          project_type: data.get("type"),
+          message: data.get("message"),
+        }),
+      });
+
+      const json = await res.json();
+      if (json.success) {
+        setSubmitted(true);
+      } else {
+        setSubmitError("Something went wrong. DM @vfxsyn on Instagram instead.");
+      }
+    } catch {
+      setSubmitError("Network error. DM @vfxsyn on Instagram instead.");
+    } finally {
+      setSubmitting(false);
+    }
+  }, []);
 
   const line = (on: boolean) => ({
     borderBottomWidth: 1,
@@ -147,10 +185,7 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                       initial="hidden"
                       animate="show"
                       exit={{ opacity: 0, y: -10 }}
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        setSubmitted(true);
-                      }}
+                      onSubmit={handleSubmit}
                       className="space-y-8"
                     >
                       <motion.div
@@ -275,9 +310,15 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                           show: { opacity: 1, x: 0, transition: MOTION_TRANSITION },
                         }}
                       >
-                      <GlassButton variant="gold" className="w-full justify-center" buttonType="submit">
-                        SEND IT →
+                      <GlassButton variant="gold" className="w-full justify-center" buttonType="submit" disabled={submitting}>
+                        {submitting ? "SENDING..." : "SEND IT →"}
                       </GlassButton>
+                      {submitError ? (
+                        <div className="mt-3 flex items-center gap-2 text-red-400">
+                          <AlertCircle className="h-4 w-4" />
+                          <span className="font-mono text-[11px]">{submitError}</span>
+                        </div>
+                      ) : null}
                       </motion.div>
                     </motion.form>
                   )}

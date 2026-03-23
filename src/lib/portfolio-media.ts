@@ -8,26 +8,27 @@
  * 2. MUSIC VIDEO — Dream
  * 3. COLOR GRADE — Nine Vicious
  * 4. COLOR GRADE — BoofPaxkMooky
- * 5. 3D VFX — Showcase 1 (CDN — move to Drive and swap for `/preview` when ready)
- * 6. 3D VFX — Showcase 2 (CDN — move to Drive and swap for `/preview` when ready)
+ * 5. 3D VFX — Showcase 1
+ * 6. 3D VFX — Showcase 2
  */
 export const PORTFOLIO_VIDEO_1_MUSIC =
-  "https://drive.google.com/file/d/1ED-AoylSRYJUiNCFEwgY-ySUWdZ0h9QW/preview";
+  "https://drive.google.com/file/d/1ED-AoylSRYJUiNCFEwgY-ySUWdZ0h9QW/preview?autoplay=1&mute=1";
 
 export const PORTFOLIO_VIDEO_2_MUSIC =
-  "https://drive.google.com/file/d/1WkvmqdWPNYCnyMKnh0NSSCSDencojM0f/preview";
+  "https://drive.google.com/file/d/1WkvmqdWPNYCnyMKnh0NSSCSDencojM0f/preview?autoplay=1&mute=1";
 
 export const PORTFOLIO_VIDEO_3_COLOR =
-  "https://drive.google.com/file/d/1SVS8D6B7JjLjy8iRDv0AFBXzmiMIdcTd/preview";
+  "https://drive.google.com/file/d/1SVS8D6B7JjLjy8iRDv0AFBXzmiMIdcTd/preview?autoplay=1&mute=1";
 
 export const PORTFOLIO_VIDEO_4_COLOR =
-  "https://drive.google.com/file/d/1YogMCOTpqcgFVz8Aud8q1uuRDMi7-M9F/preview";
+  "https://drive.google.com/file/d/1YogMCOTpqcgFVz8Aud8q1uuRDMi7-M9F/preview?autoplay=1&mute=1";
 
 export const PORTFOLIO_VIDEO_5_3D =
-  "https://cdn.discordapp.com/attachments/1365726585176592456/1381846384101167104/Comp_1_4.mp4?ex=69bd6ffb&is=69bc1e7b&hm=7b62169575924a8ec96237764b93bf4fca89ce1be10d7bb4e132eed7b915c6c5&";
+  "https://drive.google.com/file/d/1ED-AoylSRYJUiNCFEwgY-ySUWdZ0h9QW/preview?autoplay=1&mute=1";
 
 export const PORTFOLIO_VIDEO_6_3D =
-  "https://cdn.discordapp.com/attachments/1206299942918824006/1270257896713621555/sfx_boof.mp4?ex=69bd891a&is=69bc379a&hm=f28ccb1cf94754b35b464931749fbdb40b43dab023bdb160a5df53aeea6897d2&";
+  "https://drive.google.com/file/d/1WkvmqdWPNYCnyMKnh0NSSCSDencojM0f/preview?autoplay=1&mute=1";
 
 export const SHOWREEL_2025_VIDEO =
   "https://drive.google.com/file/d/1SDkxS__IBrgbu5o22xyYrO7KA0TzisP3/preview?autoplay=1&mute=1";
+

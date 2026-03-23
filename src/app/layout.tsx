@@ -3,6 +3,10 @@ import "./globals.css";
 import { AppDock } from "@/components/layout/AppDock";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { GlobalSiteEffects } from "@/components/layout/GlobalSiteEffects";
+import { MaintenancePage } from "@/components/pages/MaintenancePage";
+
+/* ─── flip to false when the revamp is done ─── */
+const MAINTENANCE_MODE = true;
 
 export const metadata: Metadata = {
   title: "SYN",
@@ -33,9 +37,15 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-full flex-col">
-        <GlobalSiteEffects />
-        <AppDock />
-        <SiteShell>{children}</SiteShell>
+        {MAINTENANCE_MODE ? (
+          <MaintenancePage />
+        ) : (
+          <>
+            <GlobalSiteEffects />
+            <AppDock />
+            <SiteShell>{children}</SiteShell>
+          </>
+        )}
       </body>
     </html>
   );

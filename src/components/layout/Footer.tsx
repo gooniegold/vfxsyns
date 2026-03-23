@@ -80,8 +80,8 @@ export function Footer() {
           </motion.a>
         </div>
       </div>
-      <div className="mx-auto mt-16 flex max-w-[1400px] flex-col justify-between gap-4 border-t border-[var(--border-subtle)] pt-8 sm:flex-row">
-        <p className="font-mono text-[9px] text-[var(--text-secondary)]">© 2025 VFXSYN</p>
+      <div className="mx-auto mt-16 flex max-w-[1400px] flex-col justify-between gap-4 border-t border-[var(--border-accent)] pt-8 sm:flex-row">
+        <p className="font-mono text-[9px] text-[var(--text-secondary)]">© 2026 VFXSYN</p>
         <p className="font-mono text-[9px] text-[var(--text-secondary)]">Atlanta, GA</p>
       </div>
     </footer>

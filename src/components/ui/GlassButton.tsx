@@ -28,6 +28,7 @@ export function GlassButton({
   size = "md",
   buttonType = "button",
   cursorHover = true,
+  disabled = false,
 }: {
   children: React.ReactNode;
   variant?: Variant;
@@ -38,6 +39,7 @@ export function GlassButton({
   buttonType?: "button" | "submit";
   /** Adds data-cursor="hover" for themed hover targets */
   cursorHover?: boolean;
+  disabled?: boolean;
 }) {
   const isExternal = href?.startsWith("http") ?? false;
 
@@ -99,9 +101,10 @@ export function GlassButton({
     <motion.button
       type={buttonType}
       onClick={onClick}
-      whileTap={{ scale: 0.97 }}
-      className={btnClass}
+      whileTap={disabled ? undefined : { scale: 0.97 }}
+      className={cn(btnClass, disabled && "opacity-50 cursor-not-allowed")}
       style={variant === "gold" ? goldStyle : undefined}
+      disabled={disabled}
       {...cursorProps}
     >
       {inner}
