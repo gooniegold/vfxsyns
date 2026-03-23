@@ -9,7 +9,7 @@
 export const SHOWREEL_VIDEO = "https://drive.google.com/file/d/1SDkxS__IBrgbu5o22xyYrO7KA0TzisP3/preview?autoplay=1&mute=1";
 export const LAZERDIM_JAKKMOVE = "https://drive.google.com/file/d/1ED-AoylSRYJUiNCFEwgY-ySUWdZ0h9QW/preview?autoplay=1&mute=1";
 export const SIYAH_XO = "https://drive.google.com/file/d/1WkvmqdWPNYCnyMKnh0NSSCSDencojM0f/preview?autoplay=1&mute=1";
-export const ABOUT_ME_PHOTO = "https://drive.google.com/uc?export=view&id=1v_s42H5RHTiqrTJ32x4djCVszJuUQm2j";
+export const ABOUT_ME_PHOTO = "https://drive.google.com/thumbnail?id=1v_s42H5RHTiqrTJ32x4djCVszJuUQm2j&sz=w1600";
 
 // --- MAPPING TO LEGACY GRID SLOTS (RESTORING EXPORTS FOR BUILD STABILITY) ---
 export const PORTFOLIO_VIDEO_1_MUSIC = LAZERDIM_JAKKMOVE;

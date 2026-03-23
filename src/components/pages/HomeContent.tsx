@@ -9,7 +9,6 @@ import { CountUp } from "@/components/ui/CountUp";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
 import { FAQSection } from "@/components/sections/FAQSection";
-import { StatementStrip } from "@/components/sections/StatementStrip";
 import { ProcessSection } from "@/components/sections/ProcessSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { MarqueeLogos } from "../sections/MarqueeLogos";
@@ -33,6 +32,8 @@ import { useGoldConfettiOnce } from "@/components/react-bits/GoldConfettiBurst";
 import { HeroFloatingShapes } from "@/components/hero/HeroFloatingShapes";
 import { HeroMeteors } from "@/components/hero/HeroMeteors";
 import { PackRibbon } from "@/components/react-bits/PackRibbon";
+import { SplitText } from "@/components/react-bits/SplitText";
+import { TiltedCard } from "@/components/react-bits/TiltedCard";
 import { INSTAGRAM_URL } from "@/lib/constants";
 import { SYN_STAT_GRADIENT } from "@/lib/syn-styles";
 import {
@@ -55,19 +56,19 @@ const HeroBackground = dynamic(
 
 const MARQUEE = [
   "500+ PROJECTS",
-  "·",
+  "|",
   "VFX PACKS",
-  "·",
+  "|",
   "ATLANTA",
-  "·",
+  "|",
   "90M+ VIEWS",
-  "·",
+  "|",
   "VFXSYN",
-  "·",
+  "|",
   "3D ANIMATION",
-  "·",
+  "|",
   "COLOR GRADING",
-  "·",
+  "|",
 ];
 
 const FEATURED = [
@@ -130,28 +131,36 @@ function HeroSection() {
             transition={motionTransition(0.2)}
           >
             <TypingText
-              text="● ATLANTA, GA — DISRUPTING VISUALS"
+              text="ATLANTA, GA | DISRUPTING VISUALS"
               speedMs={35}
               className="font-mono text-[10px] uppercase tracking-[0.4em]"
             />
           </motion.p>
 
-          <div className="mx-auto mt-6 flex max-w-[95vw] flex-wrap justify-center gap-[0.04em]">
-            <HeroTitleSpotlight>
-              <HeroVFXSynTitle />
-            </HeroTitleSpotlight>
+          <div className="mx-auto mt-6 flex max-w-[95vw] flex-wrap justify-center overflow-visible py-4">
+            <SplitText
+              text="VFXSYN"
+              className="font-hero text-[clamp(72px,15vw,180px)] leading-[0.8] tracking-[-0.04em] text-white"
+              delay={0.06}
+              animationFrom={{ opacity: 0, y: 80 }}
+              animationTo={{ opacity: 1, y: 0 }}
+            />
           </div>
 
           <motion.div
-            className="motion-gpu-hint mt-6 flex flex-col items-center gap-2"
+            className="motion-gpu-hint mt-8 flex flex-col items-center gap-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={motionTransition(1)}
           >
-            <p className="font-ui text-[clamp(14px,1.8vw,22px)] font-bold tracking-[0.1em] text-[var(--text-primary)]">
+            <GradientText
+              className="font-ui text-[clamp(16px,2vw,24px)] font-bold tracking-[0.2em] uppercase"
+              colors={["#8b5cf6", "#06b6d4", "#ffffff"]}
+              animationSpeed={8}
+            >
               CRAFTING THE FUTURE OF VFX
-            </p>
-            <div className="h-px w-24 bg-gradient-to-r from-transparent via-[var(--accent-bright)] to-transparent" />
+            </GradientText>
+            <div className="h-px w-32 bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent" />
           </motion.div>
 
           <motion.div
@@ -252,10 +261,10 @@ function MarqueeStrip() {
                       }
                       className={cn(
                         "font-ui inline-block text-[13px] uppercase tracking-[0.22em] md:text-[15px]",
-                        t === "·" && "syn-marquee-bullet px-1 font-bold text-[var(--gold)]",
+                        t === "|" && "syn-marquee-bullet px-1 font-bold text-[var(--accent)]",
                       )}
                     >
-                      {t === "·" ? (
+                      {t === "|" ? (
                         t
                       ) : (
                         <ShinyText speed={3} className="font-ui text-[13px] uppercase tracking-[0.22em] md:text-[15px]">
@@ -381,18 +390,19 @@ function StatsBar() {
 function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: number }) {
   return (
     <ScrollReveal delay={delay}>
-      <TiltGlare
-        className="group/card w-full rounded-[20px] transition-colors duration-300"
-        tiltAmount={6}
-        tiltClassName="rounded-[20px] shadow-[0_24px_64px_rgba(0,0,0,0.6)]"
+      <TiltedCard
+        className="group/card w-full rounded-[24px]"
+        rotateAmount={12}
+        scaleOnHover={1.02}
+        glareOpacity={0.2}
       >
-        <div className="syn-card-premium !block overflow-hidden">
+        <div className="syn-card-premium !block overflow-hidden border border-[var(--border-accent)] bg-[var(--bg-card)] backdrop-blur-xl">
           <Link
             href="/portfolio"
             data-cursor="hover"
             className="group relative block text-left no-underline"
           >
-            <div className="relative w-full overflow-hidden bg-[#030308]">
+            <div className="hud-scanline relative w-full overflow-hidden bg-[#030308]">
               <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden" }}>
                 <iframe
                   src={p.videoSrc}
@@ -410,41 +420,47 @@ function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: numbe
                   }}
                 />
               </div>
-              <span className="font-mono absolute left-4 top-4 z-[4] bg-[var(--bg-base)] border border-[var(--border-accent)] px-3 py-1.5 text-[8px] uppercase tracking-[0.3em] font-bold text-[var(--accent-bright)] backdrop-blur-md">
-                {p.category}
-              </span>
+              <div className="absolute left-4 top-4 z-[4] flex items-center gap-2">
+                <span className="font-mono bg-[rgba(3,3,8,0.8)] border border-[var(--border-accent)] px-3 py-1.5 text-[8px] uppercase tracking-[0.3em] font-bold text-[var(--accent)] backdrop-blur-md">
+                  {p.category}
+                </span>
+              </div>
               
               <div className="pointer-events-none absolute inset-0 z-[3] flex items-center justify-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[var(--border-accent)] bg-[rgba(99,102,241,0.2)] text-white shadow-[0_0_40px_rgba(99,102,241,0.3)] backdrop-blur-md">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[var(--border-accent)] bg-[rgba(139,92,246,0.2)] text-white shadow-[0_0_40px_rgba(139,92,246,0.3)] backdrop-blur-md">
                   <Play className="h-7 w-7 translate-x-0.5" fill="currentColor" strokeWidth={0} aria-hidden />
                 </div>
               </div>
               
               <ArrowUpRight
-                className="absolute right-4 top-4 z-[4] h-6 w-6 text-[var(--accent-bright)] opacity-0 transition-all duration-400 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0"
+                className="absolute right-4 top-4 z-[4] h-6 w-6 text-[var(--accent)] opacity-0 transition-all duration-400 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0"
                 strokeWidth={1.5}
               />
             </div>
             <div className="relative z-[1] p-8">
-              <h3 className="font-ui text-[24px] font-bold tracking-[0.05em] text-[var(--text-primary)] transition-colors duration-400 group-hover:text-[var(--accent-bright)]">
+              <div className="mb-3 flex items-center gap-2">
+                <div className="h-1 w-1 rounded-full bg-[var(--accent)] animate-pulse" />
+                <span className="font-mono text-[8px] tracking-[0.3em] text-[var(--accent)] uppercase opacity-60">VERIFIED_CLIENT</span>
+              </div>
+              <h3 className="font-ui text-[24px] font-bold tracking-[0.05em] text-[var(--text-primary)] transition-colors duration-400 group-hover:text-[var(--accent)]">
                 {p.title}
               </h3>
               {"artist" in p ? (
                 <p className="font-mono mt-1 text-[11px] tracking-[0.2em] text-[var(--text-secondary)] uppercase">
-                  {p.artist}
+                  | {p.artist}
                 </p>
               ) : null}
-              <div className="mt-6 flex items-center gap-2">
-                <div className="h-px flex-1 bg-gradient-to-r from-[var(--border-accent)] to-transparent" />
-                <span className="font-mono text-[9px] tracking-[0.2em] text-[var(--accent-dim)]">EXPLORE PROJECT</span>
+              <div className="mt-8 flex items-center gap-2">
+                <div className="h-[2px] w-8 bg-gradient-to-r from-[var(--accent)] to-transparent" />
+                <span className="font-mono text-[9px] tracking-[0.2em] text-[var(--text-dim)] group-hover:text-[var(--accent)] transition-colors">DECRYPT_DATA</span>
               </div>
             </div>
           </Link>
-          <BorderBeam size={150} duration={4} delay={delay + 1} colorFrom="var(--accent)" colorTo="var(--gold)">
+          <BorderBeam size={180} duration={6} delay={delay + 1} colorFrom="var(--accent)" colorTo="var(--accent-secondary)">
             <div className="absolute inset-0" />
           </BorderBeam>
         </div>
-      </TiltGlare>
+      </TiltedCard>
     </ScrollReveal>
   );
 }
@@ -456,9 +472,9 @@ function FeaturedWorkSection() {
       <div className="relative mx-auto max-w-[1400px]">
         <ParallaxGhostNum n="01" />
         <ScrollReveal>
-          <p className="font-mono relative z-[1] text-[10px] tracking-[0.4em] text-[var(--gold)]">
+          <p className="font-mono relative z-[1] text-[10px] tracking-[0.4em] text-[var(--accent)]">
             <ShinyText speed={3} className="font-mono text-[10px] tracking-[0.4em]">
-              ● PORTFOLIO
+              PORTFOLIO
             </ShinyText>
           </p>
           <motion.div
@@ -506,9 +522,9 @@ function PacksTeaser() {
       <div className="relative mx-auto max-w-[1400px]">
         <ParallaxGhostNum n="02" />
         <ScrollReveal>
-          <p className="font-mono relative z-[1] text-[10px] uppercase tracking-[0.2em] text-[var(--gold)]">
+          <p className="font-mono relative z-[1] text-[10px] uppercase tracking-[0.2em] text-[var(--accent)]">
             <ShinyText speed={3} className="font-mono text-[10px] uppercase tracking-[0.2em]">
-              ● DIGITAL PRODUCTS
+              DIGITAL PRODUCTS
             </ShinyText>
           </p>
           <motion.h2
@@ -570,18 +586,23 @@ function AboutSection() {
       <section id="about" className="syn-home-snap-section relative z-[1] px-6 py-[120px] md:px-10">
         <div className="mx-auto flex max-w-[1400px] flex-col items-center gap-16 lg:flex-row">
           <div className="relative w-full max-w-[500px] lg:w-1/2">
-            <TiltGlare tiltAmount={5} className="w-full rounded-[24px]">
-              <div className="syn-card-premium overflow-hidden !p-0">
+            <TiltedCard 
+              className="w-full rounded-[24px]"
+              rotateAmount={10}
+              scaleOnHover={1.03}
+              glareOpacity={0.2}
+            >
+              <div className="syn-card-premium overflow-hidden !p-0 border border-[var(--border-accent)] bg-[var(--bg-card)] backdrop-blur-xl">
                 <img 
-                  src={ABOUT_ME_PHOTO} 
-                  alt="VFXSYN" 
-                  className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                   src={ABOUT_ME_PHOTO} 
+                   alt="VFXSYN" 
+                   className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                 />
-                <BorderBeam colorFrom="var(--accent)" colorTo="var(--gold)">
+                <BorderBeam colorFrom="var(--accent)" colorTo="var(--accent-secondary)" size={250}>
                   <div className="absolute inset-0" />
                 </BorderBeam>
               </div>
-            </TiltGlare>
+            </TiltedCard>
             {/* HUD flair for photo */}
             <div className="absolute -right-6 -top-6 hud-text-sm rotate-90 opacity-20 hidden md:block">
               SCANNING_BIOMETRICS_OK
@@ -592,7 +613,7 @@ function AboutSection() {
             <ParallaxGhostNum n="02" />
             <ScrollReveal>
               <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--gold)]">
-                ● THE ARCHITECT
+                THE ARCHITECT
               </p>
               <h2 className="font-display mt-6 text-[clamp(48px,6vw,96px)] leading-none tracking-tight">
                 ABOUT <span className="text-[var(--accent-bright)]">ME</span>
@@ -606,19 +627,19 @@ function AboutSection() {
                   <div>
                     <span className="hud-text-sm block">CAPABILITIES</span>
                     <ul className="mt-2 space-y-1 font-ui text-[13px] font-bold tracking-wider">
-                      <li>3D ANIMATION</li>
-                      <li>COMPOSITING</li>
-                      <li>COLOR GRADING</li>
-                      <li>SOUND DESIGN</li>
+                      <li>| 3D ANIMATION</li>
+                      <li>| COMPOSITING</li>
+                      <li>| COLOR GRADING</li>
+                      <li>| SOUND DESIGN</li>
                     </ul>
                   </div>
                   <div>
                     <span className="hud-text-sm block">HARDWARE</span>
                     <ul className="mt-2 space-y-1 font-ui text-[13px] font-bold tracking-wider opacity-60">
-                      <li>RTX 4090 SIGMA</li>
-                      <li>64GB DDR5 PRO</li>
-                      <li>RED GIANT SUITE</li>
-                      <li>UNREAL ENGINE 5</li>
+                      <li>| RTX 4099 SIGMA</li>
+                      <li>| 128GB DDR5 PRO</li>
+                      <li>| RED GIANT SUITE</li>
+                      <li>| UNREAL ENGINE 5.4</li>
                     </ul>
                   </div>
                 </div>
@@ -648,7 +669,6 @@ export function HomeContent() {
       <StatsBar />
       <ProcessSection />
       <hr className="syn-section-divider" />
-      <StatementStrip />
       <WhyChooseUsSection />
       <hr className="syn-section-divider" />
       <TestimonialsSection />

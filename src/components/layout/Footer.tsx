@@ -31,7 +31,7 @@ export function Footer() {
             </ShinyText>
           </p>
           <p className="font-mono mt-3 text-[9px] leading-relaxed tracking-[0.2em] text-[var(--text-secondary)]">
-            Atlanta, GA · VFX · Color · Direction
+            Atlanta, GA | VFX | Color | Direction
           </p>
         </div>
         <div className="flex flex-col gap-3">

@@ -16,12 +16,12 @@ const ITEMS = [
   {
     icon: Zap,
     title: "REAL RESULTS",
-    body: "Serious reach across music videos, commercials, and content. The work speaks — check the portfolio.",
+    body: "Serious reach across music videos, commercials, and content. The work speaks | check the portfolio.",
   },
   {
     icon: Music,
     title: "BUILT FOR ARTISTS",
-    body: "Every workflow is designed around music and storytelling. No corporate polish — just VFX that hits the way the track does.",
+    body: "Every workflow is designed around music and storytelling. No corporate polish | just VFX that hits the way the track does.",
   },
   {
     icon: Timer,

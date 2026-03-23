@@ -1,9 +1,5 @@
-import dynamic from "next/dynamic";
-
-const HomeContent = dynamic(() =>
-  import("@/components/pages/HomeContent").then((mod) => mod.HomeContent),
-);
+import MaintenancePage from "@/components/pages/MaintenancePage";
 
 export default function Home() {
-  return <HomeContent />;
+  return <MaintenancePage />;
 }

@@ -21,7 +21,7 @@ const FAQS = [
   },
   {
     q: "How long does a project take?",
-    a: "Depends on scope. A color grade can be done in days. A full 3D simulation scene takes longer. Rush options are available — just ask.",
+    a: "Depends on scope. A color grade can be done in days. A full 3D simulation scene takes longer. Rush options are available | just ask.",
   },
   {
     q: "Do the VFX packs work with my software?",
