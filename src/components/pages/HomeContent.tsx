@@ -116,19 +116,19 @@ function MarqueeStrip() {
               style={{
                 animation: prefersReducedMotion
                   ? "vfxsyn-marquee 40s linear infinite"
-                  : \`vfxsyn-marquee \${marqueeSec}s linear infinite\`,
+                  : `vfxsyn-marquee ${marqueeSec}s linear infinite`,
               }}
             >
               {[0, 1].map((c) => (
                 <div key={c} className="flex gap-10 pr-10 md:gap-12 md:pr-12">
                   {MARQUEE.map((t, i) => (
                     <span
-                      key={\`\${c}-\${i}\`}
+                      key={`${c}-${i}`}
                       style={
                         {
                           "--i": i,
                           animation: "marqueeFloat 3s ease-in-out infinite",
-                          animationDelay: \`calc(var(--i) * 0.35s)\`,
+                          animationDelay: `calc(var(--i) * 0.35s)`,
                         } as React.CSSProperties
                       }
                       className={cn(
@@ -278,7 +278,7 @@ function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: numbe
               <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden" }}>
                 <iframe
                   src={p.videoSrc}
-                  title={\`\${p.title} preview\`}
+                  title={`${p.title} preview`}
                   loading="lazy"
                   allow="autoplay"
                   style={{

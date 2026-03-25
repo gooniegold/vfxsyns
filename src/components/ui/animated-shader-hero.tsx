@@ -321,7 +321,7 @@ const useShaderBackground = () => {
   return canvasRef;
 };
 
-const defaultShaderSource = \`#version 300 es
+const defaultShaderSource = `#version 300 es
 /*********
 * made by Matthias Hurrle (@atzedent)
 *
@@ -385,9 +385,9 @@ void main(void) {
 		col=mix(col,vec3(bg*.25,bg*.137,bg*.05),d);
 	}
 	O=vec4(col,1);
-}\`;
+}`;
 
-export const Hero: React.FC<HeroProps> = ({
+const Hero: React.FC<HeroProps> = ({
   trustBadge,
   headline,
   subtitle,
@@ -397,8 +397,8 @@ export const Hero: React.FC<HeroProps> = ({
   const canvasRef = useShaderBackground();
 
   return (
-    <div className={\`relative w-full h-screen overflow-hidden bg-black \${className}\`}>
-      <style dangerouslySetInnerHTML={{__html: \`
+    <div className={`relative w-full h-screen overflow-hidden bg-black ${className}`}>
+      <style dangerouslySetInnerHTML={{__html: `
         @keyframes fade-in-down {
           from { opacity: 0; transform: translateY(-20px); }
           to { opacity: 1; transform: translateY(0); }
@@ -413,7 +413,7 @@ export const Hero: React.FC<HeroProps> = ({
         .animation-delay-400 { animation-delay: 0.4s; }
         .animation-delay-600 { animation-delay: 0.6s; }
         .animation-delay-800 { animation-delay: 0.8s; }
-      \`}} />
+      `}} />
       
       <canvas
         ref={canvasRef}
@@ -483,3 +483,6 @@ export const Hero: React.FC<HeroProps> = ({
     </div>
   );
 };
+
+export { Hero };
+export default Hero;
