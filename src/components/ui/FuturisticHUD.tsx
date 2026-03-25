@@ -1,90 +1,73 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export function FuturisticHUD() {
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
   const [time, setTime] = useState("");
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    const handleMove = (e: MouseEvent) => {
-      setCoords({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMove);
-    
-    const timer = setInterval(() => {
+    const updateTime = () => {
       const now = new Date();
-      setTime(now.toLocaleTimeString("en-US", { hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" }));
-    }, 1000);
+      setTime(
+        `${now.getHours().toString().padStart(2, "0")}:${now
+          .getMinutes()
+          .toString()
+          .padStart(2, "0")}:${now.getSeconds().toString().padStart(2, "0")}:${now
+          .getMilliseconds()
+          .toString()
+          .padStart(3, "0")}`
+      );
+    };
+    const interval = setInterval(updateTime, 47);
 
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20; 
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      setMousePos({ x, y });
+    };
+    
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
-      window.removeEventListener("mousemove", handleMove);
-      clearInterval(timer);
+      clearInterval(interval);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[9998] overflow-hidden">
-      {/* ── corner brackets ── */}
-      <div className="absolute left-8 top-8 h-8 w-8 border-l border-t border-[var(--accent)] opacity-40" />
-      <div className="absolute right-8 top-8 h-8 w-8 border-r border-t border-[var(--accent)] opacity-40" />
-      <div className="absolute bottom-8 left-8 h-8 w-8 border-b border-l border-[var(--accent)] opacity-40" />
-      <div className="absolute bottom-8 right-8 h-8 w-8 border-b border-r border-[var(--accent)] opacity-40" />
+    <div 
+      className="fixed inset-0 pointer-events-none z-[9900] overflow-hidden transition-transform duration-75 ease-out"
+      style={{ transform: `translate(${-mousePos.x}px, ${-mousePos.y}px)` }}
+    >
+      {/* Grid overlay */}
+      <div className="absolute inset-0 hud-grid opacity-40 mix-blend-screen" />
 
-      {/* ── hud data points ── */}
-      <div className="absolute left-10 top-20 space-y-4">
-        <div className="hud-text-sm flex flex-col gap-1">
-          <span className="opacity-40">SYSTEM: OK</span>
-          <span className="animate-hud-pulse">SIGNAL: ENCRYPTED</span>
-          <span className="opacity-40">UPLINK: 8.42 TB/s</span>
-        </div>
+      {/* Scan line */}
+      <div className="hud-scan-line" />
+      
+      {/* Vignette / Edge glow */}
+      <div className="absolute inset-0 shadow-[inset_0_0_200px_rgba(3,3,6,0.95)]" />
+      
+      {/* Corner crosshairs */}
+      <div className="absolute top-4 left-4 w-8 h-8 border-t border-l border-[var(--hud-text)] opacity-70" />
+      <div className="absolute top-4 right-4 w-8 h-8 border-t border-r border-[var(--hud-text)] opacity-70" />
+      <div className="absolute bottom-4 left-4 w-8 h-8 border-b border-l border-[var(--hud-text)] opacity-70" />
+      <div className="absolute bottom-4 right-4 w-8 h-8 border-b border-r border-[var(--hud-text)] opacity-70" />
+      
+      {/* Top right data stream */}
+      <div className="absolute top-8 right-8 hud-text text-right flex flex-col items-end gap-1">
+        <div>SYS.OP.NORMAL</div>
+        <div>{time}</div>
+        <div className="w-16 h-[1px] bg-[var(--hud-text)] mt-1 opacity-50" />
       </div>
 
-      <div className="absolute right-10 top-20 text-right">
-        <div className="hud-text-sm flex flex-col gap-1">
-          <span>STMT: REVAMP_V2</span>
-          <span>TIME: {time}</span>
-          <span>NODE: SG-ATL-04</span>
-        </div>
+      {/* Left side coordinates block */}
+      <div className="absolute bottom-8 left-8 hud-text flex flex-col gap-1 opacity-80">
+        <div>VFX//SYN</div>
+        <div>LAT: 33.7490° N</div>
+        <div>LNG: 84.3880° W</div>
+        <div>STATUS: ONLINE</div>
       </div>
-
-      {/* ── bottom status bar ── */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
-        <div className="hud-text-sm flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="h-1 w-12 bg-[var(--accent-dim)]">
-              <motion.div 
-                className="h-full bg-[var(--accent)]" 
-                animate={{ width: ["0%", "80%", "45%", "90%", "60%"] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-              />
-            </div>
-            <span>LOAD_01</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="h-1 w-12 bg-[var(--accent-dim)]">
-              <motion.div 
-                className="h-full bg-[var(--accent)]" 
-                animate={{ width: ["10%", "95%", "30%", "85%", "40%"] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              />
-            </div>
-            <span>LOAD_02</span>
-          </div>
-        </div>
-      </div>
-
-      {/* ── side ornaments ── */}
-      <div className="absolute left-0 top-1/2 h-32 w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-[var(--accent)] to-transparent opacity-20" />
-      <div className="absolute right-0 top-1/2 h-32 w-px -translate-y-1/2 bg-gradient-to-b from-transparent via-[var(--accent)] to-transparent opacity-20" />
-
-      {/* ── moving crosshair ── */}
-      <motion.div 
-        className="absolute left-0 top-0 h-4 w-4 border border-[var(--accent)] opacity-10"
-        animate={{ x: coords.x - 8, y: coords.y - 8 }}
-        transition={{ type: "spring", damping: 30, stiffness: 200, mass: 0.5 }}
-      />
     </div>
   );
 }

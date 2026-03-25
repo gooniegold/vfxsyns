@@ -800,11 +800,138 @@ body {
   }
 }
 
+/* ─── V2 HUD OVERLAY ─── */
+@keyframes hudScan {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+.hud-scan-line {
+  position: fixed;
+  top: 0; left: 0; right: 0; height: 10vh;
+  background: linear-gradient(to bottom, transparent, rgba(139, 92, 246, 0.05) 50%, rgba(139, 92, 246, 0.5) 50.1%, transparent 50.2%);
+  animation: hudScan 6s linear infinite;
+  pointer-events: none;
+  z-index: 9999;
+}
+.hud-text {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--hud-text);
+  text-shadow: 0 0 8px var(--accent-glow);
+}
+
 .nav-link-muted:hover {
   background: linear-gradient(135deg, #d4d9e0, #b8bec7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* ─── LOADING SPINNER ORB ─── */
+.pl {
+  position: relative;
+  width: 12em;
+  height: 12em;
+  font-size: clamp(0.7rem, 1.5vw, 1.2rem);
+  color: var(--accent);
+}
+
+.pl__outer-ring,
+.pl__inner-ring,
+.pl__track-cover,
+.pl__ball {
+  position: absolute;
+}
+
+.pl__outer-ring,
+.pl__inner-ring {
+  border-radius: 50%;
+  inset: 0;
+}
+
+.pl__outer-ring {
+  box-shadow: 0 0 0 0.5em inset, 0 0 2em var(--accent-glow) inset;
+  opacity: 0.2;
+}
+
+.pl__inner-ring {
+  box-shadow: 0 0 0 0.2em inset;
+  margin: 1.5em;
+  opacity: 0.4;
+}
+
+.pl__track-cover {
+  background-image: conic-gradient(transparent 250deg, var(--bg-base) 290deg 360deg);
+  border-radius: 50%;
+  inset: 0;
+  animation: trackCover 2s linear infinite;
+}
+
+.pl__ball {
+  top: 50%;
+  left: 50%;
+  width: 3em;
+  height: 3em;
+  margin: -1.5em 0 0 -1.5em;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--accent);
+  box-shadow: 0 0 3em var(--accent-glow);
+  animation: ball 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.pl__ball-texture {
+  background-image: repeating-linear-gradient(90deg, transparent, transparent 10%, rgba(255, 255, 255, 0.2) 10%, rgba(255, 255, 255, 0.2) 20%);
+  width: 200%;
+  height: 100%;
+  animation: ballTexture 1s linear infinite;
+}
+
+.pl__ball-outer-shadow,
+.pl__ball-inner-shadow {
+  position: absolute;
+  border-radius: 50%;
+  inset: 0;
+}
+
+.pl__ball-outer-shadow {
+  box-shadow: 0.5em 0.5em 1em rgba(0, 0, 0, 0.7) inset;
+  animation: ballOuterShadow 2s linear infinite;
+}
+
+.pl__ball-inner-shadow {
+  box-shadow: -0.5em -0.5em 1em rgba(255, 255, 255, 0.4) inset;
+  animation: ballInnerShadow 2s linear infinite;
+}
+
+@keyframes ball {
+  from { transform: rotate(0) translateY(-4.5em); }
+  50% { transform: rotate(180deg) translateY(-4em); }
+  to { transform: rotate(360deg) translateY(-4.5em); }
+}
+
+@keyframes ballInnerShadow {
+  from { transform: rotate(0); }
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes ballOuterShadow {
+  from { transform: rotate(20deg); }
+  to { transform: rotate(-340deg); }
+}
+
+@keyframes ballTexture {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes trackCover {
+  from { transform: rotate(0); }
+  to { transform: rotate(360deg); }
 }
 
 /* Syne Mono — VFX Packs CTAs & asset counts */

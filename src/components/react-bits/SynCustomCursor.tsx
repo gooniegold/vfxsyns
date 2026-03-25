@@ -14,7 +14,8 @@ export function SynCustomCursor() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const springConfig = { damping: 30, stiffness: 200, mass: 0.6 };
+  // 10000x smoother & magnetic feel
+  const springConfig = { damping: 25, stiffness: 400, mass: 0.1 };
   const cursorX = useSpring(mouseX, springConfig);
   const cursorY = useSpring(mouseY, springConfig);
 

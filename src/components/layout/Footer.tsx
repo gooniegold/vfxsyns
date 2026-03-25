@@ -1,89 +1,124 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { Instagram, Youtube, Twitter } from "lucide-react";
 import ShinyText from "@/components/react-bits/ShinyText";
 import { INSTAGRAM_URL } from "@/lib/constants";
-import { motionTransition } from "@/lib/motion-defaults";
+import type { ComponentProps, ReactNode } from 'react';
 
-const nav = [
-  { href: "/", label: "HOME" },
-  { href: "/portfolio", label: "WORK" },
-  { href: "/shop", label: "SHOP" },
-  { href: "/contact", label: "CONTACT" },
+interface FooterLink {
+	title: string;
+	href: string;
+	icon?: React.ComponentType<{ className?: string }>;
+}
+
+interface FooterSection {
+	label: string;
+	links: FooterLink[];
+}
+
+const footerLinks: FooterSection[] = [
+	{
+		label: 'NAVIGATION',
+		links: [
+			{ title: 'Home', href: '/' },
+			{ title: 'Portfolio', href: '/portfolio' },
+			{ title: 'Shop/Packs', href: '/shop' },
+			{ title: 'Contact', href: '/contact' },
+		],
+	},
+	{
+		label: 'COMPANY',
+		links: [
+			{ title: 'About VFXSYN', href: '/#about' },
+			{ title: 'Privacy Policy', href: '#' },
+			{ title: 'Terms of Service', href: '#' },
+		],
+	},
+	{
+		label: 'SOCIALS',
+		links: [
+			{ title: 'Instagram', href: INSTAGRAM_URL, icon: Instagram },
+			{ title: 'YouTube', href: '#', icon: Youtube },
+			{ title: 'Twitter', href: '#', icon: Twitter },
+		],
+	},
 ];
 
-export function Footer() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+type ViewAnimationProps = {
+	delay?: number;
+	className?: ComponentProps<typeof motion.div>['className'];
+	children: ReactNode;
+};
 
-  return (
-    <footer
-      ref={ref}
-      className="syn-footer-wave relative border-t border-[var(--border-subtle)] px-6 pb-8 pt-20 md:px-10"
-    >
-      <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-3">
-        <div>
-          <p className="hero-title-breathe text-[22px]">
-            <ShinyText speed={3} className="font-display tracking-[0.08em]">
-              VFXSYN
-            </ShinyText>
-          </p>
-          <p className="font-mono mt-3 text-[9px] leading-relaxed tracking-[0.2em] text-[var(--text-secondary)]">
-            Atlanta, GA | VFX | Color | Direction
-          </p>
-        </div>
-        <div className="flex flex-col gap-3">
-          {nav.map((item, i) => (
-            <motion.div
-              key={item.href}
-              className="motion-gpu-hint"
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={motionTransition(i * 0.08)}
-            >
-              <Link
-                href={item.href}
-                data-cursor="hover"
-                className="nav-link-syn font-strong w-fit text-[10px] font-semibold tracking-[0.2em] text-[var(--text-secondary)] hover:text-[var(--gold)]"
-              >
-                {item.label}
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-        <div>
-          <motion.p
-            className="font-mono text-[9px] uppercase tracking-[0.2em]"
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={motionTransition(0.32)}
-          >
-            <ShinyText speed={3} className="font-mono text-[9px] uppercase tracking-[0.2em]">
-              INSTAGRAM
-            </ShinyText>
-          </motion.p>
-          <motion.a
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-cursor="hover"
-            className="font-mono mt-2 inline-block text-[12px] transition-opacity hover:opacity-90"
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={motionTransition(0.4)}
-          >
-            <ShinyText speed={3} className="font-mono text-[12px]">
-              @vfxsyn
-            </ShinyText>
-          </motion.a>
-        </div>
-      </div>
-      <div className="mx-auto mt-16 flex max-w-[1400px] flex-col justify-between gap-4 border-t border-[var(--border-accent)] pt-8 sm:flex-row">
-        <p className="font-mono text-[9px] text-[var(--text-secondary)]">© 2026 VFXSYN</p>
-        <p className="font-mono text-[9px] text-[var(--text-secondary)]">Atlanta, GA</p>
-      </div>
-    </footer>
-  );
+function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationProps) {
+	const shouldReduceMotion = useReducedMotion();
+
+	if (shouldReduceMotion) {
+		return <div className={className}>{children}</div>;
+	}
+
+	return (
+		<motion.div
+			initial={{ filter: 'blur(4px)', translateY: -8, opacity: 0 }}
+			whileInView={{ filter: 'blur(0px)', translateY: 0, opacity: 1 }}
+			viewport={{ once: true, margin: "-80px" }}
+			transition={{ delay, duration: 0.8 }}
+			className={className}
+		>
+			{children}
+		</motion.div>
+	);
+}
+
+export function Footer() {
+	return (
+		<footer className="relative w-full z-[10] flex flex-col items-center justify-center border-t border-[var(--border-subtle)] bg-[radial-gradient(35%_128px_at_50%_0%,theme(backgroundColor.white/2%),transparent)] px-6 py-16 lg:py-24">
+			<div className="mx-auto w-full max-w-[1400px]">
+                <div className="bg-[var(--accent)]/10 absolute top-0 right-1/2 left-1/2 h-px w-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-sm" />
+                <div className="bg-[var(--accent)] absolute top-0 right-1/2 left-1/2 h-px w-1/4 -translate-x-1/2 -translate-y-1/2 rounded-full" />
+
+                <div className="grid w-full gap-12 xl:grid-cols-3 xl:gap-8">
+                    <AnimatedContainer className="space-y-4">
+                        <p className="hero-title-breathe text-[28px]">
+                            <ShinyText speed={3} className="font-display tracking-[0.08em] text-[var(--gold)]">
+                                VFXSYN
+                            </ShinyText>
+                        </p>
+                        <p className="font-mono mt-3 text-[10px] leading-relaxed tracking-[0.2em] text-[var(--text-secondary)]">
+                            Atlanta, GA | VFX | Color | Direction
+                        </p>
+                        <p className="text-[var(--text-secondary)] font-mono mt-8 text-[9px] tracking-[0.2em] opacity-60">
+                            © {new Date().getFullYear()} VFXSYN. All rights reserved.
+                        </p>
+                    </AnimatedContainer>
+
+                    <div className="mt-10 grid grid-cols-2 gap-8 md:grid-cols-3 xl:col-span-2 xl:mt-0 lg:ml-auto">
+                        {footerLinks.map((section, index) => (
+                            <AnimatedContainer key={section.label} delay={0.1 + index * 0.1}>
+                                <div className="mb-10 md:mb-0">
+                                    <h3 className="text-[10px] font-mono tracking-[0.2em] text-[var(--text-secondary)] opacity-80">{section.label}</h3>
+                                    <ul className="text-muted-foreground mt-6 space-y-4 text-sm font-body">
+                                        {section.links.map((link) => (
+                                            <li key={link.title}>
+                                                <Link
+                                                    href={link.href}
+                                                    data-cursor="hover"
+                                                    className="hover:text-[var(--accent-bright)] inline-flex items-center text-[var(--text-primary)] transition-all duration-300"
+                                                >
+                                                    {link.icon && <link.icon className="me-2 size-4 text-[var(--accent)] opacity-80" />}
+                                                    {link.title}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </AnimatedContainer>
+                        ))}
+                    </div>
+                </div>
+            </div>
+		</footer>
+	);
 }

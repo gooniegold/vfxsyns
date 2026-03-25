@@ -7,10 +7,10 @@ import MaintenancePage from "@/components/pages/MaintenancePage";
 import { FuturisticHUD } from "@/components/ui/FuturisticHUD";
 
 /* ─── flip to false when the revamp is done ─── */
-const MAINTENANCE_MODE = true;
+const MAINTENANCE_MODE = false;
 
 export const metadata: Metadata = {
-  title: "VFXSYN | ULTIMATE VISUAL DISRUPTION",
+  title: "VFXSYN // VISUAL ARCHITECT",
   description:
     "VFX Artist based in Atlanta, GA. High-end 3D animation, color grading, and music video visuals. 100M+ views generated. Redefining the aesthetic.",
   icons: {
