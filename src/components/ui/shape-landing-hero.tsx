@@ -149,7 +149,7 @@ function HeroGeometric({
                 <div className="max-w-3xl mx-auto text-center">
                     <motion.div
                         custom={0}
-                        variants={fadeUpVariants}
+                        variants={fadeUpVariants as any}
                         initial="hidden"
                         animate="visible"
                         className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-[var(--border-subtle)] mb-8 md:mb-12 pointer-events-auto"
@@ -162,7 +162,7 @@ function HeroGeometric({
 
                     <motion.div
                         custom={1}
-                        variants={fadeUpVariants}
+                        variants={fadeUpVariants as any}
                         initial="hidden"
                         animate="visible"
                     >
@@ -183,7 +183,7 @@ function HeroGeometric({
 
                     <motion.div
                         custom={2}
-                        variants={fadeUpVariants}
+                        variants={fadeUpVariants as any}
                         initial="hidden"
                         animate="visible"
                     >
