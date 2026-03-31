@@ -1,3 +1,5 @@
+# Website
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Environment (Shopify shop)
@@ -7,6 +9,94 @@ Copy `.env.example` to `.env.local` and set:
 - `NEXT_PUBLIC_SHOPIFY_DOMAIN` — e.g. `your-store.myshopify.com` (no `https://`)
 - `NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN` — Storefront API public token from Shopify Admin → Settings → Apps → Develop apps
 - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` — optional; reserved for future direct Stripe checkout (Shopify checkout is the live path on `/shop`)
+- `LICENSE_API_BASE_URL` — your deployed QuickDraft license Worker base URL
+- `LICENSE_ADMIN_TOKEN` — admin bearer token configured in the Worker
+- `LICENSE_ISSUE_SECRET` — shared secret required by local issue/revoke API routes
+- `ADMIN_PANEL_USERNAME` — login user for `/admin/login`
+- `ADMIN_PANEL_PASSWORD` — login password for `/admin/login`
+- `ADMIN_PANEL_SESSION_SECRET` — HMAC secret for admin session cookie
+- `RESEND_API_KEY` — Resend API key for delivery email
+- `LICENSE_EMAIL_FROM` — sender identity for key delivery emails
+
+## QuickDraft License API bridge (HWID lock)
+
+Server routes added:
+
+- `POST /api/licenses/issue`
+- `POST /api/licenses/issue-owner`
+- `POST /api/licenses/revoke`
+- `GET /api/admin/licenses/list`
+- `POST /api/admin/licenses/issue`
+- `POST /api/admin/licenses/issue-owner`
+- `POST /api/admin/licenses/revoke`
+- `POST /api/admin/licenses/fulfill`
+- `POST /api/webhooks/license-fulfill`
+
+Both routes require header:
+
+- `x-license-secret: <LICENSE_ISSUE_SECRET>`
+
+Issue payload:
+
+```json
+{
+  "email": "buyer@example.com",
+  "orderId": "ORDER-1001",
+  "maxActivations": 1
+}
+```
+
+Set `maxActivations` to `1` for strict HWID lock (single machine activation).
+
+Owner key (for you):
+
+- Endpoint: `POST /api/licenses/issue-owner`
+- Header: `x-license-secret: <LICENSE_ISSUE_SECRET>`
+- Optional body:
+
+```json
+{
+  "email": "you@yourdomain.com",
+  "label": "main-workstation"
+}
+```
+
+## Private keys panel
+
+Routes:
+
+- `/admin/login`
+- `/admin/keys`
+
+The panel lets you:
+
+- Issue customer keys
+- Issue owner keys
+- Revoke keys
+- Search/list keys
+- Auto-fulfill order: issue key + email download link to buyer
+
+## Fully automatic key + email delivery
+
+Use your checkout success webhook to call:
+
+- `POST /api/webhooks/license-fulfill`
+- Header: `x-webhook-secret: <LICENSE_WEBHOOK_SECRET>`
+- Body:
+
+```json
+{
+  "email": "buyer@example.com",
+  "orderId": "ORDER-1001",
+  "downloadUrl": "https://yourdomain.com/downloads/quickdraft.zip",
+  "maxActivations": 1
+}
+```
+
+This route automatically:
+
+1. Issues/retrieves the license key.
+2. Sends key + download link to buyer email.
 
 ## Getting Started
 

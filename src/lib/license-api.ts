@@ -1,0 +1,126 @@
+const DEFAULT_TIMEOUT_MS = 12000;
+
+function requireEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing required env var: ${name}`);
+  }
+  return value;
+}
+
+function withTimeout(signalMs = DEFAULT_TIMEOUT_MS): AbortSignal {
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), signalMs);
+  return controller.signal;
+}
+
+export type IssueLicenseInput = {
+  email: string;
+  orderId: string;
+  maxActivations?: number;
+};
+
+export type LicenseRecord = {
+  key: string;
+  email: string | null;
+  order_id: string | null;
+  status: string;
+  max_activations: number;
+  activation_count: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export async function issueLicense(input: IssueLicenseInput) {
+  const baseUrl = requireEnv("LICENSE_API_BASE_URL");
+  const adminToken = requireEnv("LICENSE_ADMIN_TOKEN");
+  const res = await fetch(`${baseUrl.replace(/\/$/, "")}/admin/issue`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${adminToken}`,
+    },
+    body: JSON.stringify({
+      email: input.email,
+      orderId: input.orderId,
+      product: "quickdraft",
+      maxActivations: input.maxActivations ?? 1,
+    }),
+    signal: withTimeout(),
+  });
+
+  const data = (await res.json()) as { ok?: boolean; key?: string; message?: string };
+  if (!res.ok || !data.ok || !data.key) {
+    throw new Error(data.message || "License issue failed");
+  }
+  return data.key;
+}
+
+export async function revokeLicense(licenseKey: string) {
+  const baseUrl = requireEnv("LICENSE_API_BASE_URL");
+  const adminToken = requireEnv("LICENSE_ADMIN_TOKEN");
+  const res = await fetch(`${baseUrl.replace(/\/$/, "")}/admin/revoke`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${adminToken}`,
+    },
+    body: JSON.stringify({ licenseKey }),
+    signal: withTimeout(),
+  });
+  const data = (await res.json()) as { ok?: boolean; message?: string };
+  if (!res.ok || !data.ok) {
+    throw new Error(data.message || "License revoke failed");
+  }
+}
+
+export async function issueOwnerLicense(input: { email?: string; label?: string }) {
+  const baseUrl = requireEnv("LICENSE_API_BASE_URL");
+  const adminToken = requireEnv("LICENSE_ADMIN_TOKEN");
+  const res = await fetch(`${baseUrl.replace(/\/$/, "")}/admin/issue-owner`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${adminToken}`,
+    },
+    body: JSON.stringify({
+      email: input.email || "owner@quickdraft.local",
+      label: input.label || "owner",
+    }),
+    signal: withTimeout(),
+  });
+
+  const data = (await res.json()) as { ok?: boolean; key?: string; message?: string };
+  if (!res.ok || !data.ok || !data.key) {
+    throw new Error(data.message || "Owner license issue failed");
+  }
+  return data.key;
+}
+
+export async function listLicenses(search = "", limit = 200): Promise<LicenseRecord[]> {
+  const baseUrl = requireEnv("LICENSE_API_BASE_URL");
+  const adminToken = requireEnv("LICENSE_ADMIN_TOKEN");
+  const url = new URL(`${baseUrl.replace(/\/$/, "")}/admin/list`);
+  if (search.trim()) {
+    url.searchParams.set("q", search.trim());
+  }
+  url.searchParams.set("limit", String(limit));
+
+  const res = await fetch(url.toString(), {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${adminToken}`,
+    },
+    signal: withTimeout(),
+  });
+
+  const data = (await res.json()) as {
+    ok?: boolean;
+    message?: string;
+    licenses?: LicenseRecord[];
+  };
+  if (!res.ok || !data.ok || !Array.isArray(data.licenses)) {
+    throw new Error(data.message || "License list failed");
+  }
+  return data.licenses;
+}
