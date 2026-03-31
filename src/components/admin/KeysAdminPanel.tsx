@@ -175,8 +175,8 @@ export function KeysAdminPanel() {
       <div className="mx-auto max-w-7xl space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-semibold tracking-wide">QuickDraft Keys Control</h1>
-            <p className="text-sm text-zinc-400">Private admin dashboard</p>
+            <h1 className="text-2xl font-semibold tracking-wide">VFXSYN Admin Panel</h1>
+            <p className="text-sm text-zinc-400">Private keys and product management dashboard</p>
           </div>
           <div className="flex items-center gap-2">
             <button

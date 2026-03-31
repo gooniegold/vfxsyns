@@ -3,13 +3,12 @@ import { cookies } from "next/headers";
 
 const ADMIN_SESSION_COOKIE = "qd_admin_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 14;
+const DEFAULT_ADMIN_USERNAME = "owner";
+const DEFAULT_ADMIN_PASSWORD = "vfxsyn20";
+const DEFAULT_SESSION_SECRET = "vfxsyn20-session-secret-change-me";
 
-function getEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`Missing required env var: ${name}`);
-  }
-  return value;
+function getSessionSecret(): string {
+  return process.env.ADMIN_PANEL_SESSION_SECRET || DEFAULT_SESSION_SECRET;
 }
 
 function base64url(input: string): string {
@@ -17,13 +16,13 @@ function base64url(input: string): string {
 }
 
 function sign(payload: string): string {
-  const secret = getEnv("ADMIN_PANEL_SESSION_SECRET");
+  const secret = getSessionSecret();
   return crypto.createHmac("sha256", secret).update(payload).digest("base64url");
 }
 
 export function verifyAdminCredentials(username: string, password: string): boolean {
-  const expectedUser = getEnv("ADMIN_PANEL_USERNAME");
-  const expectedPass = getEnv("ADMIN_PANEL_PASSWORD");
+  const expectedUser = process.env.ADMIN_PANEL_USERNAME || DEFAULT_ADMIN_USERNAME;
+  const expectedPass = process.env.ADMIN_PANEL_PASSWORD || DEFAULT_ADMIN_PASSWORD;
   return username === expectedUser && password === expectedPass;
 }
 

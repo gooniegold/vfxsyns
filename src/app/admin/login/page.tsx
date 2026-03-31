@@ -40,8 +40,8 @@ export default function AdminLoginPage() {
         onSubmit={handleSubmit}
         className="w-full max-w-md border border-white/20 bg-zinc-950 p-6 rounded-xl"
       >
-        <h1 className="text-xl font-semibold tracking-wide">QuickDraft Admin Login</h1>
-        <p className="mt-2 text-sm text-zinc-400">Private keys dashboard access</p>
+        <h1 className="text-xl font-semibold tracking-wide">VFXSYN Admin Panel</h1>
+        <p className="mt-2 text-sm text-zinc-400">Private keys and product control access</p>
 
         <label htmlFor="admin-username" className="mt-6 block text-sm text-zinc-300">
           Username
