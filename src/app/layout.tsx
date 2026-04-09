@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Oswald, Outfit, JetBrains_Mono } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { getSiteOrigin } from "@/lib/site";
 import "./globals.css";
 import { AppDock } from "@/components/layout/AppDock";
 import { SiteShell } from "@/components/layout/SiteShell";
@@ -29,6 +30,7 @@ const fontMono = JetBrains_Mono({
 const MAINTENANCE_MODE = false;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteOrigin()),
   title: "VFXSYN — Portfolio & Shop",
   description:
     "Atlanta-based VFX, color, and finishing for music videos and releases. Portfolio work plus QuickDraft tools—one-off purchase, instant download.",

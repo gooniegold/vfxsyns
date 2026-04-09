@@ -1,6 +1,7 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import { getSiteOrigin } from "@/lib/site";
 
 type FileMap = Record<string, string>;
 
@@ -42,11 +43,7 @@ export function getDiskDownloadConfig(): {
 }
 
 export function getPublicBaseUrl(): string {
-  const u = process.env.NEXT_PUBLIC_APP_URL?.trim();
-  if (u) return u.replace(/\/$/, "");
-  const v = process.env.VERCEL_URL?.trim();
-  if (v) return `https://${v.replace(/\/$/, "")}`;
-  return "";
+  return getSiteOrigin();
 }
 
 export function resolveFilePathForHandle(handle: string): string | null {
