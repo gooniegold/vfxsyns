@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Check, Copy, Download, Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 type SessionSummary = {
   ok: boolean;
@@ -53,6 +52,8 @@ export function ThankYouPage() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id")?.trim() || "";
   const sellhubRef = searchParams.get("ref")?.trim() || "";
+  /** Sellhub-style placeholders that were not replaced stay in the URL as literal [order_id]. */
+  const refIsUnreplacedTemplate = Boolean(sellhubRef && /\[|\]/.test(sellhubRef));
 
   const [data, setData] = useState<SessionSummary | null>(null);
   const [loading, setLoading] = useState(Boolean(sessionId));
@@ -98,6 +99,31 @@ export function ThankYouPage() {
         <p className="mt-3 font-body text-[15px] leading-relaxed text-[var(--text-secondary)]">
           Your order is confirmed. Digital delivery details are below.
         </p>
+
+        {refIsUnreplacedTemplate ? (
+          <div
+            className="mt-6 rounded-xl border border-amber-500/35 bg-amber-500/10 px-4 py-3 font-body text-[14px] leading-relaxed text-amber-100/95"
+            role="status"
+          >
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-amber-200/80">Redirect URL issue</p>
+            <p className="mt-2">
+              The link still contains a template like <code className="rounded bg-black/30 px-1">[order_id]</code> — your
+              storefront did not replace it with a real order id. That usually means the platform does not support those
+              brackets in the redirect field, or the placeholder name is wrong.
+            </p>
+            <p className="mt-2">
+              In Sellhub (or Sellix), set <strong>Redirect to</strong> to exactly:{" "}
+              <code className="break-all rounded bg-black/30 px-1 text-[13px]">https://vfxsyn.org/thank-you</code> (no
+              query string), save, then run a test purchase and confirm you land here after payment.
+            </p>
+          </div>
+        ) : null}
+
+        {sellhubRef && !refIsUnreplacedTemplate ? (
+          <p className="mt-6 font-mono text-[11px] text-[var(--text-dim)]">
+            Order reference: <span className="text-[var(--text-secondary)]">{sellhubRef}</span>
+          </p>
+        ) : null}
 
         {loading ? (
           <div className="mt-10 flex items-center gap-3 text-[var(--text-secondary)]">
@@ -210,12 +236,6 @@ export function ThankYouPage() {
                 <CopyField label="Confirmation email" value={email} />
               ) : null}
             </div>
-
-            {sellhubRef ? (
-              <p className="font-mono text-[11px] text-[var(--text-dim)]">
-                Reference: <span className="text-[var(--text-secondary)]">{sellhubRef}</span>
-              </p>
-            ) : null}
 
             <div className="flex flex-wrap gap-4 pt-2">
               <Link
