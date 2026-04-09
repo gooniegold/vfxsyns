@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { issueLicense } from "@/lib/license-api";
+import { issueLicense, licenseProductIdForHandle } from "@/lib/license-api";
 import { sendLicenseEmail } from "@/lib/license-email";
 
 type Body = {
@@ -7,6 +7,8 @@ type Body = {
   orderId?: string;
   downloadUrl?: string;
   maxActivations?: number;
+  product?: string;
+  productHandle?: string;
 };
 
 function isAuthorized(request: NextRequest): boolean {
@@ -32,9 +34,14 @@ export async function POST(request: NextRequest) {
   const orderId = String(body.orderId || "").trim();
   const downloadUrl = String(body.downloadUrl || "").trim();
   const maxActivations = Number(body.maxActivations || 1);
-  if (!email || !orderId || !downloadUrl) {
+  const productExplicit = String(body.product || "").trim();
+  const productHandle = String(body.productHandle || "").trim();
+  const product =
+    productExplicit ||
+    (productHandle ? licenseProductIdForHandle(productHandle) : "quickdraft");
+  if (!email || !orderId) {
     return NextResponse.json(
-      { ok: false, message: "email, orderId, and downloadUrl are required" },
+      { ok: false, message: "email and orderId are required" },
       { status: 400 }
     );
   }
@@ -44,11 +51,12 @@ export async function POST(request: NextRequest) {
       email,
       orderId,
       maxActivations: maxActivations > 0 ? Math.floor(maxActivations) : 1,
+      product,
     });
     await sendLicenseEmail({
       to: email,
       licenseKey: key,
-      downloadUrl,
+      ...(downloadUrl ? { downloadUrl } : {}),
       orderId,
     });
     return NextResponse.json({ ok: true, key, emailed: true });

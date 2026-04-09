@@ -5,6 +5,8 @@ type IssueRequestBody = {
   email?: string;
   orderId?: string;
   maxActivations?: number;
+  /** Overrides LICENSE_PRODUCT_MAP / default */
+  product?: string;
 };
 
 function isAuthorized(request: NextRequest): boolean {
@@ -29,6 +31,7 @@ export async function POST(request: NextRequest) {
   const email = String(body.email || "").trim().toLowerCase();
   const orderId = String(body.orderId || "").trim();
   const maxActivations = Number(body.maxActivations || 1);
+  const product = String(body.product || "").trim() || "quickdraft";
 
   if (!email || !orderId) {
     return NextResponse.json(
@@ -42,6 +45,7 @@ export async function POST(request: NextRequest) {
       email,
       orderId,
       maxActivations: maxActivations > 0 ? Math.floor(maxActivations) : 1,
+      product,
     });
     return NextResponse.json({ ok: true, key });
   } catch (error) {

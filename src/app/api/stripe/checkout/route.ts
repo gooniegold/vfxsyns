@@ -3,8 +3,8 @@ import {
   getMaxActivations,
   getProductName,
   getStripeClient,
-  resolveDownloadUrl,
   resolvePriceId,
+  tryResolveDownloadUrl,
 } from "@/lib/stripe-server";
 
 type Body = {
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
   try {
     const stripe = getStripeClient();
     const priceId = resolvePriceId(productHandle);
-    const downloadUrl = resolveDownloadUrl(productHandle);
+    const downloadUrl = tryResolveDownloadUrl(productHandle);
     const maxActivations = getMaxActivations();
 
     const session = await stripe.checkout.sessions.create({

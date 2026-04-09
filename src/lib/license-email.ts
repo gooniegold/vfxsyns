@@ -10,20 +10,26 @@ function requireEnv(name: string): string {
 export async function sendLicenseEmail(params: {
   to: string;
   licenseKey: string;
-  downloadUrl: string;
+  /** Hosted file URL (Stripe does not host your binary; use R2/S3/Drive link or Product metadata download_url). */
+  downloadUrl?: string;
   orderId: string;
 }) {
   const resendApiKey = requireEnv("RESEND_API_KEY");
   const from = requireEnv("LICENSE_EMAIL_FROM");
 
-  const subject = "Your QuickDraft License + Download";
+  const downloadUrl = String(params.downloadUrl || "").trim();
+  const downloadBlock = downloadUrl
+    ? `<p><a href="${downloadUrl}" style="display:inline-block;padding:10px 14px;background:#111;color:#fff;text-decoration:none;border-radius:6px">Download your files</a></p>`
+    : `<p style="color:#555">Your license is active. If a download link was not attached, check your Stripe receipt email or contact support with your order ID.</p>`;
+
+  const subject = "Your license key + download";
   const html = `
     <div style="font-family:Arial,sans-serif;line-height:1.6;color:#111">
-      <h2 style="margin:0 0 12px">QuickDraft Purchase Complete</h2>
-      <p>Thanks for your purchase. Your license key is ready:</p>
+      <h2 style="margin:0 0 12px">Purchase complete</h2>
+      <p>Thanks for your purchase. Your license key:</p>
       <p style="font-size:18px;font-weight:700;letter-spacing:1px">${params.licenseKey}</p>
       <p><strong>Order:</strong> ${params.orderId}</p>
-      <p><a href="${params.downloadUrl}" style="display:inline-block;padding:10px 14px;background:#111;color:#fff;text-decoration:none;border-radius:6px">Download QuickDraft</a></p>
+      ${downloadBlock}
       <p style="margin-top:16px;color:#555">Keep this key private. It is HWID-locked by default.</p>
     </div>
   `;

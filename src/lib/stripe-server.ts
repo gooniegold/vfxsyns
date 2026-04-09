@@ -72,6 +72,15 @@ export function resolveDownloadUrl(productHandle: string): string {
   );
 }
 
+/** Same as resolveDownloadUrl but returns empty string instead of throwing (webhook fallbacks). */
+export function tryResolveDownloadUrl(productHandle: string): string {
+  try {
+    return resolveDownloadUrl(productHandle);
+  } catch {
+    return "";
+  }
+}
+
 export function getMaxActivations(): number {
   const raw = Number(process.env.LICENSE_MAX_ACTIVATIONS || "1");
   if (!Number.isFinite(raw) || raw <= 0) return 1;

@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { issueLicense } from "@/lib/license-api";
+import { issueLicense, licenseProductIdForHandle } from "@/lib/license-api";
 import { requireAdminOrResponse } from "@/lib/admin-route-auth";
 
 type Body = {
   email?: string;
   orderId?: string;
   maxActivations?: number;
+  product?: string;
+  productHandle?: string;
 };
 
 export async function POST(request: NextRequest) {
@@ -22,6 +24,11 @@ export async function POST(request: NextRequest) {
   const email = String(body.email || "").trim().toLowerCase();
   const orderId = String(body.orderId || "").trim();
   const maxActivations = Number(body.maxActivations || 1);
+  const productExplicit = String(body.product || "").trim();
+  const productHandle = String(body.productHandle || "").trim();
+  const product =
+    productExplicit ||
+    (productHandle ? licenseProductIdForHandle(productHandle) : "quickdraft");
   if (!email || !orderId) {
     return NextResponse.json({ ok: false, message: "email and orderId are required" }, { status: 400 });
   }
@@ -31,6 +38,7 @@ export async function POST(request: NextRequest) {
       email,
       orderId,
       maxActivations: maxActivations > 0 ? Math.floor(maxActivations) : 1,
+      product,
     });
     return NextResponse.json({ ok: true, key });
   } catch (error) {

@@ -10,8 +10,9 @@ export function isStripeCheckoutEnabled(): boolean {
 }
 
 export async function createStripeCheckout(productHandle: string): Promise<string> {
-  const successUrl = `${window.location.origin}/shop?checkout=success`;
-  const cancelUrl = `${window.location.origin}/shop?checkout=cancel`;
+  const origin = window.location.origin;
+  const successUrl = `${origin}/thank-you?session_id={CHECKOUT_SESSION_ID}`;
+  const cancelUrl = `${origin}/shop?checkout=cancel`;
   const response = await fetch("/api/stripe/checkout", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

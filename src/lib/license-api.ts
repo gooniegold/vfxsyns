@@ -19,7 +19,28 @@ export type IssueLicenseInput = {
   email: string;
   orderId: string;
   maxActivations?: number;
+  /**
+   * License worker `product` field (must match your Worker / license API).
+   * Use `licenseProductIdForHandle` from Stripe `productHandle`, or set LICENSE_PRODUCT_MAP.
+   */
+  product?: string;
 };
+
+/** Maps shop handles (e.g. quickdraft-pro) → worker product ids. See LICENSE_PRODUCT_MAP in .env.example */
+export function licenseProductIdForHandle(handle: string): string {
+  const raw = process.env.LICENSE_PRODUCT_MAP?.trim();
+  if (!raw) return "quickdraft";
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return "quickdraft";
+    const key = handle.trim().toLowerCase();
+    const v = (parsed as Record<string, unknown>)[key];
+    if (typeof v === "string" && v.trim()) return v.trim();
+  } catch {
+    return "quickdraft";
+  }
+  return "quickdraft";
+}
 
 export type LicenseRecord = {
   key: string;
@@ -44,7 +65,7 @@ export async function issueLicense(input: IssueLicenseInput) {
     body: JSON.stringify({
       email: input.email,
       orderId: input.orderId,
-      product: "quickdraft",
+      product: input.product ?? "quickdraft",
       maxActivations: input.maxActivations ?? 1,
     }),
     signal: withTimeout(),

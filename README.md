@@ -130,7 +130,7 @@ Webhook event supported:
 
 - `checkout.session.completed`
 
-When completed, the server:
+<!-- When completed, the server: -->
 
 1. Issues/retrieves license key.
 2. Emails key + mapped download URL to the buyer email.

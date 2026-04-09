@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { issueLicense } from "@/lib/license-api";
+import { issueLicense, licenseProductIdForHandle } from "@/lib/license-api";
 import { sendLicenseEmail } from "@/lib/license-email";
+import { buildDiskDownloadUrl } from "@/lib/disk-download";
 import {
   getMaxActivations,
   getStripePriceMap,
   getStripeClient,
   getWebhookSecret,
-  resolveDownloadUrl,
+  tryResolveDownloadUrl,
 } from "@/lib/stripe-server";
 
 export const runtime = "nodejs";
@@ -21,60 +22,107 @@ function reversePriceMap(): Record<string, string> {
   return byPriceId;
 }
 
-async function resolveProductHandleFromSession(
+/**
+ * Stripe does not host your downloadable files. Put the file on R2, S3, Vercel Blob, etc.,
+ * then set Product metadata key `download_url` in the Dashboard, or use STRIPE_DOWNLOAD_URL_MAP.
+ */
+async function firstLineProduct(
   stripe: Stripe,
   sessionId: string,
-  metadata: Record<string, string | undefined>
-): Promise<string> {
-  const direct = String(metadata.productHandle || "").trim().toLowerCase();
-  if (direct) return direct;
+): Promise<{ product: Stripe.Product | null; priceId: string }> {
+  const lineItems = await stripe.checkout.sessions.listLineItems(sessionId, {
+    limit: 8,
+    expand: ["data.price.product"],
+  });
 
-  const map = reversePriceMap();
-  const lineItems = await stripe.checkout.sessions.listLineItems(sessionId, { limit: 5 });
-  for (let i = 0; i < lineItems.data.length; i += 1) {
-    const priceId = String(lineItems.data[i]?.price?.id || "").trim();
-    const handle = map[priceId];
-    if (handle) return handle;
+  for (const item of lineItems.data) {
+    const price = item.price;
+    if (!price || typeof price === "string") continue;
+    if ("deleted" in price && price.deleted) continue;
+
+    const priceId = String(price.id || "").trim();
+    const prod = price.product;
+
+    if (prod && typeof prod === "object" && !("deleted" in prod && (prod as { deleted?: boolean }).deleted)) {
+      return { product: prod as Stripe.Product, priceId };
+    }
+    if (typeof prod === "string") {
+      try {
+        const p = await stripe.products.retrieve(prod);
+        return { product: p, priceId };
+      } catch {
+        continue;
+      }
+    }
   }
-  return "";
+
+  return { product: null, priceId: "" };
 }
 
-async function handleCheckoutCompleted(stripe: Stripe, session: {
-  id: string;
-  customer_details?: { email?: string | null };
-  metadata?: Record<string, string | undefined> | null;
-}) {
+async function handleCheckoutCompleted(
+  stripe: Stripe,
+  session: {
+    id: string;
+    customer_details?: { email?: string | null };
+    metadata?: Record<string, string | undefined> | null;
+  },
+) {
   const email = String(session.customer_details?.email || "").trim().toLowerCase();
   if (!email) return;
 
   const metadata = session.metadata || {};
-  const productHandle = await resolveProductHandleFromSession(stripe, session.id, metadata);
-  const metadataDownloadUrl = String(metadata.downloadUrl || "").trim();
-  let downloadUrl = metadataDownloadUrl;
-  if (!downloadUrl) {
-    try {
-      downloadUrl = resolveDownloadUrl(productHandle || "quickdraft_free");
-    } catch {
-      downloadUrl = "";
-    }
-  }
-  if (!downloadUrl) return;
+  const { product: stripeProduct, priceId } = await firstLineProduct(stripe, session.id);
 
-  const maxRaw = Number(metadata.maxActivations || "");
-  const maxActivations =
-    Number.isFinite(maxRaw) && maxRaw > 0 ? Math.floor(maxRaw) : getMaxActivations();
+  let productHandle = String(metadata.productHandle || "").trim().toLowerCase();
+  if (!productHandle && priceId) {
+    productHandle = reversePriceMap()[priceId] || "";
+  }
+  if (!productHandle && stripeProduct?.metadata) {
+    productHandle = String(
+      stripeProduct.metadata.product_handle || stripeProduct.metadata.handle || "",
+    )
+      .trim()
+      .toLowerCase();
+  }
+
+  let downloadUrl = String(metadata.downloadUrl || "").trim();
+  if (!downloadUrl && stripeProduct?.metadata?.download_url) {
+    downloadUrl = String(stripeProduct.metadata.download_url).trim();
+  }
+  if (!downloadUrl && productHandle) {
+    const disk = buildDiskDownloadUrl(productHandle, session.id);
+    if (disk) downloadUrl = disk;
+  }
+  if (!downloadUrl && productHandle) {
+    downloadUrl = tryResolveDownloadUrl(productHandle);
+  }
+  if (!downloadUrl) {
+    downloadUrl = String(process.env.STRIPE_DEFAULT_DOWNLOAD_URL || "").trim();
+  }
+
+  let maxActivations = getMaxActivations();
+  const metaMax = Number(metadata.maxActivations || "");
+  if (Number.isFinite(metaMax) && metaMax > 0) {
+    maxActivations = Math.floor(metaMax);
+  } else if (stripeProduct?.metadata?.max_activations) {
+    const n = Number(stripeProduct.metadata.max_activations);
+    if (Number.isFinite(n) && n > 0) maxActivations = Math.floor(n);
+  }
+
+  const licenseProduct = licenseProductIdForHandle(productHandle || "quickdraft");
 
   const licenseKey = await issueLicense({
     email,
     orderId: session.id,
     maxActivations,
+    product: licenseProduct,
   });
 
   await sendLicenseEmail({
     to: email,
     orderId: session.id,
     licenseKey,
-    downloadUrl,
+    ...(downloadUrl ? { downloadUrl } : {}),
   });
 }
 
@@ -88,7 +136,12 @@ export async function POST(request: NextRequest) {
 
   try {
     const stripe = getStripeClient();
-    const event = stripe.webhooks.constructEvent(rawBody, signature, getWebhookSecret());
+    let event: Stripe.Event;
+    try {
+      event = stripe.webhooks.constructEvent(rawBody, signature, getWebhookSecret());
+    } catch {
+      return NextResponse.json({ ok: false, message: "Invalid signature" }, { status: 400 });
+    }
 
     if (event.type === "checkout.session.completed") {
       await handleCheckoutCompleted(stripe, event.data.object as never);
@@ -97,6 +150,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Webhook processing failed";
-    return NextResponse.json({ ok: false, message }, { status: 400 });
+    return NextResponse.json({ ok: false, message }, { status: 500 });
   }
 }
