@@ -32,8 +32,9 @@ import { useMarqueeScrollSpeed } from "@/hooks/useMarqueeScrollSpeed";
 import { cn } from "@/lib/utils";
 import { FeaturedProductCard } from "@/components/home/FeaturedProductCard";
 import { Component as AboutHoverCard } from "@/components/ui/avatar-hover-card";
+import { ReviewsStreamMarquee } from "@/components/sections/ReviewsStreamMarquee";
 
-const MARQUEE = ["ATL", "VFX", "COLOR", "MUSIC VIDEO", "3D", "VFXSYN", "SHOP", "AUTO-MVE"] as const;
+const MARQUEE = ["ATL", "VFX", "COLOR", "MUSIC VIDEO", "3D", "VFXSYN", "SHOP", "AUTOMVE"] as const;
 
 const FEATURED = [
   { title: "JAKK MOVE", category: "MUSIC VIDEO", videoSrc: LAZERDIM_JAKKMOVE, artist: "LAZERDIM700" },
@@ -47,7 +48,7 @@ function HeroSection() {
       <div className="mx-auto grid max-w-[1400px] min-h-[min(100svh,920px)] gap-10 lg:grid-cols-[1fr_min(420px,38vw)] lg:items-center lg:gap-14">
         <div className="flex flex-col justify-center">
           <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-[var(--accent)]">
-            Atlanta · post house
+            Atlanta post house
           </p>
           <h1 className="font-display mt-5 text-[clamp(2.75rem,8vw,5.5rem)] leading-[0.92] tracking-[0.02em] text-[var(--text-primary)]">
             VISUAL
@@ -55,21 +56,21 @@ function HeroSection() {
             <span className="text-[var(--accent)]">FINISHING</span>
           </h1>
           <p className="mt-6 max-w-md font-body text-[15px] leading-relaxed text-[var(--text-secondary)] md:text-[16px]">
-            Portfolio-first site with a real shop lane. Same team: color, comp, CG when it counts—and{" "}
-            <span className="text-[var(--text-primary)]">AUTO-MVE</span> when we ship the plugin line.
+            Work on the wall, tools in the shop. Color, comp, and CG when the piece needs it, plus{" "}
+            <span className="text-[var(--text-primary)]">VFXSYN AUTOMVE</span> when the plugin ships.
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <Link
               href="/portfolio"
               data-cursor="hover"
-              className="inline-flex min-h-[48px] items-center justify-center rounded-md bg-[var(--accent)] px-8 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#0a0a0c] transition hover:bg-[var(--accent-bright)]"
+              className="syn-glow-purple inline-flex min-h-[48px] items-center justify-center rounded-md bg-[var(--accent)] px-8 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#0b0614] transition duration-500 hover:bg-[var(--accent-bright)]"
             >
               View work
             </Link>
             <Link
               href="/shop"
               data-cursor="hover"
-              className="inline-flex min-h-[48px] items-center justify-center rounded-md border border-[var(--border-subtle)] bg-[var(--bg-card)] px-8 font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--text-primary)] transition hover:border-[var(--border-accent)]"
+              className="inline-flex min-h-[48px] items-center justify-center rounded-md border border-[var(--border-subtle)] bg-[var(--bg-card)] px-8 font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--text-primary)] transition duration-500 hover:border-[var(--border-accent)] hover:shadow-[0_0_30px_rgba(168,85,247,0.15)]"
             >
               Shop
             </Link>
@@ -95,7 +96,7 @@ function HeroSection() {
 
 function MarqueeStrip() {
   const prefersReducedMotion = useReducedMotion();
-  const marqueeSec = useMarqueeScrollSpeed(36);
+  const marqueeSec = useMarqueeScrollSpeed(52);
   return (
     <ScrollReveal>
       <section
@@ -175,7 +176,7 @@ function StatsBar() {
                     </span>
                   </GradientText>
                 ),
-                label: "Shipped pieces",
+                label: "Videos done",
               },
               {
                 el: (
@@ -309,7 +310,7 @@ function FeaturedWorkSection() {
               />
             </motion.h2>
             <p className="mt-4 font-body text-[15px] text-[var(--text-secondary)]">
-              Three recent pieces—full grid lives on the work page.
+              Three recent pieces. Full grid lives on the work page.
             </p>
           </div>
 
@@ -350,7 +351,7 @@ function AboutSection() {
               imageSrc={ABOUT_ME_PHOTO}
               name="VFXSYN"
               username="vfxsyn"
-              description="VFX, color, finishing—music work first, brand when it fits."
+              description="VFX, color, finishing. Music work first, brand when it fits."
               buttonText="Open portfolio"
               variant="glass"
               size="xl"
@@ -366,8 +367,8 @@ function AboutSection() {
             </h2>
             <div className="mt-8 space-y-5 font-body text-[15px] leading-relaxed text-[var(--text-secondary)]">
               <p>
-                Remote-friendly, Atlanta-based. We care about how the grade sits in the chorus and whether the comp survives
-                full-screen—not deck slides.
+                Remote friendly, Atlanta based. We care how the grade sits in the chorus and whether the comp survives full
+                screen, not deck slides.
               </p>
               <div className="grid grid-cols-2 gap-10 pt-2">
                 <div>
@@ -404,18 +405,18 @@ function ShopTeaserStrip() {
   return (
     <ScrollReveal>
       <section className="relative z-[1] px-5 py-20 md:px-10">
-        <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 rounded-2xl border border-[var(--border-subtle)] bg-[linear-gradient(135deg,rgba(255,78,54,0.08),rgba(99,102,241,0.06))] p-10 md:flex-row md:items-center md:p-14">
+        <div className="syn-glow-purple mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-8 rounded-2xl border border-[var(--border-subtle)] bg-[linear-gradient(135deg,rgba(168,85,247,0.12),rgba(76,29,149,0.08))] p-10 md:flex-row md:items-center md:p-14">
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[var(--text-dim)]">Digital</p>
-            <h3 className="font-display mt-2 text-[clamp(1.75rem,4vw,2.5rem)] tracking-[0.02em]">QuickDraft + packs</h3>
+            <h3 className="font-display mt-2 text-[clamp(1.75rem,4vw,2.5rem)] tracking-[0.02em]">QuickDraft plus packs</h3>
             <p className="mt-3 max-w-xl font-body text-[14px] text-[var(--text-secondary)]">
-              Licenses, checkout, downloads—AUTO-MVE will live here too when it ships.
+              Licenses, checkout, downloads. VFXSYN AUTOMVE shows up here when it ships.
             </p>
           </div>
           <Link
             href="/shop"
             data-cursor="hover"
-            className="inline-flex min-h-[52px] shrink-0 items-center justify-center rounded-md border border-[var(--border-accent)] bg-[var(--bg-elevated)] px-10 font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--text-primary)] transition hover:bg-[var(--accent)] hover:text-[#0a0a0c]"
+            className="inline-flex min-h-[52px] shrink-0 items-center justify-center rounded-md border border-[var(--border-accent)] bg-[var(--bg-elevated)] px-10 font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--text-primary)] transition duration-500 hover:bg-[var(--accent)] hover:text-[#0b0614]"
           >
             Enter shop
           </Link>
@@ -434,6 +435,7 @@ export function HomeContent() {
       <MarqueeLogos />
       <MarqueeStrip />
       <StatsBar />
+      <ReviewsStreamMarquee />
       <FeaturedWorkSection />
       <AboutSection />
       <CapabilitiesBento />

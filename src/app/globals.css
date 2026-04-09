@@ -11,36 +11,36 @@
 }
 
 :root {
-  /* ─── VFXSYN v3 — ember / ink (next/font sets --font-display, --font-ui, --font-mono on html) ─── */
-  --bg-base: #070708;
-  --bg-elevated: #101018;
-  --bg-card: rgba(18, 18, 26, 0.88);
+  /* ─── VFXSYN violet / ink (next/font sets fonts on html) ─── */
+  --bg-base: #06040f;
+  --bg-elevated: #0f0a1a;
+  --bg-card: rgba(22, 16, 38, 0.82);
 
-  --accent: #ff4e33;
-  --accent-secondary: #6366f1;
-  --accent-bright: #ff7a66;
-  --accent-dim: rgba(255, 78, 54, 0.14);
-  --accent-glow: rgba(255, 78, 54, 0.35);
+  --accent: #a855f7;
+  --accent-secondary: #c084fc;
+  --accent-bright: #d8b4fe;
+  --accent-dim: rgba(168, 85, 247, 0.18);
+  --accent-glow: rgba(192, 132, 252, 0.45);
 
-  --gold: #e8a954;
-  --gold-bright: #f0c47a;
-  --gold-dim: rgba(232, 169, 84, 0.18);
-  --gold-glow: rgba(232, 169, 84, 0.28);
+  --gold: #e9d5ff;
+  --gold-bright: #f5f0ff;
+  --gold-dim: rgba(233, 213, 255, 0.2);
+  --gold-glow: rgba(216, 180, 254, 0.35);
 
-  --text-primary: #f4f1ec;
-  --text-secondary: rgba(230, 226, 218, 0.88);
-  --text-dim: rgba(200, 195, 186, 0.55);
+  --text-primary: #f5f0ff;
+  --text-secondary: rgba(230, 220, 250, 0.88);
+  --text-dim: rgba(180, 170, 210, 0.55);
 
-  --border-subtle: rgba(255, 255, 255, 0.09);
-  --border-accent: rgba(255, 78, 54, 0.35);
-  --border-gold: rgba(232, 169, 84, 0.28);
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-accent: rgba(168, 85, 247, 0.45);
+  --border-gold: rgba(216, 180, 254, 0.3);
 
-  --glass-bg: rgba(12, 12, 18, 0.78);
-  --glass-blur: blur(20px) saturate(125%);
-  --glass-edge: 1px solid rgba(255, 255, 255, 0.08);
-  --glass-elev-shadow: 0 28px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --glass-bg: rgba(14, 10, 28, 0.78);
+  --glass-blur: blur(22px) saturate(140%);
+  --glass-edge: 1px solid rgba(168, 85, 247, 0.15);
+  --glass-elev-shadow: 0 28px 90px rgba(0, 0, 0, 0.55), 0 0 60px rgba(168, 85, 247, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
-  --hud-line: rgba(255, 78, 54, 0.12);
+  --hud-line: rgba(168, 85, 247, 0.15);
   --hud-text: var(--accent);
 
   --font-hero: var(--font-display), Oswald, ui-sans-serif, system-ui, sans-serif;
@@ -108,10 +108,10 @@ html {
 
 body {
   background:
-    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(255, 78, 54, 0.12), transparent 42%),
-    radial-gradient(ellipse 70% 45% at 90% 0%, rgba(99, 102, 241, 0.1), transparent 40%),
-    radial-gradient(circle at 50% 120%, rgba(232, 169, 84, 0.06), transparent 45%),
-    linear-gradient(180deg, #050506 0%, #0a0a10 45%, #070708 100%);
+    radial-gradient(ellipse 90% 60% at 8% -15%, rgba(168, 85, 247, 0.18), transparent 45%),
+    radial-gradient(ellipse 70% 50% at 92% 5%, rgba(139, 92, 246, 0.14), transparent 42%),
+    radial-gradient(circle at 50% 110%, rgba(76, 29, 149, 0.2), transparent 50%),
+    linear-gradient(180deg, #04020a 0%, #0c0618 48%, #06040f 100%);
   color: var(--text-primary);
   font-family: var(--font-ui), Outfit, ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
@@ -138,8 +138,37 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: -1;
-  background: radial-gradient(ellipse 120% 80% at 50% 100%, rgba(255, 78, 54, 0.04), transparent 55%);
+  background: radial-gradient(ellipse 120% 80% at 50% 100%, rgba(168, 85, 247, 0.07), transparent 55%);
   opacity: 1;
+}
+
+/* Glow utilities */
+.syn-glow-purple {
+  box-shadow:
+    0 0 40px rgba(168, 85, 247, 0.2),
+    0 0 80px rgba(139, 92, 246, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.syn-review-pill {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, border-color 0.5s ease;
+}
+
+.syn-review-pill:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 0 50px rgba(168, 85, 247, 0.25),
+    0 20px 50px rgba(0, 0, 0, 0.35);
+  border-color: rgba(168, 85, 247, 0.35);
+}
+
+@keyframes syn-review-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @media (pointer: fine) {
@@ -1243,8 +1272,8 @@ html.syn-home-snap {
 }
 
 .syn-card-premium:hover {
-  border-color: rgba(255, 78, 54, 0.4);
-  box-shadow: var(--glass-elev-shadow), 0 0 48px rgba(255, 78, 54, 0.1);
+  border-color: rgba(168, 85, 247, 0.45);
+  box-shadow: var(--glass-elev-shadow), 0 0 56px rgba(168, 85, 247, 0.18);
 }
 
 .syn-card-premium::before {
@@ -1252,7 +1281,7 @@ html.syn-home-snap {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(255,78,54,0.07) 0%, rgba(99,102,241,0.05) 45%, transparent 65%);
+  background: linear-gradient(135deg, rgba(168,85,247,0.1) 0%, rgba(139,92,246,0.06) 45%, transparent 65%);
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;

@@ -22,7 +22,7 @@ const STEPS = [
   {
     num: "03",
     title: "BUILD",
-    desc: "Comp, grade, CG—whatever the timeline calls for.",
+    desc: "Comp, grade, CG, whatever the timeline calls for.",
     icon: Zap,
   },
   {

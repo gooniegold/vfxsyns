@@ -9,7 +9,7 @@ export function SoftAuroraBG() {
         zIndex: 0,
         pointerEvents: "none",
         overflow: "hidden",
-        background: "#070708",
+        background: "#06040f",
       }}
       aria-hidden
     >
@@ -21,7 +21,7 @@ export function SoftAuroraBG() {
           top: "-100px",
           left: "-200px",
           borderRadius: "50%",
-          background: "radial-gradient(ellipse, rgba(255,78,54,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse, rgba(168,85,247,0.14) 0%, transparent 70%)",
           filter: "blur(80px)",
           animation: "aurora1 9s ease-in-out infinite alternate",
         }}
@@ -34,7 +34,7 @@ export function SoftAuroraBG() {
           top: "30%",
           right: "-150px",
           borderRadius: "50%",
-          background: "radial-gradient(ellipse, rgba(99,102,241,0.1) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse, rgba(139,92,246,0.12) 0%, transparent 70%)",
           filter: "blur(100px)",
           animation: "aurora2 12s ease-in-out infinite alternate-reverse",
         }}
@@ -47,7 +47,7 @@ export function SoftAuroraBG() {
           bottom: "-100px",
           left: "20%",
           borderRadius: "50%",
-          background: "radial-gradient(ellipse, rgba(232,169,84,0.07) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse, rgba(216,180,254,0.08) 0%, transparent 70%)",
           filter: "blur(90px)",
           animation: "aurora3 10s ease-in-out infinite alternate",
         }}

@@ -17,9 +17,9 @@ export const ScrollReveal = forwardRef<
     <motion.div
       ref={ref}
       className={cn("motion-gpu-hint", className)}
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-80px" }}
+      initial={{ opacity: 0, y: 14 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
       transition={{ ...MOTION_TRANSITION, delay }}
       {...rest}
     >

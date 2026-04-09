@@ -74,7 +74,7 @@ function HeroGeometric({
     badge = "PORTFOLIO",
     title1 = "SELECTED",
     title2 = "WORK",
-    tagline = "VFX, color, and finishing—scroll for full pieces.",
+    tagline = "VFX, color, and finishing. Scroll for full pieces.",
     className,
 }: {
     badge?: string;

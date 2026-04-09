@@ -10,7 +10,7 @@ const ITEMS = [
   {
     icon: Zap,
     title: "PROOF IN THE CUT",
-    description: "Reels and uploads you can scrub before you book—no mystery reel.",
+    description: "Reels and uploads you can scrub before you book. No mystery reel.",
   },
   {
     icon: Music,
@@ -70,7 +70,7 @@ export function WhyChooseUsSection({ id = "why" }: { id?: string }) {
                     STRAIGHT <span className="text-[var(--accent)]">TALK</span>
                 </h2>
                 <p className="text-[var(--text-secondary)] font-body mx-auto max-w-lg text-[14px] text-balance md:text-[15px] leading-relaxed">
-                    Fewer buzzwords, clearer deliverables—whether you hire the edit or buy a tool.
+                    Fewer buzzwords, clearer deliverables, whether you hire the edit or buy a tool.
                 </p>
             </AnimatedContainer>
 

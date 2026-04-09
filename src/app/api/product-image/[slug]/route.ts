@@ -15,6 +15,9 @@ function isMatch(fileName: string, slug: string): boolean {
   const s = slug.toLowerCase();
   if (s === "free") return n.includes("quickdraft") && n.includes("free");
   if (s === "pro") return n.includes("quickdraft") && n.includes("pro");
+  if (s === "automve" || s === "vfxsyn-automve") {
+    return n.includes("quickdraft") && n.includes("pro");
+  }
   return false;
 }
 

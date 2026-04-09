@@ -7,7 +7,7 @@ const capabilities: BentoItem[] = [
     {
         title: "3D & simulation",
         meta: "BLENDER / MARVELOUS",
-        description: "Shot CG, cloth, and simple sims when the concept needs it—not by default.",
+        description: "Shot CG, cloth, and simple sims when the concept needs it, not by default.",
         icon: <Box className="w-5 h-5 text-[var(--accent)]" />,
         status: "CG",
         tags: ["CGI", "Physics", "Blender"],
@@ -17,7 +17,7 @@ const capabilities: BentoItem[] = [
     {
         title: "Color",
         meta: "RESOLVE",
-        description: "Commercial polish or aggressive music-video looks—matched to your references.",
+        description: "Commercial polish or aggressive music video looks, matched to your references.",
         icon: <Aperture className="w-5 h-5 text-indigo-400" />,
         status: "Grade",
         tags: ["Look Dev", "Cinematic"],

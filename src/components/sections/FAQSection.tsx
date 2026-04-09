@@ -17,7 +17,7 @@ const FAQS = [
   },
   {
     q: "What do you cut on?",
-    a: "After Effects, Blender, Premiere, Resolve, Marvelous Designer—depends on the job.",
+    a: "After Effects, Blender, Premiere, Resolve, Marvelous Designer. Depends on the job.",
   },
   {
     q: "How fast can you turn something around?",
@@ -25,7 +25,7 @@ const FAQS = [
   },
   {
     q: "Will asset packs work in my NLE?",
-    a: "Packs ship as ProRes/MOV plates—Premiere, After Effects, Resolve, etc.",
+    a: "Packs ship as ProRes or MOV plates. Premiere, After Effects, Resolve, whatever you cut on.",
   },
   {
     q: "Commercial use?",
@@ -33,7 +33,7 @@ const FAQS = [
   },
   {
     q: "Do you only work locally?",
-    a: "No—most projects are remote; Atlanta is home base.",
+    a: "No. Most projects are remote. Atlanta is home base.",
   },
 ];
 

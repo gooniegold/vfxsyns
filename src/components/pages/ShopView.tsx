@@ -33,9 +33,21 @@ type ManualProduct = {
 
 const MANUAL_PRODUCTS: ManualProduct[] = [
   {
+    id: "vfxsyn-automve",
+    title: "VFXSYN AUTOMVE",
+    description:
+      "Automatic motion for music videos: shakes, zoom outs, punch ins, and hit stops that follow your audio so you spend less time keyframing.",
+    handle: "vfxsyn-automve",
+    priceLabel: "COMING SOON",
+    imagePath: "/api/product-image/automve",
+    badge: "PLUGIN",
+    comingSoon: true,
+    mediaFit: "cover",
+  },
+  {
     id: "quickdraft-free",
     title: "QuickDraft Free",
-    description: "Low-res review exports with watermark locked on—good for client passes.",
+    description: "Low res review exports with watermark locked on. Good for client passes.",
     handle: "quickdraft-free",
     priceLabel: "FREE",
     imagePath: "/api/product-image/free",
@@ -114,9 +126,9 @@ function ProductMedia({
         />
       ) : null}
       {failed ? (
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_12%,rgba(36,210,155,0.22),transparent_32%),radial-gradient(circle_at_82%_24%,rgba(112,216,255,0.16),transparent_28%),linear-gradient(135deg,#07090f_0%,#101520_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_12%,rgba(168,85,247,0.2),transparent_32%),radial-gradient(circle_at_82%_24%,rgba(76,29,149,0.14),transparent_28%),linear-gradient(135deg,#07060f_0%,#120a1c_100%)]" />
       ) : (
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_12%,rgba(36,210,155,0.12),transparent_35%),radial-gradient(circle_at_82%_24%,rgba(112,216,255,0.1),transparent_30%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_12%,rgba(168,85,247,0.14),transparent_35%),radial-gradient(circle_at_82%_24%,rgba(139,92,246,0.1),transparent_30%)]" />
       )}
       <span className="font-mono absolute left-4 top-4 z-[4] border border-[var(--border-accent)] bg-[rgba(10,12,18,0.82)] px-3 py-1.5 text-[8px] font-bold uppercase tracking-[0.3em] text-[var(--accent-bright)] backdrop-blur-md">
         {badge}
@@ -350,7 +362,7 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
 
           {showEmpty ? (
             <div className="py-24 text-center font-body text-[var(--text-secondary)]">
-              No products yet — check back soon.
+              No products yet. Check back soon.
             </div>
           ) : null}
 
@@ -471,7 +483,7 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
             <HoverSplitHeading text="CUSTOM WORK" speed={3} className="font-display text-[clamp(56px,8vw,120px)]" />
           </h2>
           <p className="font-body mx-auto mt-4 max-w-lg text-[14px] text-[var(--text-secondary)]">
-            Not everything lives in the store—DM for full-post packages and one-off shots.
+            Not everything lives in the store. DM for full post packages and one off shots.
           </p>
           <a
             href={INSTAGRAM_URL}
