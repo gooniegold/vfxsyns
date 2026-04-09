@@ -18,6 +18,7 @@ import {
 import { INSTAGRAM_URL } from "@/lib/constants";
 import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { cn } from "@/lib/utils";
+import { PortfolioVideoPreview } from "@/components/portfolio/PortfolioVideoPreview";
 
 /** Tab labels; project `category` must use these exact strings (indices 1–3) for filtering. */
 const FILTERS: readonly PortfolioFilter[] = [
@@ -83,23 +84,11 @@ function GridCard({
             className="group relative w-full text-left"
           >
             <div className="hud-scanline relative w-full overflow-hidden bg-[#030308]">
-              <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden" }}>
-                <video
+              <div className="relative w-full overflow-hidden [aspect-ratio:16/9]">
+                <PortfolioVideoPreview
                   src={p.videoSrc}
                   title={`${p.title} preview`}
-                  muted
-                  loop
-                  playsInline
-                  preload="none"
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    pointerEvents: "none",
-                    scale: "1.05",
-                  }}
+                  playInView
                 />
               </div>
               <div className="absolute left-4 top-4 z-[4] flex items-center gap-2">
@@ -195,7 +184,7 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
 
   return (
     <div className="relative z-[5] text-[var(--text-primary)]">
-      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_16%_10%,rgba(36,210,155,0.14),transparent_26%),radial-gradient(circle_at_84%_20%,rgba(112,216,255,0.1),transparent_22%)]" />
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_16%_10%,rgba(168,85,247,0.16),transparent_28%),radial-gradient(circle_at_84%_20%,rgba(139,92,246,0.12),transparent_24%)]" />
       <PortfolioPageBackground activeFilter={filter} suppressAmbientAnimations={suppressAmbientAnimations} />
 
       {pageHeader}
@@ -247,8 +236,9 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
               muted
               loop
               playsInline
+              autoPlay
               controls
-              className="absolute inset-0 h-full w-full object-cover"
+              className="pointer-events-auto absolute inset-0 h-full w-full object-cover"
               title="Showreel"
             />
           ) : (

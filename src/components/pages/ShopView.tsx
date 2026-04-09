@@ -228,11 +228,11 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
 
   return (
     <div className="relative bg-[var(--bg-base)]">
-      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_15%_10%,rgba(36,210,155,0.18),transparent_28%),radial-gradient(circle_at_80%_26%,rgba(112,216,255,0.14),transparent_24%)]" />
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_15%_10%,rgba(168,85,247,0.2),transparent_30%),radial-gradient(circle_at_80%_26%,rgba(76,29,149,0.16),transparent_26%),radial-gradient(circle_at_50%_90%,rgba(139,92,246,0.08),transparent_40%)]" />
       {pageHeader}
 
       <section className="relative z-[1] px-6 pb-8 md:px-10">
-        <div className="mx-auto max-w-[1400px] overflow-hidden rounded-[24px] border border-[var(--border-accent)] bg-[rgba(8,12,18,0.85)] shadow-[0_30px_90px_rgba(0,0,0,0.5)]">
+        <div className="mx-auto max-w-[1400px] overflow-hidden rounded-[24px] border border-[var(--border-accent)] bg-[linear-gradient(145deg,rgba(22,16,38,0.92),rgba(12,8,22,0.88))] shadow-[0_30px_90px_rgba(0,0,0,0.5),0_0_80px_rgba(168,85,247,0.06)]">
           <div className="grid grid-cols-1 gap-8 p-6 md:grid-cols-[1fr_1fr] md:items-center md:p-10">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--accent-bright)]">

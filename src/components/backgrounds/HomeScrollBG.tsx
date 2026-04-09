@@ -7,27 +7,43 @@ import { FloatingLinesBG } from "@/components/backgrounds/FloatingLinesBG";
 
 type Zone = "hero" | "work" | "stats" | "about" | "difference" | "packs" | "faq";
 
+function zoneFromScroll(): Zone {
+  const y = window.scrollY;
+  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  const h = Math.max(1, scrollable);
+  const pct = y / h;
+  if (pct < 0.12) return "hero";
+  if (pct < 0.25) return "work";
+  if (pct < 0.38) return "stats";
+  if (pct < 0.52) return "about";
+  if (pct < 0.65) return "difference";
+  if (pct < 0.78) return "packs";
+  return "faq";
+}
+
 export function HomeScrollBG() {
   const [zone, setZone] = useState<Zone>("hero");
 
   useEffect(() => {
-    const handler = () => {
-      const y = window.scrollY;
-      const scrollable =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const h = Math.max(1, scrollable);
-      const pct = y / h;
+    let ticking = false;
+    let last: Zone = "hero";
 
-      if (pct < 0.12) setZone("hero");
-      else if (pct < 0.25) setZone("work");
-      else if (pct < 0.38) setZone("stats");
-      else if (pct < 0.52) setZone("about");
-      else if (pct < 0.65) setZone("difference");
-      else if (pct < 0.78) setZone("packs");
-      else setZone("faq");
+    const commit = () => {
+      ticking = false;
+      const next = zoneFromScroll();
+      if (next !== last) {
+        last = next;
+        setZone(next);
+      }
     };
 
-    handler();
+    const handler = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(commit);
+    };
+
+    commit();
     window.addEventListener("scroll", handler, { passive: true });
     window.addEventListener("resize", handler, { passive: true });
     return () => {

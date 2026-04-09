@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+/** GPU friendly: scaleX instead of animating width on every scroll frame. */
 export function ScrollProgress() {
-  const [width, setWidth] = useState(0);
+  const [pct, setPct] = useState(0);
 
   useEffect(() => {
     if (typeof window === "undefined" || typeof window.addEventListener !== "function") return;
@@ -13,21 +14,17 @@ export function ScrollProgress() {
     let ticking = false;
 
     const update = () => {
-      const root = document.documentElement;
-      if (!root) return;
-      const scrollTop = window.scrollY || root.scrollTop;
-      const height = root.scrollHeight - root.clientHeight;
-      const pct = height > 0 ? (scrollTop / height) * 100 : 0;
-      setWidth(pct);
+      ticking = false;
+      const scrollTop = window.scrollY || doc.scrollTop;
+      const height = doc.scrollHeight - doc.clientHeight;
+      const next = height > 0 ? (scrollTop / height) * 100 : 0;
+      setPct(next);
     };
 
     const onScroll = () => {
       if (!ticking) {
         ticking = true;
-        requestAnimationFrame(() => {
-          update();
-          ticking = false;
-        });
+        requestAnimationFrame(update);
       }
     };
 
@@ -42,12 +39,11 @@ export function ScrollProgress() {
       aria-hidden
     >
       <div
-        className="h-full origin-left shadow-[0_0_10px_rgba(184,190,199,0.45)] transition-[width] duration-150 ease-out"
+        className="h-full w-full origin-left will-change-transform"
         style={{
-          width: `${width}%`,
-          background: "linear-gradient(90deg, #B8BEC7, #D4D9E0, #6B7280)",
-          backgroundSize: "200% 200%",
-          animation: "gradientShift 2s linear infinite",
+          transform: `scaleX(${Math.min(100, Math.max(0, pct)) / 100})`,
+          background: "linear-gradient(90deg, #c084fc, #e9d5ff, #a855f7)",
+          boxShadow: "0 0 12px rgba(168,85,247,0.45)",
         }}
       />
     </div>

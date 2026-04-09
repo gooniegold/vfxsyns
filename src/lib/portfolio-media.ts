@@ -20,3 +20,12 @@ export const PORTFOLIO_VIDEO_5_3D = SHOWREEL_VIDEO;
 export const PORTFOLIO_VIDEO_6_3D = SIYAH_XO;
 
 export const SHOWREEL_2025_VIDEO = SHOWREEL_VIDEO;
+
+/** Local MP4s via API (reliable muted autoplay vs Drive iframe). */
+function mediaFile(name: string) {
+  return `/api/portfolio-media/${encodeURIComponent(name)}`;
+}
+
+export const HOME_PREVIEW_JAKK = mediaFile("Lazerdim700 Jakkmove- music video.mp4");
+export const HOME_PREVIEW_SIYAH = mediaFile("SiyahXO Dream- music video.mp4");
+export const HOME_PREVIEW_SHOW = mediaFile("rekover jet, noheart- showreeel.mp4");

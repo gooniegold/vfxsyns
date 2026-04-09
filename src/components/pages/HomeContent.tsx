@@ -20,11 +20,12 @@ import { TiltedCard } from "@/components/react-bits/TiltedCard";
 import { INSTAGRAM_URL } from "@/lib/constants";
 import { SYN_STAT_GRADIENT } from "@/lib/syn-styles";
 import {
-  SHOWREEL_VIDEO,
-  LAZERDIM_JAKKMOVE,
-  SIYAH_XO,
+  HOME_PREVIEW_JAKK,
+  HOME_PREVIEW_SIYAH,
+  HOME_PREVIEW_SHOW,
   ABOUT_ME_PHOTO,
 } from "@/lib/portfolio-media";
+import { PortfolioVideoPreview } from "@/components/portfolio/PortfolioVideoPreview";
 import { motionTransition } from "@/lib/motion-defaults";
 import { HomeScrollBG } from "@/components/backgrounds/HomeScrollBG";
 import { HomeScrollSnap } from "@/components/home/HomeScrollSnap";
@@ -37,9 +38,9 @@ import { ReviewsStreamMarquee } from "@/components/sections/ReviewsStreamMarquee
 const MARQUEE = ["ATL", "VFX", "COLOR", "MUSIC VIDEO", "3D", "VFXSYN", "SHOP", "AUTOMVE"] as const;
 
 const FEATURED = [
-  { title: "JAKK MOVE", category: "MUSIC VIDEO", videoSrc: LAZERDIM_JAKKMOVE, artist: "LAZERDIM700" },
-  { title: "DIAMOND", category: "MUSIC VIDEO", videoSrc: SIYAH_XO, artist: "SIYAH XO" },
-  { title: "SHOWREEL", category: "VFX SHOWCASE", videoSrc: SHOWREEL_VIDEO, artist: "VFXSYN" },
+  { title: "JAKK MOVE", category: "MUSIC VIDEO", videoSrc: HOME_PREVIEW_JAKK, artist: "LAZERDIM700" },
+  { title: "DIAMOND", category: "MUSIC VIDEO", videoSrc: HOME_PREVIEW_SIYAH, artist: "SIYAH XO" },
+  { title: "SHOWREEL", category: "VFX SHOWCASE", videoSrc: HOME_PREVIEW_SHOW, artist: "VFXSYN" },
 ] as const;
 
 function HeroSection() {
@@ -250,12 +251,11 @@ function FeaturedCard({ p, delay, large }: { p: (typeof FEATURED)[number]; delay
               <div
                 className={cn("relative w-full overflow-hidden", large ? "aspect-[21/9] lg:aspect-auto lg:min-h-[360px]" : "aspect-video")}
               >
-                <iframe
+                <PortfolioVideoPreview
                   src={p.videoSrc}
                   title={`${p.title} preview`}
-                  loading="lazy"
-                  allow="autoplay"
-                  className="pointer-events-none absolute inset-0 h-full w-full border-0 [transform:scale(1.04)]"
+                  playInView={false}
+                  instantAutoplay
                 />
               </div>
               <div className="absolute left-4 top-4 z-[4]">
