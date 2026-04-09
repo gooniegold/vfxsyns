@@ -11,43 +11,40 @@
 }
 
 :root {
-  /* ─── QuickDraft Cinematic Theme ─── */
-  --bg-base: #06070a;
-  --bg-elevated: #0b0d12;
-  --bg-card: rgba(14, 16, 21, 0.78);
+  /* ─── VFXSYN v3 — ember / ink (next/font sets --font-display, --font-ui, --font-mono on html) ─── */
+  --bg-base: #070708;
+  --bg-elevated: #101018;
+  --bg-card: rgba(18, 18, 26, 0.88);
 
-  --accent: #24d29b;
-  --accent-secondary: #70d8ff;
-  --accent-bright: #8ff1d0;
-  --accent-dim: rgba(36, 210, 155, 0.16);
-  --accent-glow: rgba(36, 210, 155, 0.38);
+  --accent: #ff4e33;
+  --accent-secondary: #6366f1;
+  --accent-bright: #ff7a66;
+  --accent-dim: rgba(255, 78, 54, 0.14);
+  --accent-glow: rgba(255, 78, 54, 0.35);
 
-  --gold: #ffc86f;
-  --gold-bright: #ffe4ad;
-  --gold-dim: rgba(255, 200, 111, 0.2);
-  --gold-glow: rgba(255, 200, 111, 0.35);
+  --gold: #e8a954;
+  --gold-bright: #f0c47a;
+  --gold-dim: rgba(232, 169, 84, 0.18);
+  --gold-glow: rgba(232, 169, 84, 0.28);
 
-  --text-primary: #eef1f7;
-  --text-secondary: rgba(226, 233, 244, 0.92);
-  --text-dim: rgba(226, 233, 244, 0.7);
+  --text-primary: #f4f1ec;
+  --text-secondary: rgba(230, 226, 218, 0.88);
+  --text-dim: rgba(200, 195, 186, 0.55);
 
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-accent: rgba(36, 210, 155, 0.32);
-  --border-gold: rgba(255, 200, 111, 0.22);
+  --border-subtle: rgba(255, 255, 255, 0.09);
+  --border-accent: rgba(255, 78, 54, 0.35);
+  --border-gold: rgba(232, 169, 84, 0.28);
 
-  --glass-bg: rgba(9, 11, 16, 0.72);
-  --glass-blur: blur(24px) saturate(130%);
-  --glass-edge: rgba(255, 255, 255, 0.1);
-  --glass-elev-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --glass-bg: rgba(12, 12, 18, 0.78);
+  --glass-blur: blur(20px) saturate(125%);
+  --glass-edge: 1px solid rgba(255, 255, 255, 0.08);
+  --glass-elev-shadow: 0 28px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 
-  --hud-line: rgba(36, 210, 155, 0.1);
+  --hud-line: rgba(255, 78, 54, 0.12);
   --hud-text: var(--accent);
-  
-  --font-hero: "Anton", sans-serif;
-  --font-display: "Anton", sans-serif;
-  --font-ui: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Anton", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --font-hero: var(--font-display), Oswald, ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-display), Oswald, ui-sans-serif, system-ui, sans-serif;
   --ease-ultra: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-motion: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -111,12 +108,12 @@ html {
 
 body {
   background:
-    radial-gradient(circle at 15% 12%, rgba(36, 210, 155, 0.14), transparent 28%),
-    radial-gradient(circle at 85% 24%, rgba(39, 213, 154, 0.08), transparent 22%),
-    radial-gradient(circle at 72% 82%, rgba(112, 216, 255, 0.08), transparent 24%),
-    linear-gradient(135deg, #030304 0%, #0a0c10 48%, #030304 100%);
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(255, 78, 54, 0.12), transparent 42%),
+    radial-gradient(ellipse 70% 45% at 90% 0%, rgba(99, 102, 241, 0.1), transparent 40%),
+    radial-gradient(circle at 50% 120%, rgba(232, 169, 84, 0.06), transparent 45%),
+    linear-gradient(180deg, #050506 0%, #0a0a10 45%, #070708 100%);
   color: var(--text-primary);
-  font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-ui), Outfit, ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
@@ -128,10 +125,11 @@ body::before {
   pointer-events: none;
   z-index: -1;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
-  background-size: 48px 48px;
-  opacity: 0.35;
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.25;
+  transform: rotate(-2deg) scale(1.08);
 }
 
 body::after {
@@ -140,14 +138,8 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: -1;
-  background: repeating-linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.02) 0,
-    rgba(255, 255, 255, 0.02) 1px,
-    transparent 1px,
-    transparent 6px
-  );
-  opacity: 0.14;
+  background: radial-gradient(ellipse 120% 80% at 50% 100%, rgba(255, 78, 54, 0.04), transparent 55%);
+  opacity: 1;
 }
 
 @media (pointer: fine) {
@@ -181,23 +173,22 @@ body::after {
   }
 }
 
-/* Anton — display / logotype */
 .font-hero {
-  font-family: var(--font-hero), sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.06em;
+  font-family: var(--font-hero);
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
 
 .font-display {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  font-family: var(--font-display), Oswald, ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.03em;
 }
 
 .font-heading {
-  font-family: var(--font-heading), sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: 0.03em;
 }
 
 .font-mono {
@@ -206,12 +197,12 @@ body::after {
 }
 
 .font-body {
-  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-ui), Outfit, ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
 }
 
 .font-ui {
-  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-ui), Outfit, ui-sans-serif, system-ui, sans-serif;
   font-weight: 600;
 }
 
@@ -1252,8 +1243,8 @@ html.syn-home-snap {
 }
 
 .syn-card-premium:hover {
-  border-color: rgba(99, 102, 241, 0.35);
-  box-shadow: var(--glass-elev-shadow), 0 0 40px rgba(99, 102, 241, 0.08);
+  border-color: rgba(255, 78, 54, 0.4);
+  box-shadow: var(--glass-elev-shadow), 0 0 48px rgba(255, 78, 54, 0.1);
 }
 
 .syn-card-premium::before {
@@ -1261,7 +1252,7 @@ html.syn-home-snap {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(99,102,241,0.06) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(255,78,54,0.07) 0%, rgba(99,102,241,0.05) 45%, transparent 65%);
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;

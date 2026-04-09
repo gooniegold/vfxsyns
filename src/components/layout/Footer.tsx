@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Instagram, Youtube, Twitter } from "lucide-react";
-import ShinyText from "@/components/react-bits/ShinyText";
 import { INSTAGRAM_URL } from "@/lib/constants";
 import type { ComponentProps, ReactNode } from 'react';
 
@@ -76,20 +75,15 @@ function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationPr
 
 export function Footer() {
 	return (
-		<footer className="relative w-full z-[10] flex flex-col items-center justify-center border-t border-[var(--border-subtle)] bg-[radial-gradient(35%_128px_at_50%_0%,theme(backgroundColor.white/2%),transparent)] px-6 py-16 lg:py-24">
+		<footer className="relative z-[10] flex w-full flex-col items-center justify-center border-t border-[var(--border-subtle)] bg-[var(--bg-elevated)] px-6 py-16 lg:py-20">
 			<div className="mx-auto w-full max-w-[1400px]">
-                <div className="bg-[var(--accent)]/10 absolute top-0 right-1/2 left-1/2 h-px w-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-sm" />
-                <div className="bg-[var(--accent)] absolute top-0 right-1/2 left-1/2 h-px w-1/4 -translate-x-1/2 -translate-y-1/2 rounded-full" />
-
-                <div className="grid w-full gap-12 xl:grid-cols-3 xl:gap-8">
-                    <AnimatedContainer className="space-y-4">
-                        <p className="hero-title-breathe text-[28px]">
-                            <ShinyText speed={3} className="font-display tracking-[0.08em] text-[var(--gold)]">
-                                VFXSYN
-                            </ShinyText>
+                <div className="grid w-full gap-12 md:grid-cols-2 xl:grid-cols-4 xl:gap-10">
+                    <AnimatedContainer className="space-y-4 md:col-span-2 xl:col-span-1">
+                        <p className="font-display text-[1.75rem] tracking-[0.06em] text-[var(--text-primary)]">
+                            VFXSYN
                         </p>
-                        <p className="font-mono mt-3 text-[10px] leading-relaxed tracking-[0.2em] text-[var(--text-secondary)]">
-                            Atlanta · VFX · Color · Shop
+                        <p className="font-mono mt-2 text-[10px] leading-relaxed tracking-[0.2em] text-[var(--text-secondary)]">
+                            Atlanta · post · shop
                         </p>
                         <p className="text-[var(--text-secondary)] font-mono mt-8 text-[9px] tracking-[0.2em] opacity-60">
                             © {new Date().getFullYear()} VFXSYN. All rights reserved.

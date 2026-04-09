@@ -11,21 +11,18 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
     <>
       <div
         aria-hidden
+        className="pointer-events-none fixed inset-0 z-0 opacity-[0.35]"
         style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: "none",
-          backgroundImage: "radial-gradient(rgba(184,190,199,0.04) 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
-          animation: "gridDrift 20s linear infinite",
+          backgroundImage: "radial-gradient(rgba(255,78,54,0.06) 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+          animation: "gridDrift 24s linear infinite",
         }}
       />
       <SiteIntroLoader />
       <ScrollProgress />
       <VignetteOverlay />
       <SiteLogo />
-      <main className="relative z-[10] flex min-h-screen flex-col pb-12 pt-[calc(120px+env(safe-area-inset-top,0px))]">
+      <main className="relative z-[10] flex min-h-screen flex-col pb-16 pt-[calc(5.5rem+env(safe-area-inset-top,0px))] md:pb-20">
         <PageTransition>{children}</PageTransition>
       </main>
       <LogoLoopStrip />
