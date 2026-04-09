@@ -9,6 +9,13 @@ Copy `.env.example` to `.env.local` and set:
 - `NEXT_PUBLIC_SHOPIFY_DOMAIN` — e.g. `your-store.myshopify.com` (no `https://`)
 - `NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN` — Storefront API public token from Shopify Admin → Settings → Apps → Develop apps
 - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` — optional; reserved for future direct Stripe checkout (Shopify checkout is the live path on `/shop`)
+- `NEXT_PUBLIC_CHECKOUT_PROVIDER` — set `stripe` to enable Stripe checkout on `/shop`
+- `STRIPE_SECRET_KEY` — Stripe secret key
+- `STRIPE_WEBHOOK_SECRET` — webhook signing secret for `/api/stripe/webhook`
+- `STRIPE_PRICE_MAP` — JSON map of product handle -> Stripe price id
+- `STRIPE_DOWNLOAD_URL_MAP` — JSON map of product handle -> download URL
+- `STRIPE_DEFAULT_DOWNLOAD_URL` — fallback download URL
+- `LICENSE_MAX_ACTIVATIONS` — default activations per issued key
 - `LICENSE_API_BASE_URL` — your deployed QuickDraft license Worker base URL
 - `LICENSE_ADMIN_TOKEN` — admin bearer token configured in the Worker
 - `LICENSE_ISSUE_SECRET` — shared secret required by local issue/revoke API routes
@@ -97,6 +104,36 @@ This route automatically:
 
 1. Issues/retrieves the license key.
 2. Sends key + download link to buyer email.
+
+## Stripe (multi-product) checkout
+
+Routes:
+
+- `POST /api/stripe/checkout` (creates checkout session by `productHandle`)
+- `POST /api/stripe/webhook` (issues key + emails buyer on payment success)
+
+Set `NEXT_PUBLIC_CHECKOUT_PROVIDER=stripe` to make `/shop` use Stripe checkout.
+The shop uses Shopify product handles and maps each handle to a Stripe Price ID with:
+
+- `STRIPE_PRICE_MAP` (JSON object)
+
+Example:
+
+```json
+{
+  "quickdraft": "price_123",
+  "vfx-pack-01": "price_456"
+}
+```
+
+Webhook event supported:
+
+- `checkout.session.completed`
+
+When completed, the server:
+
+1. Issues/retrieves license key.
+2. Emails key + mapped download URL to the buyer email.
 
 ## Getting Started
 

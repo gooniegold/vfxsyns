@@ -1,11 +1,10 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { FloatingLinesBG } from "../backgrounds/FloatingLinesBG";
 import { LightPillarBG } from "../backgrounds/LightPillarBG";
 import { SoftAuroraBG } from "../backgrounds/SoftAuroraBG";
 
-export type PortfolioFilter = "ALL" | "MUSIC VIDEO" | "COLOR GRADE" | "3D VFX";
+export type PortfolioFilter = "ALL" | "MUSIC VIDEO" | "COLOR GRADE";
 
 const FIXED =
   "pointer-events-none fixed inset-0 z-0 overflow-hidden [pointer-events:none]";
@@ -44,8 +43,6 @@ function PortfolioBgLayer({
       return <LightPillarBG />;
     case "COLOR GRADE":
       return <SoftAuroraBG />;
-    case "3D VFX":
-      return <FloatingLinesBG />;
     default:
       return null;
   }

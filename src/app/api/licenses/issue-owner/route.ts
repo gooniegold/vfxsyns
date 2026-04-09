@@ -7,9 +7,9 @@ type OwnerIssueRequestBody = {
 };
 
 function isAuthorized(request: NextRequest): boolean {
-  const expected = process.env.LICENSE_ISSUE_SECRET;
+  const expected = String(process.env.LICENSE_ISSUE_SECRET || "").trim();
   if (!expected) return false;
-  const provided = request.headers.get("x-license-secret") || "";
+  const provided = String(request.headers.get("x-license-secret") || "").trim();
   return provided === expected;
 }
 

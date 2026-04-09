@@ -2,6 +2,8 @@
 
 import React, { useRef, useEffect } from 'react';
 
+const ENABLE_HERO_WEBGL = false;
+
 // Types for component props
 export interface HeroProps {
   trustBadge?: {
@@ -36,6 +38,7 @@ const useShaderBackground = () => {
   const pointersRef = useRef<any>(null);
 
   useEffect(() => {
+    if (!ENABLE_HERO_WEBGL) return;
     if (!canvasRef.current || typeof window === 'undefined') return;
 
     // WebGL Renderer class
@@ -268,7 +271,7 @@ const useShaderBackground = () => {
     }
 
     const canvas = canvasRef.current;
-    const dpr = Math.max(1, 0.5 * window.devicePixelRatio);
+    const dpr = Math.max(1, 0.35 * window.devicePixelRatio);
     
     rendererRef.current = new WebGLRenderer(canvas, dpr);
     pointersRef.current = new PointerHandler(canvas, dpr);
@@ -415,43 +418,45 @@ const Hero: React.FC<HeroProps> = ({
         .animation-delay-800 { animation-delay: 0.8s; }
       `}} />
       
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full object-contain touch-none opacity-60 mix-blend-screen"
-        style={{ background: 'black' }}
-      />
+      {ENABLE_HERO_WEBGL ? (
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full object-contain touch-none opacity-45 mix-blend-screen"
+          style={{ background: 'black' }}
+        />
+      ) : (
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_14%,rgba(36,212,154,0.22),transparent_28%),radial-gradient(circle_at_80%_30%,rgba(112,216,255,0.2),transparent_30%),linear-gradient(135deg,#05070b_0%,#0a1115_52%,#05070a_100%)]" />
+      )}
       
       <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-white p-6 bg-gradient-to-t from-black via-transparent to-black/50">
         
         {trustBadge && (
           <div className="mb-8 animate-fade-in-down">
-            <div className="flex items-center gap-2 px-6 py-3 bg-[var(--accent)]/10 backdrop-blur-md border border-[var(--border-accent)] rounded-full text-xs font-mono tracking-widest uppercase text-white/80 shadow-[0_0_20px_var(--accent-glow)]">
-              {trustBadge.icons && (
-                <div className="flex gap-2">
-                  {trustBadge.icons.map((icon, index) => (
-                    <span key={index} className="text-[var(--accent-bright)]">
-                      {icon}
-                    </span>
-                  ))}
-                </div>
-              )}
-              <span>{trustBadge.text}</span>
+            <div className="flex items-center gap-3 px-5 py-2.5 bg-black/50 backdrop-blur-md border border-white/[0.12] rounded-sm text-[11px] font-mono tracking-[0.2em] uppercase text-white/85 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset]">
+              <span className="inline-flex items-center gap-2 text-red-400/95">
+                <span className="h-2 w-2 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]" aria-hidden />
+                <span className="text-[10px] tracking-[0.35em]">REC</span>
+              </span>
+              {trustBadge.icons && trustBadge.icons.length > 0 ? (
+                <div className="flex gap-2 text-[var(--accent-bright)]">{trustBadge.icons}</div>
+              ) : null}
+              <span className="text-white/70">{trustBadge.text}</span>
             </div>
           </div>
         )}
 
         <div className="text-center space-y-6 max-w-5xl mx-auto px-4 mt-6">
           <div className="space-y-4">
-            <h1 className="text-[clamp(40px,8vw,120px)] font-display tracking-[0.05em] leading-[0.9] uppercase bg-gradient-to-br from-white via-gray-200 to-[var(--gold)] bg-clip-text text-transparent animate-fade-in-up animation-delay-200 drop-shadow-2xl font-black">
+            <h1 className="text-[clamp(40px,8vw,120px)] font-display tracking-[0.04em] leading-[0.92] uppercase bg-gradient-to-br from-white via-neutral-200 to-[var(--gold)] bg-clip-text text-transparent animate-fade-in-up animation-delay-200 drop-shadow-2xl">
               {headline.line1}
             </h1>
-            <h1 className="text-[clamp(40px,8vw,120px)] font-display tracking-[0.05em] leading-[0.9] uppercase bg-gradient-to-br from-[var(--accent)] via-[var(--accent-bright)] to-[var(--gold)] bg-clip-text text-transparent animate-fade-in-up animation-delay-400 drop-shadow-2xl font-black">
+            <h1 className="text-[clamp(40px,8vw,120px)] font-display tracking-[0.04em] leading-[0.92] uppercase bg-gradient-to-br from-[var(--accent)] via-[var(--accent-bright)] to-[var(--gold)] bg-clip-text text-transparent animate-fade-in-up animation-delay-400 drop-shadow-2xl">
               {headline.line2}
             </h1>
           </div>
           
-          <div className="max-w-3xl mx-auto animate-fade-in-up animation-delay-600 mt-8">
-            <p className="font-mono text-[10px] md:text-[13px] tracking-[0.2em] text-[var(--text-secondary)] uppercase leading-relaxed text-balance">
+          <div className="max-w-2xl mx-auto animate-fade-in-up animation-delay-600 mt-8">
+            <p className="font-body text-[14px] md:text-[16px] font-medium text-[var(--text-secondary)] leading-relaxed text-balance tracking-normal normal-case">
               {subtitle}
             </p>
           </div>
@@ -462,7 +467,7 @@ const Hero: React.FC<HeroProps> = ({
                 <a 
                   href={buttons.primary.href}
                   onClick={buttons.primary.onClick}
-                  className="px-10 py-5 bg-gradient-to-r from-[var(--accent)] to-[var(--accent-secondary)] text-white rounded-full font-mono text-[12px] tracking-[0.2em] font-bold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_var(--accent-glow)] flex items-center justify-center cursor-pointer"
+                  className="px-10 py-5 bg-gradient-to-r from-[var(--accent)] to-[var(--accent-secondary)] text-white rounded-sm font-ui text-[12px] tracking-[0.12em] font-semibold uppercase transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_var(--accent-glow)] flex items-center justify-center cursor-pointer"
                 >
                   {buttons.primary.text}
                 </a>
@@ -471,7 +476,7 @@ const Hero: React.FC<HeroProps> = ({
                 <a 
                   href={buttons.secondary.href}
                   onClick={buttons.secondary.onClick}
-                  className="px-10 py-5 bg-black/60 border border-[var(--border-accent)] text-white/80 hover:text-white rounded-full font-mono text-[12px] tracking-[0.2em] transition-all duration-300 hover:scale-105 backdrop-blur-md flex items-center justify-center cursor-pointer"
+                  className="px-10 py-5 bg-black/50 border border-white/[0.14] text-white/90 hover:text-white rounded-sm font-ui text-[12px] tracking-[0.12em] font-semibold uppercase transition-all duration-300 hover:scale-[1.02] backdrop-blur-md flex items-center justify-center cursor-pointer"
                 >
                   {buttons.secondary.text}
                 </a>

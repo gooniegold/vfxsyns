@@ -11,18 +11,18 @@ export default function ShopPage() {
           <div className="mx-auto max-w-[1400px] px-6 pt-6 md:px-10">
             <PageBreadcrumb items={[{ label: "HOME", href: "/" }, { label: "SHOP" }]} />
           </div>
-        <SynPageHero
+          <SynPageHero
           eyebrow={
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--gold)]">
               <ShinyText speed={3} className="font-mono text-[10px] uppercase tracking-[0.2em]">
-                ● VFX PACKS
+                ● STORE
               </ShinyText>
             </p>
           }
-          title="THE SHOP"
-          titleClassName="font-display w-full text-center text-[clamp(56px,8vw,120px)] leading-none tracking-[0.05em]"
-          subtitle="Instant delivery. One-time payment. No subscription."
-          subtitleClassName="w-full max-w-none text-center"
+          title="SHOP"
+          titleClassName="font-display w-full text-center text-[clamp(34px,7vw,96px)] leading-[0.95] tracking-[0.02em] md:tracking-[0.05em]"
+          subtitle="QuickDraft and other digital products—buy once, download straight away."
+          subtitleClassName="w-full max-w-none text-center not-italic"
         />
         </>
       }

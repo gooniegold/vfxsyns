@@ -2,10 +2,11 @@ const DEFAULT_TIMEOUT_MS = 12000;
 
 function requireEnv(name: string): string {
   const value = process.env[name];
-  if (!value) {
+  const clean = String(value || "").trim();
+  if (!clean) {
     throw new Error(`Missing required env var: ${name}`);
   }
-  return value;
+  return clean;
 }
 
 function withTimeout(signalMs = DEFAULT_TIMEOUT_MS): AbortSignal {
@@ -123,4 +124,74 @@ export async function listLicenses(search = "", limit = 200): Promise<LicenseRec
     throw new Error(data.message || "License list failed");
   }
   return data.licenses;
+}
+
+export async function transferLicense(licenseKey: string) {
+  const baseUrl = requireEnv("LICENSE_API_BASE_URL");
+  const adminToken = requireEnv("LICENSE_ADMIN_TOKEN");
+  const res = await fetch(`${baseUrl.replace(/\/$/, "")}/admin/transfer`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${adminToken}`,
+    },
+    body: JSON.stringify({ licenseKey }),
+    signal: withTimeout(),
+  });
+  const data = (await res.json()) as { ok?: boolean; message?: string };
+  if (!res.ok || !data.ok) {
+    throw new Error(data.message || "License transfer failed");
+  }
+}
+
+export async function selfLookupLicense(input: { licenseKey: string; email: string }) {
+  const baseUrl = requireEnv("LICENSE_API_BASE_URL");
+  const res = await fetch(`${baseUrl.replace(/\/$/, "")}/self/lookup`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      licenseKey: input.licenseKey,
+      email: input.email,
+    }),
+    signal: withTimeout(),
+  });
+  const data = (await res.json()) as {
+    ok?: boolean;
+    message?: string;
+    license?: {
+      key: string;
+      email: string;
+      orderId: string;
+      status: string;
+      activationCount: number;
+      maxActivations: number;
+      createdAt: string;
+      updatedAt: string;
+    };
+  };
+  if (!res.ok || !data.ok || !data.license) {
+    throw new Error(data.message || "Lookup failed");
+  }
+  return data.license;
+}
+
+export async function selfTransferLicense(input: { licenseKey: string; email: string }) {
+  const baseUrl = requireEnv("LICENSE_API_BASE_URL");
+  const res = await fetch(`${baseUrl.replace(/\/$/, "")}/self/transfer`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      licenseKey: input.licenseKey,
+      email: input.email,
+    }),
+    signal: withTimeout(),
+  });
+  const data = (await res.json()) as { ok?: boolean; message?: string };
+  if (!res.ok || !data.ok) {
+    throw new Error(data.message || "Transfer failed");
+  }
 }

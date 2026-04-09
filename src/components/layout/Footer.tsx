@@ -32,8 +32,10 @@ const footerLinks: FooterSection[] = [
 		label: 'COMPANY',
 		links: [
 			{ title: 'About VFXSYN', href: '/#about' },
-			{ title: 'Privacy Policy', href: '#' },
-			{ title: 'Terms of Service', href: '#' },
+			{ title: 'Privacy Policy', href: '/privacy' },
+			{ title: 'Terms of Service', href: '/terms' },
+      { title: 'License Portal', href: '/license' },
+      { title: 'Admin Control', href: '/vfxsyn-control' },
 		],
 	},
 	{
@@ -87,7 +89,7 @@ export function Footer() {
                             </ShinyText>
                         </p>
                         <p className="font-mono mt-3 text-[10px] leading-relaxed tracking-[0.2em] text-[var(--text-secondary)]">
-                            Atlanta, GA | VFX | Color | Direction
+                            Atlanta · VFX · Color · Shop
                         </p>
                         <p className="text-[var(--text-secondary)] font-mono mt-8 text-[9px] tracking-[0.2em] opacity-60">
                             © {new Date().getFullYear()} VFXSYN. All rights reserved.

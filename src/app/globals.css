@@ -11,41 +11,43 @@
 }
 
 :root {
-  /* ─── V2.1 MIDNIGHT OBSIDIAN DESIGN SYSTEM ─── */
-  --bg-base: #030306;
-  --bg-elevated: #08080f;
-  --bg-card: rgba(15, 15, 25, 0.5);
-  
-  --accent: #8b5cf6;       /* Electric Violet */
-  --accent-secondary: #06b6d4; /* Neon Cyan */
-  --accent-bright: #a78bfa;
-  --accent-dim: rgba(139, 92, 246, 0.15);
-  --accent-glow: rgba(139, 92, 246, 0.4);
-  
-  --gold: #e2e8f0; /* Ice Silver */
-  --gold-bright: #ffffff;
-  --gold-dim: rgba(226, 232, 240, 0.2);
-  --gold-glow: rgba(226, 232, 240, 0.3);
+  /* ─── QuickDraft Cinematic Theme ─── */
+  --bg-base: #06070a;
+  --bg-elevated: #0b0d12;
+  --bg-card: rgba(14, 16, 21, 0.78);
 
-  --text-primary: #ffffff;
-  --text-secondary: #94a3b8;
-  --text-dim: #475569;
-  
-  --border-subtle: rgba(139, 92, 246, 0.08);
-  --border-accent: rgba(139, 92, 246, 0.25);
-  --border-gold: rgba(226, 232, 240, 0.15);
-  
-  --glass-bg: rgba(6, 6, 12, 0.7);
-  --glass-blur: 32px;
-  --glass-edge: rgba(139, 92, 246, 0.15);
-  --glass-elev-shadow: 0 32px 64px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --accent: #24d29b;
+  --accent-secondary: #70d8ff;
+  --accent-bright: #8ff1d0;
+  --accent-dim: rgba(36, 210, 155, 0.16);
+  --accent-glow: rgba(36, 210, 155, 0.38);
 
-  --hud-line: rgba(139, 92, 246, 0.12);
+  --gold: #ffc86f;
+  --gold-bright: #ffe4ad;
+  --gold-dim: rgba(255, 200, 111, 0.2);
+  --gold-glow: rgba(255, 200, 111, 0.35);
+
+  --text-primary: #eef1f7;
+  --text-secondary: rgba(226, 233, 244, 0.92);
+  --text-dim: rgba(226, 233, 244, 0.7);
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(36, 210, 155, 0.32);
+  --border-gold: rgba(255, 200, 111, 0.22);
+
+  --glass-bg: rgba(9, 11, 16, 0.72);
+  --glass-blur: blur(24px) saturate(130%);
+  --glass-edge: rgba(255, 255, 255, 0.1);
+  --glass-elev-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  --hud-line: rgba(36, 210, 155, 0.1);
   --hud-text: var(--accent);
   
-  --font-hero: "Bebas Neue", sans-serif;
-  --font-display: "Bebas Neue", sans-serif;
-  --font-ui: "Barlow Condensed", sans-serif;
+  --font-hero: "Anton", sans-serif;
+  --font-display: "Anton", sans-serif;
+  --font-ui: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Anton", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --ease-ultra: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-motion: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -108,19 +110,48 @@ html {
 }
 
 body {
-  background-color: var(--bg-base);
+  background:
+    radial-gradient(circle at 15% 12%, rgba(36, 210, 155, 0.14), transparent 28%),
+    radial-gradient(circle at 85% 24%, rgba(39, 213, 154, 0.08), transparent 22%),
+    radial-gradient(circle at 72% 82%, rgba(112, 216, 255, 0.08), transparent 24%),
+    linear-gradient(135deg, #030304 0%, #0a0c10 48%, #030304 100%);
   color: var(--text-primary);
-  font-family: var(--font-mono), ui-monospace, monospace;
+  font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
 
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.35;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02) 0,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  opacity: 0.14;
+}
+
 @media (pointer: fine) {
-  body {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23D4D9E0'/%3E%3Cstop offset='100%25' stop-color='%236B7280'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M4 2 L4 18 L8 14 L11 20 L13 19 L10 13 L16 13 Z' fill='url(%23g)' stroke='%23050505' stroke-width='0.5'/%3E%3C/svg%3E")
-        4 2,
-      auto;
-  }
+  body { cursor: default; }
 
   a,
   button,
@@ -132,9 +163,7 @@ body {
   textarea,
   select,
   summary {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23D4D9E0'/%3E%3Cstop offset='100%25' stop-color='%236B7280'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M4 2 L4 18 L8 14 L11 20 L13 19 L10 13 L16 13 Z' fill='url(%23g)' stroke='%23050505' stroke-width='0.5'/%3E%3C/svg%3E")
-        4 2,
-      pointer;
+    cursor: pointer;
   }
 
   html.syn-dot-cursor body,
@@ -152,40 +181,37 @@ body {
   }
 }
 
-/* Bebas Neue — hero logotype (VFXSYN) only */
+/* Anton — display / logotype */
 .font-hero {
   font-family: var(--font-hero), sans-serif;
   font-weight: 400;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.06em;
 }
 
-/* Barlow Condensed — section headings (Akira-style condensed) */
 .font-display {
   font-family: var(--font-display), sans-serif;
-  font-weight: 900;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
 .font-heading {
   font-family: var(--font-heading), sans-serif;
-  font-weight: 900;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
-/* Share Tech Mono — eyebrows, tags, body copy, labels, footer */
 .font-mono {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-weight: 400;
 }
 
 .font-body {
-  font-family: var(--font-mono), ui-monospace, monospace;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
 }
 
-/* Rajdhani 600 — UI: buttons, card titles, filters, marquee impact, stat labels */
 .font-ui {
-  font-family: var(--font-ui), sans-serif;
+  font-family: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
   font-weight: 600;
 }
 
@@ -656,6 +682,7 @@ body {
   line-height: 1;
   color: rgba(184, 190, 199, 0.03);
   pointer-events: none;
+  -webkit-user-select: none;
   user-select: none;
   top: -0.15em;
   left: -0.05em;
@@ -934,9 +961,8 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* Syne Mono — VFX Packs CTAs & asset counts */
 .font-syne-mono {
-  font-family: "Syne Mono", ui-monospace, monospace;
+  font-family: var(--font-mono), ui-monospace, monospace;
   font-weight: 400;
 }
 
@@ -973,7 +999,7 @@ body {
   background: transparent;
   color: var(--gold);
   cursor: not-allowed;
-  font-family: "Syne Mono", ui-monospace, monospace;
+  font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 9px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -1095,6 +1121,7 @@ body {
     linear-gradient(rgba(184, 190, 199, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(184, 190, 199, 0.06) 1px, transparent 1px);
   background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 75%);
   mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 75%);
 }
 

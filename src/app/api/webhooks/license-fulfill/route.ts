@@ -10,9 +10,9 @@ type Body = {
 };
 
 function isAuthorized(request: NextRequest): boolean {
-  const expected = process.env.LICENSE_WEBHOOK_SECRET;
+  const expected = String(process.env.LICENSE_WEBHOOK_SECRET || "").trim();
   if (!expected) return false;
-  const provided = request.headers.get("x-webhook-secret") || "";
+  const provided = String(request.headers.get("x-webhook-secret") || "").trim();
   return provided === expected;
 }
 

@@ -14,8 +14,7 @@ export function SynCustomCursor() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // 10000x smoother & magnetic feel
-  const springConfig = { damping: 25, stiffness: 400, mass: 0.1 };
+  const springConfig = { damping: 32, stiffness: 360, mass: 0.22 };
   const cursorX = useSpring(mouseX, springConfig);
   const cursorY = useSpring(mouseY, springConfig);
 
@@ -49,20 +48,20 @@ export function SynCustomCursor() {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[100000]">
-      {/* ── main dot ── */}
+      {/* main core */}
       <motion.div
-        className="fixed left-0 top-0 h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_10px_var(--accent)]"
+        className="fixed left-0 top-0 h-2 w-2 rounded-full bg-[var(--accent-bright)] shadow-[0_0_14px_var(--accent)]"
         style={{ x: cursorX, y: cursorY, translateX: "-50%", translateY: "-50%" }}
       />
-      
-      {/* ── outer ring ── */}
+
+      {/* soft follower */}
       <motion.div
-        className="fixed left-0 top-0 rounded-full border border-[var(--accent)] transition-all duration-300"
+        className="fixed left-0 top-0 rounded-full border border-[var(--accent)]/80 bg-[rgba(36,210,155,0.04)] transition-all duration-300"
         animate={{
-          width: hover ? 64 : 32,
-          height: hover ? 64 : 32,
-          opacity: hover ? 0.8 : 0.3,
-          boxShadow: hover ? "0 0 20px var(--accent-glow)" : "0 0 0px transparent",
+          width: hover ? 46 : 24,
+          height: hover ? 46 : 24,
+          opacity: hover ? 0.9 : 0.35,
+          boxShadow: hover ? "0 0 24px var(--accent-glow)" : "0 0 0px transparent",
         }}
         style={{
           x: cursorX,
@@ -71,17 +70,6 @@ export function SynCustomCursor() {
           translateY: "-50%",
         }}
       />
-
-      {/* ── hud flair ── */}
-      <motion.div
-        className="fixed left-0 top-0 h-[22px] w-[22px]"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        style={{ x: cursorX, y: cursorY, translateX: "-50%", translateY: "-50%", opacity: hover ? 1 : 0 }}
-      >
-        <div className="absolute left-0 top-0 h-1 w-1 border-l border-t border-[var(--accent-bright)]" />
-        <div className="absolute right-0 bottom-0 h-1 w-1 border-r border-b border-[var(--accent-bright)]" />
-      </motion.div>
     </div>
   );
 }

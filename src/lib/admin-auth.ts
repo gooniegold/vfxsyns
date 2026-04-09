@@ -21,9 +21,11 @@ function sign(payload: string): string {
 }
 
 export function verifyAdminCredentials(username: string, password: string): boolean {
-  const expectedUser = process.env.ADMIN_PANEL_USERNAME || DEFAULT_ADMIN_USERNAME;
-  const expectedPass = process.env.ADMIN_PANEL_PASSWORD || DEFAULT_ADMIN_PASSWORD;
-  return username === expectedUser && password === expectedPass;
+  const expectedUser = String(process.env.ADMIN_PANEL_USERNAME || DEFAULT_ADMIN_USERNAME).trim();
+  const expectedPass = String(process.env.ADMIN_PANEL_PASSWORD || DEFAULT_ADMIN_PASSWORD).trim();
+  const providedUser = String(username || "").trim();
+  const providedPass = String(password || "").trim();
+  return providedUser === expectedUser && providedPass === expectedPass;
 }
 
 export function createSessionToken(username: string): string {

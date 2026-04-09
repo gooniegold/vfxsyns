@@ -8,7 +8,7 @@ export function SiteLogo() {
     <Link
       href="/"
       data-cursor="hover"
-      className="transition-opacity hover:opacity-90"
+      className="transition-opacity duration-300 hover:scale-[1.03] hover:opacity-90"
       style={{
         position: "fixed",
         top: 24,
@@ -16,8 +16,8 @@ export function SiteLogo() {
         zIndex: 9999,
       }}
     >
-      <span className="syn-logo-pill">
-        <ShinyText speed={3} className="font-display text-[18px] tracking-[0.1em]">
+      <span className="syn-logo-pill border-[var(--border-accent)] shadow-[0_0_22px_rgba(36,210,155,0.22)]">
+        <ShinyText speed={3} className="font-display text-[18px] tracking-[0.1em] text-[var(--text-primary)]">
           VFXSYN
         </ShinyText>
       </span>

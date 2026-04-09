@@ -1,15 +1,16 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-/** Enables vertical scroll snap on the home route only */
+/** Keep native browser scrolling behavior. */
 export function HomeScrollSnap() {
-  const pathname = usePathname();
   useEffect(() => {
-    if (pathname !== "/") return;
-    document.documentElement.classList.add("syn-home-snap");
-    return () => document.documentElement.classList.remove("syn-home-snap");
-  }, [pathname]);
+    // Ensure no stale class remains from older builds.
+    document.documentElement.classList.remove("syn-home-snap");
+
+    return () => {
+      document.documentElement.classList.remove("syn-home-snap");
+    };
+  }, []);
   return null;
 }

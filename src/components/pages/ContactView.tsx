@@ -77,6 +77,7 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
 
   return (
     <div className="relative bg-[var(--bg-base)]">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_14%_12%,rgba(36,210,155,0.14),transparent_26%),radial-gradient(circle_at_82%_18%,rgba(112,216,255,0.12),transparent_24%)]" />
       <ContactAuroraBackdrop />
       <div className="relative z-[1] px-6 pb-[120px] md:px-10">
       {pageHeader}
@@ -165,7 +166,7 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                         SENT.
                       </p>
                       <p className="font-mono mt-4 text-[13px] text-[var(--accent-bright)] uppercase tracking-[0.2em]">
-                        INBOX DISRUPTED.
+                        Message received.
                       </p>
                     </motion.div>
                   ) : (
@@ -205,6 +206,9 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                             id="nm"
                             name="name"
                             required
+                            aria-label="Name"
+                            placeholder="Your name"
+                            title="Name"
                             onFocus={() => setF1(true)}
                             onBlur={() => setF1(false)}
                             className="font-mono w-full border-0 bg-transparent py-3 text-[12px] text-[var(--text-primary)] outline-none transition-[border-color] duration-300"
@@ -232,6 +236,9 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                             id="ct"
                             name="contact"
                             required
+                            aria-label="Instagram or email"
+                            placeholder="@handle or email"
+                            title="Instagram or email"
                             onFocus={() => setF2(true)}
                             onBlur={() => setF2(false)}
                             className="font-mono w-full border-0 bg-transparent py-3 text-[12px] text-[var(--text-primary)] outline-none"
@@ -259,6 +266,8 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                             id="tp"
                             name="type"
                             required
+                            aria-label="Project type"
+                            title="Project type"
                             defaultValue={PROJECT_TYPES[0]}
                             onFocus={() => setF3(true)}
                             onBlur={() => setF3(false)}
@@ -294,6 +303,9 @@ export function ContactView({ pageHeader }: { pageHeader?: ReactNode }) {
                             name="message"
                             rows={5}
                             required
+                            aria-label="Project message"
+                            placeholder="Tell me what you need, timeline, and references."
+                            title="Project message"
                             onFocus={() => setF4(true)}
                             onBlur={() => setF4(false)}
                             className="font-mono w-full resize-y border-0 bg-transparent py-3 text-[12px] text-[var(--text-primary)] outline-none"

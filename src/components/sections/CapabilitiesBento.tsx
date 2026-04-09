@@ -5,37 +5,37 @@ import ShinyText from "@/components/react-bits/ShinyText";
 
 const capabilities: BentoItem[] = [
     {
-        title: "3D Animation & Simulation",
-        meta: "UNREAL / HOUDINI",
-        description: "High-end 3D sequences, physics simulations, and surreal environments custom-built for the timeline.",
+        title: "3D & simulation",
+        meta: "BLENDER / MARVELOUS",
+        description: "Shot CG, cloth, and simple sims when the concept needs it—not by default.",
         icon: <Box className="w-5 h-5 text-[var(--accent)]" />,
-        status: "S-Tier",
-        tags: ["CGI", "Physics", "Unreal Engine"],
+        status: "CG",
+        tags: ["CGI", "Physics", "Blender"],
         colSpan: 2,
         hasPersistentHover: true,
     },
     {
-        title: "Color Grading",
-        meta: "DAVINCI RESOLVE",
-        description: "Cinematic commercial and hyper-stylized music video grading.",
+        title: "Color",
+        meta: "RESOLVE",
+        description: "Commercial polish or aggressive music-video looks—matched to your references.",
         icon: <Aperture className="w-5 h-5 text-indigo-400" />,
-        status: "Active",
+        status: "Grade",
         tags: ["Look Dev", "Cinematic"],
     },
     {
-        title: "Music Video VFX",
-        meta: "SYN SIGNATURE",
-        description: "Glitch art, trippy transitions, and hyper-stylized overlays used natively by top-charting artists.",
+        title: "Music-video VFX",
+        meta: "AFTER EFFECTS",
+        description: "Transitions, glitch, overlays, and comp-heavy shots built for the cut.",
         icon: <Video className="w-5 h-5 text-purple-400" />,
         tags: ["Transitions", "Overlays"],
         colSpan: 2,
     },
     {
-        title: "Technical Compositing",
+        title: "Compositing",
         meta: "AFTER EFFECTS",
-        description: "Seamless green screen extraction, tracker implementation, and element integration.",
+        description: "Keys, tracks, screen replates, and clean-ups that survive full-screen.",
         icon: <Layers className="w-5 h-5 text-sky-400" />,
-        status: "Verified",
+        status: "Comp",
         tags: ["Compositing", "Clean Plate"],
     },
 ];
@@ -48,11 +48,11 @@ export function CapabilitiesBento() {
                     <div className="text-center mb-16 relative z-[1]">
                         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)] mb-2">
                             <ShinyText speed={3} className="font-mono text-[10px] uppercase tracking-[0.2em]">
-                                ● ARSENAL
+                                ● SERVICES
                             </ShinyText>
                         </p>
                         <h2 className="font-display text-[clamp(48px,6vw,96px)] leading-none tracking-tight">
-                            TECHNICAL <span className="text-[var(--accent-bright)]">CAPABILITIES</span>
+                            WHAT I <span className="text-[var(--accent-bright)]">ACTUALLY DO</span>
                         </h2>
                     </div>
                     

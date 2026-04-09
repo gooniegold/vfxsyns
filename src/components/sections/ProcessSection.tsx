@@ -9,26 +9,26 @@ import { motionTransition } from "@/lib/motion-defaults";
 const STEPS = [
   {
     num: "01",
-    title: "DM ME",
-    desc: "Reach out on Instagram with your vision, references, and timeline.",
+    title: "REACH OUT",
+    desc: "Instagram DM with references, deadline, and deliverable format.",
     icon: MessageCircle,
   },
   {
     num: "02",
-    title: "WE PLAN",
-    desc: "We discuss the scope, style, and deliverables until it's locked in.",
+    title: "LOCK SCOPE",
+    desc: "Agree on look, shot count, and what finished means before work starts.",
     icon: Target,
   },
   {
     num: "03",
-    title: "I CREATE",
-    desc: "VFX, color grading, 3D animation | I bring the vision to life.",
+    title: "BUILD",
+    desc: "Comp, grade, CG—whatever the timeline calls for.",
     icon: Zap,
   },
   {
     num: "04",
-    title: "YOU RECEIVE",
-    desc: "Final files delivered. Quick turnaround, unlimited revisions.",
+    title: "HANDOFF",
+    desc: "Masters and review exports; revisions within what we scoped.",
     icon: Package,
   },
 ] as const;
@@ -51,7 +51,7 @@ export function ProcessSection() {
               viewport={{ once: true, margin: "-60px" }}
               transition={motionTransition()}
             >
-              <span className="text-gradient">THE PROCESS</span>
+              <span className="text-gradient">HOW IT FLOWS</span>
             </motion.h2>
           </ScrollReveal>
 

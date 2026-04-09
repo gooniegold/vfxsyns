@@ -12,7 +12,7 @@ export function SynPageHero({
   subtitle,
   eyebrow,
   sectionGhostNum,
-  titleClassName = "font-display text-[clamp(56px,8vw,120px)] leading-none tracking-[0.06em]",
+  titleClassName = "font-display text-[clamp(36px,8vw,108px)] leading-[0.95] tracking-[0.03em] md:tracking-[0.05em]",
   subtitleClassName,
   innerClassName,
   typewriterTitle = false,
@@ -43,7 +43,7 @@ export function SynPageHero({
         <div className={eyebrow ? "mt-4" : ""}>
           {typewriterTitle ? (
             <h1 className={titleClassName}>
-              <TypingText text={title} speedMs={55} className="font-display text-[clamp(56px,8vw,120px)] leading-none tracking-[0.06em]" />
+              <TypingText text={title} speedMs={55} className="font-display text-[clamp(36px,8vw,108px)] leading-[0.95] tracking-[0.03em] md:tracking-[0.05em]" />
             </h1>
           ) : (
             <HoverSplitHeading text={title} className={titleClassName} speed={3} />

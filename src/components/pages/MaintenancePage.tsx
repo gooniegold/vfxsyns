@@ -168,7 +168,7 @@ export default function MaintenancePage() {
               textTransform: "uppercase",
             }}
           >
-            SYSTEM_UPGRADE_IN_RPROGRESS
+            SYSTEM_UPGRADE_IN_PROGRESS
           </p>
 
           <h2

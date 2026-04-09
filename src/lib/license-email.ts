@@ -1,9 +1,10 @@
 function requireEnv(name: string): string {
   const value = process.env[name];
-  if (!value) {
+  const clean = String(value || "").trim();
+  if (!clean) {
     throw new Error(`Missing required env var: ${name}`);
   }
-  return value;
+  return clean;
 }
 
 export async function sendLicenseEmail(params: {

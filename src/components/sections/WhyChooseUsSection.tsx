@@ -9,23 +9,23 @@ import { FeatureCard } from "@/components/ui/grid-feature-cards";
 const ITEMS = [
   {
     icon: Zap,
-    title: "REAL RESULTS",
-    description: "Serious reach across music videos, commercials, and content. The work speaks | check the portfolio.",
+    title: "PROOF IN THE CUT",
+    description: "Reels and uploads you can scrub before you book—no mystery reel.",
   },
   {
     icon: Music,
-    title: "BUILT FOR ARTISTS",
-    description: "Every workflow is designed around music and storytelling. No corporate polish | just VFX that hits the way the track does.",
+    title: "MUSIC-FIRST",
+    description: "Edits that follow the track instead of fighting it.",
   },
   {
     icon: Timer,
-    title: "FAST TURNAROUND",
-    description: "Speed without sacrificing quality. Rush delivery available. Projects scoped and delivered on time, every time.",
+    title: "REAL TIMELINES",
+    description: "Scope up front; rush when the date is non-negotiable.",
   },
   {
     icon: Package,
-    title: "PACK + SERVICE",
-    description: "Get custom VFX work OR grab ready-made packs to use yourself. Two ways to level up your visuals.",
+    title: "SERVICES + ASSETS",
+    description: "Commission work or grab packs when you want to run the session yourself.",
   },
 ];
 
@@ -63,14 +63,14 @@ export function WhyChooseUsSection({ id = "why" }: { id?: string }) {
             <AnimatedContainer className="mx-auto max-w-3xl text-center">
                 <p className="font-mono relative z-[1] mb-4 text-[10px] uppercase tracking-[0.2em] text-[var(--gold)]">
                     <ShinyText speed={3} className="font-mono text-[10px] uppercase tracking-[0.2em]">
-                    ● WHY WORK WITH ME
+                    ● WORKING TOGETHER
                     </ShinyText>
                 </p>
-                <h2 className="font-display text-[clamp(44px,7vw,90px)] uppercase tracking-[0.05em] leading-none mb-6">
-                    THE <span className="text-[var(--accent)]">DIFFERENCE</span>
+                <h2 className="font-display text-[clamp(44px,7vw,90px)] uppercase tracking-[0.04em] leading-none mb-6">
+                    STRAIGHT <span className="text-[var(--accent)]">TALK</span>
                 </h2>
-                <p className="text-[var(--text-secondary)] font-body mx-auto max-w-lg text-[13px] tracking-wide text-balance md:text-[14px]">
-                    Everything you need to build fast, secure, scalable visuals without the corporate friction.
+                <p className="text-[var(--text-secondary)] font-body mx-auto max-w-lg text-[14px] text-balance md:text-[15px] leading-relaxed">
+                    Fewer buzzwords, clearer deliverables—whether you hire the edit or buy a tool.
                 </p>
             </AnimatedContainer>
 

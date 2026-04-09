@@ -12,28 +12,28 @@ import { ParallaxGhostNum } from "@/components/ui/ParallaxGhostNum";
 
 const FAQS = [
   {
-    q: "How do I order custom VFX work?",
-    a: "DM @vfxsyn on Instagram. Tell me your project, timeline, and references. I will get back to you fast.",
+    q: "How do I book custom work?",
+    a: "DM @vfxsyn on Instagram with references, deadline, and whether you need grade-only or full VFX.",
   },
   {
-    q: "What software do you use?",
-    a: "Houdini, Blender, After Effects, DaVinci Resolve. Tools depend on what the project actually needs.",
+    q: "What do you cut on?",
+    a: "After Effects, Blender, Premiere, Resolve, Marvelous Designer—depends on the job.",
   },
   {
-    q: "How long does a project take?",
-    a: "Depends on scope. A color grade can be done in days. A full 3D simulation scene takes longer. Rush options are available | just ask.",
+    q: "How fast can you turn something around?",
+    a: "Grades can be days; heavy CG or sim work needs more room. Rush costs extra and has to fit the schedule.",
   },
   {
-    q: "Do the VFX packs work with my software?",
-    a: "Yes. Packs are delivered as video files (ProRes/MOV) and work in Premiere, After Effects, Final Cut, DaVinci, and anything else that reads video.",
+    q: "Will asset packs work in my NLE?",
+    a: "Packs ship as ProRes/MOV plates—Premiere, After Effects, Resolve, etc.",
   },
   {
-    q: "Can I use your packs for commercial projects?",
-    a: "Yes. Once you buy, the license covers unlimited commercial use including music videos, ads, and client work.",
+    q: "Commercial use?",
+    a: "Licensed packs are cleared for client and commercial use per the license you receive at checkout.",
   },
   {
-    q: "Do you work with artists outside Atlanta?",
-    a: "All the time. Based in Atlanta, working globally. Everything is remote-friendly.",
+    q: "Do you only work locally?",
+    a: "No—most projects are remote; Atlanta is home base.",
   },
 ];
 
@@ -62,9 +62,9 @@ export function FAQSection({ id = "faq" }: { id?: string }) {
               transition={MOTION_TRANSITION}
             >
               <HoverSplitHeading
-                text="QUESTIONS"
+                text="FAQ"
                 speed={3}
-                className="font-display text-[clamp(48px,8vw,72px)] font-bold"
+                className="font-display text-[clamp(48px,8vw,72px)]"
               />
             </motion.h2>
           </ScrollReveal>

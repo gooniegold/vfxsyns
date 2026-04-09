@@ -8,18 +8,56 @@ import {
   isShopifyConfigured,
   type ShopifyProductNode,
 } from "@/lib/shopify";
-import FuzzyText from "@/components/react-bits/FuzzyText";
+import { createStripeCheckout, isStripeCheckoutEnabled } from "@/lib/stripe";
 import ShinyText from "@/components/react-bits/ShinyText";
 import { HoverSplitHeading } from "@/components/ui/HoverSplitHeading";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { GlassButton } from "@/components/ui/GlassButton";
-import { StarBorder } from "@/components/ui/StarBorder";
 import { TiltGlare } from "@/components/ui/TiltGlare";
 import { INSTAGRAM_URL } from "@/lib/constants";
-import { SynAnimatedList } from "@/components/ui/SynAnimatedList";
-import { cn } from "@/lib/utils";
 import { SynSpinner } from "@/components/ui/SynSpinner";
 import { BorderBeam } from "@/components/react-bits/BorderBeam";
+
+type ManualProduct = {
+  id: string;
+  title: string;
+  description: string;
+  handle: string;
+  priceLabel: string;
+  imagePath: string;
+  badge: string;
+  directBuyUrl?: string;
+  comingSoon?: boolean;
+  mediaFit?: "cover" | "contain";
+};
+
+const MANUAL_PRODUCTS: ManualProduct[] = [
+  {
+    id: "quickdraft-free",
+    title: "QuickDraft Free",
+    description: "Low-res review exports with watermark locked on—good for client passes.",
+    handle: "quickdraft-free",
+    priceLabel: "FREE",
+    imagePath: "/api/product-image/free",
+    badge: "FREE BUILD",
+    directBuyUrl: "https://buy.stripe.com/cNi5kw1gV0mOdYYbek77O00",
+    comingSoon: true,
+    mediaFit: "cover",
+  },
+  {
+    id: "quickdraft-pro",
+    title: "QuickDraft Pro",
+    description: "Auto render queue, watermark controls, and faster handoffs when you are on a deadline.",
+    handle: "quickdraft-pro",
+    priceLabel: "$29",
+    imagePath: "/api/product-image/pro",
+    badge: "PRO LICENSE",
+    comingSoon: true,
+    mediaFit: "contain",
+  },
+];
+
+const PRODUCT_OF_WEEK_IMAGE = "/api/product-image/free";
 
 function productImage(p: ShopifyProductNode) {
   return p.images.edges[0]?.node?.url;
@@ -51,11 +89,51 @@ function ProductSkeleton() {
   );
 }
 
+function ProductMedia({
+  src,
+  title,
+  badge,
+  fit = "cover",
+}: {
+  src: string;
+  title: string;
+  badge: string;
+  fit?: "cover" | "contain";
+}) {
+  const [failed, setFailed] = useState(false);
+  return (
+    <div className="relative aspect-[16/10] overflow-hidden rounded-[16px] border border-[var(--border-subtle)] bg-[#070b12]">
+      {!failed ? (
+        <img
+          src={src}
+          alt={title}
+          loading="lazy"
+          decoding="async"
+          className={`h-full w-full ${fit === "contain" ? "object-contain p-2" : "object-cover"} transition-transform duration-500 group-hover:scale-[1.03]`}
+          onError={() => setFailed(true)}
+        />
+      ) : null}
+      {failed ? (
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_12%,rgba(36,210,155,0.22),transparent_32%),radial-gradient(circle_at_82%_24%,rgba(112,216,255,0.16),transparent_28%),linear-gradient(135deg,#07090f_0%,#101520_100%)]" />
+      ) : (
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_12%,rgba(36,210,155,0.12),transparent_35%),radial-gradient(circle_at_82%_24%,rgba(112,216,255,0.1),transparent_30%)]" />
+      )}
+      <span className="font-mono absolute left-4 top-4 z-[4] border border-[var(--border-accent)] bg-[rgba(10,12,18,0.82)] px-3 py-1.5 text-[8px] font-bold uppercase tracking-[0.3em] text-[var(--accent-bright)] backdrop-blur-md">
+        {badge}
+      </span>
+      <div className="absolute left-5 bottom-5 z-[4]">
+        <p className="font-display text-[22px] tracking-[0.03em] text-[var(--text-primary)]">{title}</p>
+      </div>
+    </div>
+  );
+}
+
 export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
   const [products, setProducts] = useState<ShopifyProductNode[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
+  const stripeCheckout = isStripeCheckoutEnabled();
 
   useEffect(() => {
     let cancelled = false;
@@ -86,55 +164,158 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
   }, []);
 
   const handleBuyNow = useCallback(async (p: ShopifyProductNode) => {
+    const handle = String(p.handle || "").trim().toLowerCase();
     const vid = variantId(p);
-    if (!vid) return;
-    setCheckoutLoading(vid);
+    if (!handle) return;
+    setCheckoutLoading(handle);
     try {
+      if (stripeCheckout) {
+        const url = await createStripeCheckout(handle);
+        window.location.href = url;
+        return;
+      }
+      if (!vid) {
+        throw new Error("Missing product variant ID");
+      }
       const cart = await createCheckout(vid, 1);
       window.location.href = cart.checkoutUrl;
     } catch {
       setCheckoutLoading(null);
       alert("Checkout could not start. Try again or DM @vfxsyn on Instagram.");
     }
-  }, []);
+  }, [stripeCheckout]);
+
+  const handleManualBuyNow = useCallback(async (productHandle: string) => {
+    if (!productHandle) return;
+    setCheckoutLoading(productHandle);
+    try {
+      const manualProduct = MANUAL_PRODUCTS.find((p) => p.handle === productHandle);
+      if (manualProduct?.comingSoon) {
+        setCheckoutLoading(null);
+        return;
+      }
+      const directBuyUrl = String(manualProduct?.directBuyUrl || "").trim();
+      if (directBuyUrl) {
+        window.location.href = directBuyUrl;
+        return;
+      }
+      if (stripeCheckout) {
+        const url = await createStripeCheckout(productHandle);
+        window.location.href = url;
+        return;
+      }
+      window.open(INSTAGRAM_URL, "_blank", "noopener,noreferrer");
+    } catch {
+      setCheckoutLoading(null);
+      alert("Checkout could not start. Add Stripe mapping for this handle or use DM checkout.");
+    }
+  }, [stripeCheckout]);
 
   const showGrid = !error && products && products.length > 0;
   const showEmpty = !loading && !error && products && products.length === 0;
 
   return (
     <div className="relative bg-[var(--bg-base)]">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_15%_10%,rgba(36,210,155,0.18),transparent_28%),radial-gradient(circle_at_80%_26%,rgba(112,216,255,0.14),transparent_24%)]" />
       {pageHeader}
 
-      <section className="relative z-[1] border-y border-[var(--border-accent)] bg-[rgba(99,102,241,0.03)] px-6 py-20 md:px-10">
-        <div className="mx-auto max-w-[800px] text-center flex flex-col items-center">
-          <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--accent-bright)]">
-            <ShinyText speed={3}>WHAT&apos;S INCLUDED</ShinyText>
-          </p>
-          <h2 className="font-display mt-6 text-[clamp(32px,5vw,64px)] tracking-[0.05em] text-[var(--text-primary)]">
-            PREMIUM WORKFLOW
-          </h2>
-          <div className="h-px w-32 bg-gradient-to-r from-transparent via-[var(--accent-bright)] to-transparent mt-6 mb-10" />
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6 w-full opacity-80">
-            {[
-              "3D Animation & Simulation",
-              "Cinematic Color Grading",
-              "Music Video VFX",
-              "Motion Graphics",
-              "Instant Pack Delivery",
-              "Custom Project Quotes",
-            ].map((item) => (
-              <div key={item} className="flex items-center gap-3 font-ui text-[14px] font-bold tracking-[0.1em] text-[var(--text-secondary)] hover:text-white transition-colors">
-                <span className="text-[var(--accent-bright)]">✦</span>
-                {item}
+      <section className="relative z-[1] px-6 pb-8 md:px-10">
+        <div className="mx-auto max-w-[1400px] overflow-hidden rounded-[24px] border border-[var(--border-accent)] bg-[rgba(8,12,18,0.85)] shadow-[0_30px_90px_rgba(0,0,0,0.5)]">
+          <div className="grid grid-cols-1 gap-8 p-6 md:grid-cols-[1fr_1fr] md:items-center md:p-10">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--accent-bright)]">
+                FEATURED
+              </p>
+              <h2 className="font-display mt-4 text-[clamp(36px,5vw,68px)] leading-[0.95] tracking-[0.03em] text-[var(--text-primary)]">
+                QUICKDRAFT <span className="text-[var(--accent)]">FREE</span>
+              </h2>
+              <p className="mt-5 max-w-[560px] text-[15px] leading-relaxed text-[var(--text-secondary)]">
+                Watermarked review builds so clients can comment without leaking a clean master.
+              </p>
+              <div className="mt-7">
+                <button
+                  type="button"
+                  data-cursor="hover"
+                  disabled
+                  onClick={() => handleManualBuyNow("quickdraft-free")}
+                  className="font-ui inline-flex min-h-[48px] cursor-not-allowed items-center justify-center rounded-[6px] border border-[var(--border-subtle)] bg-[var(--bg-card)] px-8 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-secondary)] opacity-80"
+                >
+                  COMING SOON
+                </button>
               </div>
-            ))}
+            </div>
+            <ProductMedia src={PRODUCT_OF_WEEK_IMAGE} title="QuickDraft Free" badge="FEATURED" />
           </div>
         </div>
       </section>
 
       <section className="relative z-[1] px-6 pb-[120px] md:px-10">
         <div className="mx-auto max-w-[1200px]">
+          <div className="mb-10 flex items-end justify-between gap-5 border-b border-[var(--border-subtle)] pb-6">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--accent-bright)]">
+                CATALOG
+              </p>
+              <h3 className="font-display mt-3 text-[clamp(30px,4vw,54px)] tracking-[0.03em] text-[var(--text-primary)]">
+                QUICKDRAFT LINE
+              </h3>
+            </div>
+            <p className="max-w-[420px] text-right text-[13px] text-[var(--text-secondary)]">
+              One-time purchase, digital delivery, license in your inbox.
+            </p>
+          </div>
+
+          <div className="mb-16 grid grid-cols-1 gap-8 md:grid-cols-2">
+            {MANUAL_PRODUCTS.map((p, i) => {
+              const busy = checkoutLoading === p.handle;
+              return (
+                <ScrollReveal key={p.id} delay={i * 0.06}>
+                  <TiltGlare
+                    className="group/card w-full rounded-[24px]"
+                    tiltAmount={6}
+                    tiltClassName="rounded-[24px] shadow-[0_32px_80px_rgba(0,0,0,0.55)]"
+                  >
+                    <div className="syn-card-premium !block h-full overflow-hidden">
+                      <div className="p-6">
+                        <ProductMedia src={p.imagePath} title={p.title} badge={p.badge} fit={p.mediaFit} />
+                      </div>
+                      <div className="px-8 pb-8">
+                        <p className="font-body min-h-[44px] text-[14px] leading-relaxed text-[var(--text-secondary)]">
+                          {p.description}
+                        </p>
+                        <div className="mt-6 flex items-center justify-between border-t border-[var(--border-subtle)] pt-5">
+                          <span className="font-display text-[24px] text-white">{p.priceLabel}</span>
+                          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[var(--text-dim)]">
+                            {p.handle}
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          data-cursor="hover"
+                          disabled={busy || Boolean(p.comingSoon)}
+                          onClick={() => handleManualBuyNow(p.handle)}
+                          className="font-ui mt-8 flex min-h-[52px] w-full items-center justify-center rounded-[4px] border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[11px] font-bold uppercase tracking-[0.3em] text-[var(--text-secondary)] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-70"
+                        >
+                          {busy ? (
+                            <span className="inline-flex items-center gap-2">
+                              <SynSpinner className="h-4 w-4 border border-[rgba(120,103,255,0.35)] border-t-white" />
+                              SECURE CHECKOUT...
+                            </span>
+                          ) : (
+                            "COMING SOON"
+                          )}
+                        </button>
+                      </div>
+                      <BorderBeam size={160} duration={4} colorFrom="var(--accent)" colorTo="var(--accent-secondary)">
+                        <div className="absolute inset-0" />
+                      </BorderBeam>
+                    </div>
+                  </TiltGlare>
+                </ScrollReveal>
+              );
+            })}
+          </div>
+
           {loading ? (
             <div className="relative flex flex-col items-center">
               <div className="mb-8 flex items-center gap-3">
@@ -151,52 +332,19 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
             </div>
           ) : null}
 
-          {error ? (
+          {error && error !== "not_configured" ? (
             <div className="flex flex-col items-center py-16 text-center">
-              {error === "not_configured" ? (
-                <div className="w-full bg-[#030308] px-4 py-24">
-                  <div className="relative mx-auto flex min-h-[1.2em] w-full max-w-[95vw] items-center justify-center">
-                    <FuzzyText
-                      fontSize="clamp(56px, 10vw, 140px)"
-                      fontWeight={400}
-                      fontFamily="var(--font-display), serif"
-                      gradient={null}
-                      color="#6366F1"
-                      enableHover
-                      baseIntensity={0.2}
-                      hoverIntensity={0.6}
-                      glitchMode
-                      glitchInterval={2000}
-                      glitchDuration={200}
-                      className="relative z-[1] mx-auto"
-                    >
-                      COMING SOON
-                    </FuzzyText>
-                  </div>
-                  <p className="font-mono mx-auto max-w-md text-[13px] tracking-[0.2em] text-[var(--text-secondary)] mt-8 uppercase">
-                    VFX PACKS — THE NEXT EVOLUTION
-                  </p>
-                  <div className="mt-12 w-full flex justify-center">
-                    <GlassButton variant="gold" href={INSTAGRAM_URL} className="syn-btn-accent-glow border-[var(--border-accent)]">
-                      DM @vfxsyn FOR EARLY ACCESS
-                    </GlassButton>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <h2 className="font-display text-[clamp(56px,8vw,120px)] text-[var(--text-primary)]">
-                    <HoverSplitHeading text="STOREFRONT OFFLINE" speed={3} className="font-display text-[clamp(56px,8vw,120px)]" />
-                  </h2>
-                  <p className="font-body mt-4 max-w-md text-[14px] text-[var(--text-secondary)]">
-                    Direct purchase available via Instagram.
-                  </p>
-                  <div className="mt-10 w-full flex justify-center">
-                    <GlassButton variant="gold" href={INSTAGRAM_URL}>
-                      DM @vfxsyn
-                    </GlassButton>
-                  </div>
-                </>
-              )}
+              <h2 className="font-display text-[clamp(56px,8vw,120px)] text-[var(--text-primary)]">
+                <HoverSplitHeading text="STOREFRONT OFFLINE" speed={3} className="font-display text-[clamp(56px,8vw,120px)]" />
+              </h2>
+              <p className="font-body mt-4 max-w-md text-[14px] text-[var(--text-secondary)]">
+                Direct purchase is still available through Instagram.
+              </p>
+              <div className="mt-10 w-full flex justify-center">
+                <GlassButton variant="gold" href={INSTAGRAM_URL}>
+                  DM @vfxsyn
+                </GlassButton>
+              </div>
             </div>
           ) : null}
 
@@ -207,12 +355,21 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
           ) : null}
 
           {showGrid ? (
+            <div className="mb-8">
+              <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--accent-bright)]">
+                EXTERNAL STORE ITEMS
+              </p>
+            </div>
+          ) : null}
+
+          {showGrid ? (
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {products!.map((p, i) => {
                 const img = productImage(p);
                 const vid = variantId(p);
                 const price = p.priceRange.minVariantPrice;
-                const busy = Boolean(vid && checkoutLoading === vid);
+                const checkoutId = String(p.handle || "").trim().toLowerCase();
+                const busy = Boolean(checkoutId && checkoutLoading === checkoutId);
                 return (
                   <ScrollReveal key={p.id} delay={i * 0.05}>
                     <TiltGlare
@@ -246,7 +403,7 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
                               {p.description || "Premium VFX assets for professional creators."}
                             </p>
                             <div className="mt-6 flex items-center justify-between">
-                              <span className="font-display text-[20px] font-black text-white">
+                              <span className="font-display text-[20px] text-white">
                                 {formatPrice(price.amount, price.currencyCode)}
                               </span>
                               <div className="h-px w-12 bg-[var(--border-accent)]" />
@@ -254,7 +411,7 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
                             <button
                               type="button"
                               data-cursor="hover"
-                              disabled={vid == null || busy}
+                              disabled={busy || (!stripeCheckout && vid == null)}
                               onClick={() => handleBuyNow(p)}
                               className="font-ui syn-btn-accent-glow mt-8 flex min-h-[52px] w-full items-center justify-center rounded-[4px] bg-[var(--bg-card)] border border-[var(--border-accent)] text-[11px] font-bold uppercase tracking-[0.3em] text-white transition-all duration-300 hover:scale-[1.02] disabled:opacity-50"
                             >
@@ -311,10 +468,10 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
       <section className="relative z-[1] px-6 py-[120px] text-center md:px-10">
         <ScrollReveal>
           <h2 className="font-display text-[clamp(56px,8vw,120px)]">
-            <HoverSplitHeading text="CUSTOM WORK?" speed={3} className="font-display text-[clamp(56px,8vw,120px)]" />
+            <HoverSplitHeading text="CUSTOM WORK" speed={3} className="font-display text-[clamp(56px,8vw,120px)]" />
           </h2>
           <p className="font-body mx-auto mt-4 max-w-lg text-[14px] text-[var(--text-secondary)]">
-            DM @vfxsyn for custom VFX, color grading, and music video packages.
+            Not everything lives in the store—DM for full-post packages and one-off shots.
           </p>
           <a
             href={INSTAGRAM_URL}

@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, Play, Shield } from "lucide-react";
+import { ArrowUpRight, Play } from "lucide-react";
 import { CountUp } from "@/components/ui/CountUp";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
@@ -16,7 +16,6 @@ import { MarqueeLogos } from "../sections/MarqueeLogos";
 import GradientText from "@/components/react-bits/GradientText";
 import ShinyText from "@/components/react-bits/ShinyText";
 import { HoverSplitHeading } from "@/components/ui/HoverSplitHeading";
-import { TextMorphHeading } from "@/components/react-bits/TextMorphHeading";
 import { TiltGlare } from "@/components/ui/TiltGlare";
 import { BorderBeam } from "@/components/react-bits/BorderBeam";
 import { PackRibbon } from "@/components/react-bits/PackRibbon";
@@ -37,24 +36,24 @@ import { ParallaxGhostNum } from "@/components/ui/ParallaxGhostNum";
 import { cn } from "@/lib/utils";
 
 import { Hero as ShaderHero } from "@/components/ui/animated-shader-hero";
-import ShaderBackground from "@/components/ui/animated-shader-background";
-import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import { Component as AboutHoverCard } from "@/components/ui/avatar-hover-card";
 
 const MARQUEE = [
-  "500+ PROJECTS",
+  "COMMISSIONS",
   "|",
-  "VFX PACKS",
+  "VFX",
   "|",
   "ATLANTA",
   "|",
-  "90M+ VIEWS",
+  "COLOR",
+  "|",
+  "MUSIC VIDEOS",
   "|",
   "VFXSYN",
   "|",
-  "3D ANIMATION",
+  "3D",
   "|",
-  "COLOR GRADING",
+  "FINISHING",
   "|",
 ];
 
@@ -65,9 +64,9 @@ const FEATURED = [
 ] as const;
 
 const PACKS = [
-  { name: "CINEMATIC DUST", desc: "Particles, dust, debris", assets: "38 ASSETS", isNew: false },
-  { name: "GLITCH PACK VOL.1", desc: "Glitch transitions", assets: "24 ASSETS", isNew: true },
-  { name: "MUSIC VID ESSENTIALS", desc: "Leaks, overlays, grades", assets: "52 ASSETS", isNew: false },
+  { name: "CINEMATIC DUST", desc: "Particles, dust, and atmosphere plates.", assets: "38 ASSETS", isNew: false },
+  { name: "GLITCH PACK VOL.1", desc: "Transition and breakup elements for edits.", assets: "24 ASSETS", isNew: true },
+  { name: "MUSIC VID ESSENTIALS", desc: "Leaks, overlays, and grade starters.", assets: "52 ASSETS", isNew: false },
 ] as const;
 
 function HeroSection() {
@@ -76,23 +75,22 @@ function HeroSection() {
       <ShaderHero
         className="h-[100svh]"
         trustBadge={{
-          text: "VERIFIED_VFX_ARCHITECT",
-          icons: [<Shield key="shield" className="w-3 h-3" />] 
+          text: "// STUDIO",
         }}
         headline={{
-          line1: "ELEVATING THE",
-          line2: "VISUAL STANDARD"
+          line1: "POST &",
+          line2: "VISUAL FX",
         }}
-        subtitle="Creative direction, 3D animation, and hyper-stylized VFX for the artists. Based in Atlanta, GA."
+        subtitle="Finishing for music videos and one-off tools you can buy outright—no subscription noise."
         buttons={{
           primary: {
-            text: "EXPLOIT WORK",
-            href: "/portfolio"
+            text: "OPEN SHOP",
+            href: "/shop",
           },
           secondary: {
-            text: "INSTAGRAM",
-            href: INSTAGRAM_URL
-          }
+            text: "VIEW WORK",
+            href: "/portfolio",
+          },
         }}
       />
     </section>
@@ -185,7 +183,7 @@ function StatsBar() {
                 </span>
               </GradientText>
             ),
-            label: "VIEWS GENERATED",
+            label: "VIEWS (EST.)",
           },
           {
             el: (
@@ -203,7 +201,7 @@ function StatsBar() {
                 </span>
               </GradientText>
             ),
-            label: "PROJECTS",
+            label: "SHIPPED PIECES",
           },
           {
             el: (
@@ -221,7 +219,7 @@ function StatsBar() {
                 </span>
               </GradientText>
             ),
-            label: "6+ YEARS EDITING",
+            label: "YEARS IN POST",
           },
           {
             el: (
@@ -310,11 +308,10 @@ function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: numbe
               />
             </div>
             <div className="relative z-[1] p-8">
-              <div className="mb-3 flex items-center gap-2">
-                <div className="h-1 w-1 rounded-full bg-[var(--accent)] animate-pulse" />
-                <span className="font-mono text-[8px] tracking-[0.3em] text-[var(--accent)] uppercase opacity-60">VERIFIED_CLIENT</span>
+              <div className="mb-3">
+                <span className="font-mono text-[8px] tracking-[0.28em] text-[var(--text-dim)] uppercase">Case</span>
               </div>
-              <h3 className="font-ui text-[24px] font-bold tracking-[0.05em] text-[var(--text-primary)] transition-colors duration-400 group-hover:text-[var(--accent)]">
+              <h3 className="font-ui text-[24px] font-bold tracking-[0.02em] text-[var(--text-primary)] transition-colors duration-400 group-hover:text-[var(--accent)]">
                 {p.title}
               </h3>
               {"artist" in p ? (
@@ -324,7 +321,7 @@ function FeaturedCard({ p, delay }: { p: (typeof FEATURED)[number]; delay: numbe
               ) : null}
               <div className="mt-8 flex items-center gap-2">
                 <div className="h-[2px] w-8 bg-gradient-to-r from-[var(--accent)] to-transparent" />
-                <span className="font-mono text-[9px] tracking-[0.2em] text-[var(--text-dim)] group-hover:text-[var(--accent)] transition-colors">DECRYPT_DATA</span>
+                <span className="font-mono text-[9px] tracking-[0.2em] text-[var(--text-dim)] group-hover:text-[var(--accent)] transition-colors">OPEN IN WORK</span>
               </div>
             </div>
           </Link>
@@ -356,9 +353,10 @@ function FeaturedWorkSection() {
             viewport={{ once: true, margin: "-60px" }}
             transition={motionTransition()}
           >
-            <TextMorphHeading
-              text="WORK WITH ME"
-              className="font-display text-[clamp(56px,8vw,120px)] tracking-[0.05em]"
+            <HoverSplitHeading
+              text="SELECTED WORK"
+              speed={3}
+              className="font-display text-[clamp(56px,8vw,120px)] tracking-[0.04em]"
             />
           </motion.div>
         </ScrollReveal>
@@ -400,20 +398,20 @@ function PacksTeaser() {
             </ShinyText>
           </p>
           <motion.h2
-            className="motion-gpu-hint font-display relative z-[1] mt-4 text-[clamp(56px,8vw,120px)]"
+            className="motion-gpu-hint font-display relative z-[1] mt-4 text-[clamp(34px,7vw,102px)] leading-[0.95] tracking-[0.02em] md:tracking-[0.04em]"
             initial={{ clipPath: "inset(0 100% 0 0)" }}
             whileInView={{ clipPath: "inset(0 0% 0 0)" }}
             viewport={{ once: true, margin: "-60px" }}
             transition={motionTransition()}
           >
             <HoverSplitHeading
-              text="VFX PACKS"
+              text="QUICKDRAFT"
               speed={3}
-              className="font-display text-[clamp(56px,8vw,120px)]"
+              className="font-display text-[clamp(34px,7vw,102px)] leading-[0.95] tracking-[0.02em] md:tracking-[0.04em]"
             />
           </motion.h2>
-          <p className="font-body relative z-[1] mt-4 max-w-lg text-[13px] text-[var(--text-secondary)]">
-            Instant delivery via Shopify checkout — powered by Stripe.
+          <p className="font-body relative z-[1] mt-4 max-w-lg text-[14px] text-[var(--text-secondary)] leading-relaxed">
+            QuickDraft is the in-house line: review renders, licenses, straight checkout—same idea as a plugin store, less fluff.
           </p>
         </ScrollReveal>
         <div className="relative z-[1] mt-14 grid gap-8 md:grid-cols-3">
@@ -446,6 +444,15 @@ function PacksTeaser() {
             </ScrollReveal>
           ))}
         </div>
+        <ScrollReveal className="mt-10 flex justify-end">
+          <Link
+            href="/shop"
+            data-cursor="hover"
+            className="font-mono text-[10px] tracking-[0.22em] text-[var(--gold)] transition-colors hover:text-[var(--gold-bright)]"
+          >
+            GO TO SHOP →
+          </Link>
+        </ScrollReveal>
       </div>
     </section>
     </ScrollReveal>
@@ -463,31 +470,24 @@ function AboutSection() {
               imageSrc={ABOUT_ME_PHOTO}
               name="VFXSYN"
               username="vfxsyn"
-              description="Creative direction, 3D animation, and heavy color grading. Shaping reality from Atlanta, GA."
-              buttonText="EXPLORE WORK"
+              description="VFX, color, and finishing—mostly music-driven work, occasionally brand."
+              buttonText="VIEW PORTFOLIO"
               variant="glass"
               size="xl"
               onButtonClick={() => { window.location.href = '/portfolio' }}
             />
-            {/* HUD flair for photo */}
-            <div className="absolute -right-6 -top-6 hud-text-sm rotate-90 opacity-20 hidden md:block">
-              SCANNING_BIOMETRICS_OK
-            </div>
           </div>
           
           <div className="w-full lg:w-1/2">
-            <ParallaxGhostNum n="02" />
+            <ParallaxGhostNum n="03" />
             <ScrollReveal>
-              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--gold)]">
-                THE ARCHITECT
-              </p>
+              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--gold)]">STUDIO</p>
               <h2 className="font-display mt-6 text-[clamp(48px,6vw,96px)] leading-none tracking-tight">
-                ABOUT <span className="text-[var(--accent-bright)]">ME</span>
+                ABOUT <span className="text-[var(--accent-bright)]">THE WORK</span>
               </h2>
               <div className="mt-8 space-y-6 text-[15px] leading-relaxed text-[var(--text-secondary)]">
                 <p>
-                  Specializing in advanced 3D visual effects and high-end color grading. Based in Atlanta, 
-                  working globally with labels and independent artists to define the next generation of visual aesthetics.
+                  Atlanta-based, remote-friendly. Heavy lean on music videos—grade, comp, CG when the piece needs it. If you need a watermark-safe review pass, that&apos;s what QuickDraft is for.
                 </p>
                 <div className="grid grid-cols-2 gap-8 pt-4">
                   <div>
@@ -496,51 +496,34 @@ function AboutSection() {
                       <li>| 3D ANIMATION</li>
                       <li>| COMPOSITING</li>
                       <li>| COLOR GRADING</li>
-                      <li>| SOUND DESIGN</li>
+                      <li>| EDIT FINISH</li>
                     </ul>
                   </div>
                   <div>
-                    <span className="hud-text-sm block">HARDWARE</span>
-                    <ul className="mt-2 space-y-1 font-ui text-[13px] font-bold tracking-wider opacity-60">
-                      <li>| RTX 4099 SIGMA</li>
-                      <li>| 128GB DDR5 PRO</li>
-                      <li>| RED GIANT SUITE</li>
-                      <li>| UNREAL ENGINE 5.4</li>
+                    <span className="hud-text-sm block">TOOLSTACK</span>
+                    <ul className="mt-2 space-y-1 font-ui text-[13px] font-bold tracking-wider opacity-85">
+                      <li>| AFTER EFFECTS</li>
+                      <li>| BLENDER</li>
+                      <li>| PREMIERE PRO</li>
+                      <li>| DAVINCI RESOLVE</li>
+                      <li>| MARVELOUS DESIGNER</li>
                     </ul>
                   </div>
                 </div>
               </div>
             </ScrollReveal>
-          </div>
         </div>
-      </section>
-    </ScrollReveal>
-  );
-}
-
-function RobotCTA() {
-  const ROBOT_SCENE_URL = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
-  return (
-    <ScrollReveal>
-      <section className="syn-home-snap-section relative z-[1] w-full h-[70vh] min-h-[500px] overflow-hidden bg-black px-6 py-10">
-        <InteractiveRobotSpline
-          scene={ROBOT_SCENE_URL}
-          className="absolute inset-0 z-0 opacity-70 mix-blend-screen" 
-        />
-        <div className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-start pt-[10vh] px-4 bg-gradient-to-b from-black/80 via-transparent to-black/80">
-          <div className="text-center text-white drop-shadow-xl w-full max-w-2xl mx-auto">
-            <p className="font-mono text-[10px] tracking-[0.4em] text-[var(--accent-bright)] mb-4">
-              INTERACTIVE 3D
-            </p>
-            <h1 className="font-display text-[clamp(40px,6vw,80px)] font-black uppercase tracking-widest text-[var(--text-primary)]">
-              MEET <span className="text-[var(--accent)]">WHOBEE</span>
-            </h1>
-            <p className="font-mono text-[10px] mt-4 tracking-[0.2em] text-[var(--text-secondary)] uppercase">
-              DRAG TO ROTATE
-            </p>
-          </div>
-        </div>
-      </section>
+        <ScrollReveal className="mt-10">
+          <Link
+            href="/shop"
+            data-cursor="hover"
+            className="font-mono inline-block text-[10px] tracking-[0.22em] text-[var(--gold)] transition-colors hover:text-[var(--gold-bright)]"
+          >
+            GO TO SHOP →
+          </Link>
+        </ScrollReveal>
+      </div>
+    </section>
     </ScrollReveal>
   );
 }
@@ -553,7 +536,6 @@ export function HomeContent() {
       <HeroSection />
       <MarqueeLogos />
       <MarqueeStrip />
-      <hr className="syn-section-divider" />
       <hr className="syn-section-divider" />
       <AboutSection />
       <hr className="syn-section-divider" />
@@ -568,7 +550,7 @@ export function HomeContent() {
       <hr className="syn-section-divider" />
       
       <div className="relative w-full">
-        <ShaderBackground />
+        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_22%_12%,rgba(36,210,155,0.1),transparent_26%),radial-gradient(circle_at_78%_24%,rgba(112,216,255,0.1),transparent_24%)]" />
         <div className="relative z-10">
           <TestimonialsSection />
           <PacksTeaser />
@@ -577,7 +559,6 @@ export function HomeContent() {
         </div>
       </div>
       <hr className="syn-section-divider" />
-      <RobotCTA />
     </div>
   );
 }

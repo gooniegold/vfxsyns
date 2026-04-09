@@ -31,6 +31,7 @@ export function KeysAdminPanel() {
 
   const [ownerEmail, setOwnerEmail] = useState("");
   const [ownerLabel, setOwnerLabel] = useState("main");
+  const [transferKey, setTransferKey] = useState("");
 
   const [fulfillEmail, setFulfillEmail] = useState("");
   const [fulfillOrderId, setFulfillOrderId] = useState("");
@@ -129,6 +130,27 @@ export function KeysAdminPanel() {
       await refreshList();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Fulfillment failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleTransfer(event: FormEvent) {
+    event.preventDefault();
+    setBusy(true);
+    setMessage("");
+    try {
+      await requestJson("/api/admin/licenses/transfer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          licenseKey: transferKey,
+        }),
+      });
+      setMessage(`Transfer/reset complete for ${transferKey}`);
+      await refreshList();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Transfer failed");
     } finally {
       setBusy(false);
     }
@@ -287,6 +309,26 @@ export function KeysAdminPanel() {
             </button>
           </form>
         </div>
+
+        <form onSubmit={handleTransfer} className="rounded border border-white/10 bg-zinc-950 p-4 space-y-3">
+          <h2 className="font-medium">Transfer / Reset Activations</h2>
+          <p className="text-xs text-zinc-400">
+            Resets activation slots for customer machine transfer.
+          </p>
+          <input
+            className="w-full rounded border border-white/20 bg-black px-3 py-2 text-sm"
+            placeholder="license key"
+            value={transferKey}
+            onChange={(e) => setTransferKey(e.target.value)}
+            required
+          />
+          <button
+            className="w-full rounded bg-amber-300 text-black py-2 text-sm font-medium disabled:opacity-50"
+            disabled={busy}
+          >
+            Reset activations
+          </button>
+        </form>
 
         <div className="rounded border border-white/10 bg-zinc-950 p-4">
           <div className="flex flex-wrap items-center gap-2 mb-3">

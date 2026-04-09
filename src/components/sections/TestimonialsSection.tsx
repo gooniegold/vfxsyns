@@ -9,18 +9,18 @@ import { Gem, Zap, Aperture, Quote } from "lucide-react";
 
 const TESTIMONIALS = [
   {
-    quote: "UNRIVALED VISUAL FIDELITY. TRANSFORMED OUR PRODUCTION INTO A CINEMATIC BENCHMARK.",
-    category: "ELITE VFX",
+    quote: "Turnaround was fast and the grade sat right on the reference we sent.",
+    category: "INDEPENDENT ARTIST",
     icon: Zap,
   },
   {
-    quote: "DISRUPTIVE COLOR GRADING THAT REDEFINED OUR ENTIRE AESTHETIC FOR THE CURRENT CYCLE.",
-    category: "PLATINUM COLOR",
+    quote: "Clean comps—no back-and-forth about edges or flicker.",
+    category: "LABEL ROLL-OUT",
     icon: Aperture,
   },
   {
-    quote: "TECHNICAL PRECISION MEETS PURE CREATIVE CHAOS. THE ONLY CHOICE FOR S-TIER 3D ASSETS.",
-    category: "PREMIUM 3D",
+    quote: "Delivers files you can actually hand to mastering without surprises.",
+    category: "DIRECTOR",
     icon: Gem,
   },
 ] as const;
@@ -33,17 +33,17 @@ export function TestimonialsSection() {
           <ScrollReveal>
             <p className="font-mono relative z-[1] text-[10px] tracking-[0.4em] text-[var(--accent-bright)]">
               <ShinyText speed={3} className="font-mono text-[10px] tracking-[0.4em]">
-                ● TESTIMONIALS
+                ● NOTES
               </ShinyText>
             </p>
             <motion.h2
-              className="motion-gpu-hint font-display relative z-[1] mt-4 text-[clamp(44px,7vw,100px)] tracking-[0.05em]"
+              className="motion-gpu-hint font-display relative z-[1] mt-4 text-[clamp(44px,7vw,100px)] tracking-[0.04em]"
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               whileInView={{ clipPath: "inset(0 0% 0 0)" }}
               viewport={{ once: true, margin: "-60px" }}
               transition={motionTransition()}
             >
-              <span className="text-gradient">CLIENT FEEDBACK</span>
+              <span className="text-gradient">FROM COLLABS</span>
             </motion.h2>
           </ScrollReveal>
 
@@ -55,22 +55,22 @@ export function TestimonialsSection() {
                     <t.icon className="h-5 w-5 text-[var(--accent)]" />
                   </div>
                   
-                  <div className="hud-text-sm mb-8 flex items-center gap-2">
-                    <span className="h-1 w-1 rounded-full bg-[var(--accent)] animate-pulse" />
-                    STATUS: VERIFIED_CLIENT
+                  <div className="hud-text-sm mb-8 flex items-center gap-2 opacity-70">
+                    <span className="h-1 w-1 rounded-full bg-[var(--accent)]" />
+                    ANON · APPROVED FOR WEB
                   </div>
                   
-                  <p className="font-display relative z-[1] text-[18px] leading-snug tracking-wide text-white transition-all duration-300 group-hover:tracking-wider">
-                    "{t.quote}"
+                  <p className="font-body relative z-[1] text-[16px] md:text-[17px] leading-snug text-white/95 transition-colors duration-300">
+                    &ldquo;{t.quote}&rdquo;
                   </p>
 
                   <div className="mt-10 pt-6 border-t border-[var(--border-accent)]">
                     <div className="flex items-center justify-between">
-                      <span className="font-ui text-[14px] font-bold tracking-[0.2em] text-[var(--accent-bright)]">
+                      <span className="font-mono text-[10px] tracking-[0.15em] text-[var(--accent-bright)]">
                         {t.category}
                       </span>
-                      <span className="font-mono text-[8px] opacity-30">
-                        REF: {Math.random().toString(16).slice(2, 10).toUpperCase()}
+                      <span className="font-mono text-[8px] opacity-30" aria-hidden>
+                        ·
                       </span>
                     </div>
                   </div>

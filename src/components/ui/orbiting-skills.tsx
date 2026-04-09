@@ -1,9 +1,9 @@
 "use client"
 import React, { useEffect, useState, memo } from 'react';
-import { Layers, MonitorPlay, Aperture, Gamepad2, Box, Hexagon, CodeXml } from 'lucide-react';
+import { Layers, MonitorPlay, Aperture, Sparkles, Hexagon, CircleDashed, CodeXml } from 'lucide-react';
 
 // --- Type Definitions ---
-type IconType = 'aftereffects' | 'premiere' | 'resolve' | 'unreal' | 'cinema4d' | 'blender';
+type IconType = 'aftereffects' | 'premiere' | 'resolve' | 'blender' | 'marvelous' | 'aftereffects2';
 type GlowColor = 'cyan' | 'purple';
 
 interface SkillIconProps {
@@ -37,8 +37,8 @@ const iconComponents: Record<IconType, { component: () => React.JSX.Element; col
   aftereffects: { component: () => <Layers className="w-full h-full text-purple-400" />, color: '#a855f7' },
   premiere: { component: () => <MonitorPlay className="w-full h-full text-violet-400" />, color: '#8b5cf6' },
   resolve: { component: () => <Aperture className="w-full h-full text-fuchsia-400" />, color: '#d946ef' },
-  unreal: { component: () => <Gamepad2 className="w-full h-full text-cyan-400" />, color: '#06b6d4' },
-  cinema4d: { component: () => <Box className="w-full h-full text-blue-400" />, color: '#3b82f6' },
+  aftereffects2: { component: () => <CircleDashed className="w-full h-full text-cyan-300" />, color: '#67e8f9' },
+  marvelous: { component: () => <Sparkles className="w-full h-full text-emerald-300" />, color: '#6ee7b7' },
   blender: { component: () => <Hexagon className="w-full h-full text-orange-400" />, color: '#f97316' },
 };
 
@@ -84,24 +84,24 @@ const skillsConfig: SkillConfig[] = [
   },
   // Outer Orbit
   { 
-    id: 'unreal',
+    id: 'aftereffects-advanced',
     orbitRadius: 180, 
     size: 50, 
     speed: -0.6, 
-    iconType: 'unreal', 
+    iconType: 'aftereffects2', 
     phaseShift: 0, 
     glowColor: 'cyan',
-    label: 'Unreal Engine'
+    label: 'After Effects'
   },
   { 
-    id: 'cinema4d',
+    id: 'marvelous',
     orbitRadius: 180, 
     size: 45, 
     speed: -0.6, 
-    iconType: 'cinema4d', 
+    iconType: 'marvelous', 
     phaseShift: (2 * Math.PI) / 3, 
     glowColor: 'cyan',
-    label: 'Cinema 4D'
+    label: 'Marvelous Designer'
   },
   { 
     id: 'blender',

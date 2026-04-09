@@ -11,9 +11,10 @@ export default function PortfolioPage() {
             <PageBreadcrumb items={[{ label: "HOME", href: "/" }, { label: "WORK" }]} />
           </div>
           <HeroGeometric
-            badge="VFXSYN /// PORTFOLIO"
-            title1="EXPLORE THE"
-            title2="ARCHIVES"
+            badge="WORK"
+            title1="PORTFOLIO"
+            title2="GRID"
+            tagline="Full pieces below—filters sort music videos vs color work."
             className="border-b border-[var(--border-subtle)]"
           />
         </div>

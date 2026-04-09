@@ -1,10 +1,6 @@
 "use client";
 
-/**
- * Showcase embeds from @/lib/portfolio-media (Drive `/preview` or direct CDN for 3D).
- */
-
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Play, X } from "lucide-react";
@@ -13,7 +9,6 @@ import { HoverSplitHeading } from "@/components/ui/HoverSplitHeading";
 import { GlassButton } from "@/components/ui/GlassButton";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { SaberBorder } from "@/components/ui/SaberBorder";
-import { StarBorder } from "@/components/ui/StarBorder";
 import { TiltGlare } from "@/components/ui/TiltGlare";
 import { BorderBeam } from "@/components/react-bits/BorderBeam";
 import {
@@ -21,15 +16,6 @@ import {
   type PortfolioFilter,
 } from "@/components/portfolio/PortfolioPageBackground";
 import { INSTAGRAM_URL } from "@/lib/constants";
-import {
-  PORTFOLIO_VIDEO_1_MUSIC,
-  PORTFOLIO_VIDEO_2_MUSIC,
-  PORTFOLIO_VIDEO_3_COLOR,
-  PORTFOLIO_VIDEO_4_COLOR,
-  PORTFOLIO_VIDEO_5_3D,
-  PORTFOLIO_VIDEO_6_3D,
-  SHOWREEL_2025_VIDEO,
-} from "@/lib/portfolio-media";
 import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { cn } from "@/lib/utils";
 
@@ -38,57 +24,32 @@ const FILTERS: readonly PortfolioFilter[] = [
   "ALL",
   "MUSIC VIDEO",
   "COLOR GRADE",
-  "3D VFX",
 ];
 
-const PROJECTS = [
-  {
-    title: "Jakk Move",
-    category: FILTERS[1],
-    videoSrc: PORTFOLIO_VIDEO_1_MUSIC,
-    artist: "LazerdIM700",
-  },
-  {
-    title: "Dream",
-    category: FILTERS[1],
-    videoSrc: PORTFOLIO_VIDEO_2_MUSIC,
-    artist: "SiyahXO",
-  },
-  {
-    title: "Nine Vicious",
-    category: FILTERS[2],
-    videoSrc: PORTFOLIO_VIDEO_3_COLOR,
-    artist: "Cosign",
-  },
-  {
-    title: "BoofPaxkMooky",
-    category: FILTERS[2],
-    videoSrc: PORTFOLIO_VIDEO_4_COLOR,
-  },
-  {
-    title: "Showcase 1",
-    category: FILTERS[3],
-    videoSrc: PORTFOLIO_VIDEO_5_3D,
-  },
-  {
-    title: "Showcase 2",
-    category: FILTERS[3],
-    videoSrc: PORTFOLIO_VIDEO_6_3D,
-  },
-].map((p) => ({
-  ...p,
-  desc: `Premium finish built for the track. ${p.title} pairs contrast, motion, and texture for a cinematic result.`,
-}));
+type PortfolioProject = {
+  title: string;
+  category: Exclude<PortfolioFilter, "ALL">;
+  videoSrc: string;
+  desc: string;
+  artist?: string;
+};
+
+function isDirectVideo(src: string): boolean {
+  return /\.(mp4|mov|webm|m4v)$/i.test(src) || src.includes("/api/portfolio-media/");
+}
 
 function ModalVideo({ src, title }: { src: string; title: string }) {
   return (
     <div className="relative aspect-video overflow-hidden rounded-[20px] bg-black">
-      <iframe
+      <video
         src={src}
         title={title}
-        allow="autoplay"
-        className="absolute inset-0 h-full w-full border-0"
-        style={{ width: "100%", height: "100%", border: "none" }}
+        controls
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 h-full w-full object-cover"
       />
     </div>
   );
@@ -98,7 +59,7 @@ function GridCard({
   p,
   onOpen,
 }: {
-  p: (typeof PROJECTS)[0];
+  p: PortfolioProject;
   onOpen: () => void;
 }) {
   return (
@@ -123,17 +84,19 @@ function GridCard({
           >
             <div className="hud-scanline relative w-full overflow-hidden bg-[#030308]">
               <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden" }}>
-                <iframe
+                <video
                   src={p.videoSrc}
                   title={`${p.title} preview`}
-                  loading="lazy"
-                  allow="autoplay"
+                  muted
+                  loop
+                  playsInline
+                  preload="none"
                   style={{
                     position: "absolute",
                     inset: 0,
                     width: "100%",
                     height: "100%",
-                    border: "none",
+                    objectFit: "cover",
                     pointerEvents: "none",
                     scale: "1.05",
                   }}
@@ -144,7 +107,7 @@ function GridCard({
                   {p.category}
                 </span>
                 <span className="hud-text-sm hidden group-hover:block animate-in fade-in slide-in-from-left-2">
-                  RES_4K_VFX
+                  4K MASTER
                 </span>
               </div>
 
@@ -159,9 +122,9 @@ function GridCard({
               />
             </div>
             <div className="relative z-[1] p-8">
-              <div className="hud-text-sm mb-2 opacity-30 flex items-center gap-2">
-                <span className="h-1 w-1 bg-[var(--accent)] rounded-full animate-pulse" />
-                VERIFIED_VFX_SESSION
+              <div className="hud-text-sm mb-2 opacity-40 flex items-center gap-2">
+                <span className="h-1 w-1 bg-[var(--accent)] rounded-full" />
+                PROJECT
               </div>
               <h3 className="font-ui text-[24px] font-bold tracking-[0.05em] text-[var(--text-primary)] transition-colors duration-400 group-hover:text-[var(--accent-bright)] uppercase">
                 {p.title}
@@ -173,7 +136,7 @@ function GridCard({
               ) : null}
               <div className="mt-8 flex items-center gap-2">
                 <div className="h-[2px] w-8 bg-[var(--accent)]" />
-                <span className="font-mono text-[8px] tracking-[0.4em] text-[var(--accent-dim)] group-hover:text-[var(--accent-bright)] transition-colors">DECRYPT_DATA</span>
+                <span className="font-mono text-[8px] tracking-[0.4em] text-[var(--accent-dim)] group-hover:text-[var(--accent-bright)] transition-colors">DETAILS</span>
               </div>
             </div>
           </button>
@@ -187,21 +150,39 @@ function GridCard({
 }
 
 export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) {
-  const [mounted, setMounted] = useState(false);
   const [filter, setFilter] = useState<PortfolioFilter>("ALL");
   const [openId, setOpenId] = useState<string | null>(null);
-
-  const filtered = useMemo(() => {
-    if (filter === "ALL") return PROJECTS;
-    return PROJECTS.filter((p) => p.category === filter);
-  }, [filter]);
-
-  const active = PROJECTS.find((p) => p.title === openId) ?? null;
-  const suppressAmbientAnimations = false;
+  const [uploadedProjects, setUploadedProjects] = useState<PortfolioProject[] | null>(null);
 
   useEffect(() => {
-    setMounted(true);
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const response = await fetch("/api/portfolio-files", { cache: "no-store" });
+        const data = (await response.json()) as { ok?: boolean; items?: PortfolioProject[] };
+        if (!cancelled && data.ok && Array.isArray(data.items)) {
+          setUploadedProjects(data.items.length > 0 ? data.items : []);
+        }
+      } catch {
+        if (!cancelled) setUploadedProjects([]);
+      }
+    };
+    void load();
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
+  const projectSource = uploadedProjects || [];
+  const showreel = projectSource[0] || null;
+
+  const filtered = useMemo(() => {
+    if (filter === "ALL") return projectSource;
+    return projectSource.filter((p) => p.category === filter);
+  }, [filter, projectSource]);
+
+  const active = projectSource.find((p) => p.title === openId) ?? null;
+  const suppressAmbientAnimations = false;
 
   useEffect(() => {
     if (typeof window === "undefined" || typeof window.addEventListener !== "function") return;
@@ -212,10 +193,9 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  if (!mounted) return null;
-
   return (
     <div className="relative z-[5] text-[var(--text-primary)]">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_16%_10%,rgba(36,210,155,0.14),transparent_26%),radial-gradient(circle_at_84%_20%,rgba(112,216,255,0.1),transparent_22%)]" />
       <PortfolioPageBackground activeFilter={filter} suppressAmbientAnimations={suppressAmbientAnimations} />
 
       {pageHeader}
@@ -260,18 +240,22 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
           ● SHOWREEL
         </p>
         <div className="relative w-full aspect-video syn-card-premium overflow-hidden border-[var(--border-accent)]">
-          <iframe
-            src={SHOWREEL_2025_VIDEO}
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              border: "none",
-            }}
-            allow="autoplay; fullscreen"
-            title="Showreel"
-          />
+          {showreel && isDirectVideo(showreel.videoSrc) ? (
+            <video
+              src={showreel.videoSrc}
+              preload="metadata"
+              muted
+              loop
+              playsInline
+              controls
+              className="absolute inset-0 h-full w-full object-cover"
+              title="Showreel"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center text-[var(--text-secondary)]">
+              Upload videos to src/components/portfolio
+            </div>
+          )}
           <BorderBeam size={100} duration={6} colorFrom="var(--accent)" colorTo="var(--gold)">
             <div className="absolute inset-0" />
           </BorderBeam>

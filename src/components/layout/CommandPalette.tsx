@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Film, Home, Mail, ShoppingBag, ExternalLink } from "lucide-react";
+import { Film, Home, Mail, ShoppingBag, ExternalLink, Shield } from "lucide-react";
 import { INSTAGRAM_URL } from "@/lib/constants";
 import { MOTION_TRANSITION } from "@/lib/motion-defaults";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,7 @@ const ACTIONS = [
   { label: "Go to Work", path: "/portfolio", keys: "W", Icon: Film },
   { label: "Go to Shop", path: "/shop", keys: "S", Icon: ShoppingBag },
   { label: "Go to Contact", path: "/contact", keys: "C", Icon: Mail },
+  { label: "Open Control Panel", path: "/vfxsyn-control", keys: "A", Icon: Shield },
   { label: "Open Instagram", href: INSTAGRAM_URL, external: true, keys: "I", Icon: ExternalLink },
 ] as const;
 
@@ -33,8 +34,8 @@ export function CommandPalette() {
       if (!open) {
         if (e.metaKey || e.ctrlKey || e.altKey) return;
         const k = e.key.toLowerCase();
-        if (["h", "w", "s", "c"].includes(k) && document.activeElement?.tagName !== "INPUT" && document.activeElement?.tagName !== "TEXTAREA") {
-          const map: Record<string, string> = { h: "/", w: "/portfolio", s: "/shop", c: "/contact" };
+        if (["h", "w", "s", "c", "a"].includes(k) && document.activeElement?.tagName !== "INPUT" && document.activeElement?.tagName !== "TEXTAREA") {
+          const map: Record<string, string> = { h: "/", w: "/portfolio", s: "/shop", c: "/contact", a: "/vfxsyn-control" };
           const path = map[k];
           if (path) {
             e.preventDefault();

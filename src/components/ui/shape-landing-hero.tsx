@@ -71,14 +71,16 @@ function ElegantShape({
 }
 
 function HeroGeometric({
-    badge = "VFXSYN /// PORTFOLIO",
-    title1 = "Elevate Your",
-    title2 = "Digital Vision",
+    badge = "PORTFOLIO",
+    title1 = "SELECTED",
+    title2 = "WORK",
+    tagline = "VFX, color, and finishing—scroll for full pieces.",
     className,
 }: {
     badge?: string;
     title1?: string;
     title2?: string;
+    tagline?: string;
     className?: string;
 }) {
     const fadeUpVariants = {
@@ -166,7 +168,7 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <h1 className="text-4xl sm:text-6xl md:text-8xl font-display uppercase tracking-[0.05em] mb-6 md:mb-8 font-bold">
+                        <h1 className="text-4xl sm:text-6xl md:text-8xl font-display uppercase tracking-[0.05em] mb-6 md:mb-8">
                             <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">
                                 {title1}
                             </span>
@@ -187,9 +189,8 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <p className="font-mono text-[10px] md:text-[12px] uppercase text-white/40 mb-8 leading-relaxed tracking-[0.2em] max-w-xl mx-auto px-4">
-                            Director · VFX Artist · Colorist
-                            <br />Crafting exceptional digital experiences through innovative design and cutting-edge technology.
+                        <p className="font-body text-[13px] md:text-[15px] text-white/55 mb-8 leading-relaxed max-w-xl mx-auto px-4 tracking-normal normal-case">
+                            {tagline}
                         </p>
                     </motion.div>
                 </div>
