@@ -7,6 +7,7 @@ import { AppDock } from "@/components/layout/AppDock";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { GlobalSiteEffects } from "@/components/layout/GlobalSiteEffects";
 import MaintenancePage from "@/components/pages/MaintenancePage";
+import { Analytics } from "@vercel/analytics/next";
 
 const fontDisplay = Oswald({
   subsets: ["latin"],
@@ -70,6 +71,7 @@ export default function RootLayout({
             <SiteShell>{children}</SiteShell>
           </>
         )}
+        <Analytics />
       </body>
     </html>
   );
