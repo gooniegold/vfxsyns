@@ -23,7 +23,7 @@ function ThemeToggleBtn() {
   const [dark, setDark] = useState(true);
 
   useEffect(() => {
-    // Sync with html class
+    // Sync with stored preference (inline script already applied the class)
     setDark(!document.documentElement.classList.contains("light"));
   }, []);
 
@@ -32,8 +32,10 @@ function ThemeToggleBtn() {
     setDark(next);
     if (next) {
       document.documentElement.classList.remove("light");
+      localStorage.setItem("theme", "dark");
     } else {
       document.documentElement.classList.add("light");
+      localStorage.setItem("theme", "light");
     }
   };
 

@@ -134,7 +134,9 @@ export function SoundCloudWidget() {
       widget.bind(window.SC.Widget.Events.PLAY, () => {
         setPlayingBoth(true);
         setNeedsClick(false);
-        loadTrackMeta(widget);
+        /* Delay meta fetch — widget.getCurrentSound() still returns the
+           previous track for ~200 ms after a PLAY event on a new load */
+        setTimeout(() => loadTrackMeta(widget), 350);
       });
 
       widget.bind(window.SC.Widget.Events.PAUSE, () => setPlayingBoth(false));

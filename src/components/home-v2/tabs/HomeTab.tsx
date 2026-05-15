@@ -1,12 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { DiscordCard } from "../DiscordCard";
+import { VfxsynCard } from "../VfxsynCard";
 
-const DISCORD_ID = process.env.NEXT_PUBLIC_DISCORD_USER_ID ?? "855141280945143828";
 const ease = [0.16, 1, 0.3, 1] as const;
 
-/* ── Social links shown directly on home tab ── */
 const SOCIALS = [
   {
     label: "Instagram",
@@ -50,69 +48,10 @@ export function HomeTab() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -6 }}
       transition={{ duration: 0.4, ease }}
-      className="space-y-3"
+      className="space-y-2.5"
     >
-      {/* ── Identity ── */}
-      <div
-        className="rounded-xl p-4"
-        style={{
-          background: "rgba(255,255,255,0.03)",
-          border: "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
-        <h1
-          className="text-[22px] font-semibold tracking-tight text-white leading-none"
-          style={{ fontFamily: "var(--font-inter), sans-serif" }}
-        >
-          vfxsyn
-        </h1>
-        <p
-          className="mt-1.5 text-[12px] leading-relaxed"
-          style={{ color: "rgba(255,255,255,0.42)", fontFamily: "var(--font-inter), sans-serif" }}
-        >
-          vfx / 3D artist · Web &amp; C++ dev
-        </p>
-        <a
-          href="https://instagram.com/vfxsyn"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-0.5 inline-block text-[11px] underline underline-offset-2 transition-colors hover:text-white"
-          style={{
-            color: "rgba(255,255,255,0.35)",
-            fontFamily: "var(--font-inter), sans-serif",
-            textDecorationColor: "rgba(255,255,255,0.2)",
-          }}
-        >
-          @vfxsyn on IG
-        </a>
-
-        {/* Stats */}
-        <div
-          className="mt-4 flex gap-5 border-t pt-4"
-          style={{ borderColor: "rgba(255,255,255,0.06)" }}
-        >
-          {[
-            { v: "90M+", l: "views" },
-            { v: "500+", l: "videos" },
-            { v: "6+",   l: "years"  },
-          ].map(({ v, l }) => (
-            <div key={l}>
-              <p
-                className="text-[15px] font-semibold text-white leading-none"
-                style={{ fontFamily: "var(--font-inter), sans-serif" }}
-              >
-                {v}
-              </p>
-              <p
-                className="mt-1 text-[8px] uppercase tracking-widest"
-                style={{ color: "rgba(255,255,255,0.25)", fontFamily: "var(--font-mono)" }}
-              >
-                {l}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* ── VfxsynCard — profile + live presence + stats ── */}
+      <VfxsynCard />
 
       {/* ── Socials ── */}
       <div
@@ -120,12 +59,12 @@ export function HomeTab() {
         style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}
       >
         <p
-          className="mb-2.5 text-[8px] uppercase tracking-[0.3em]"
+          className="mb-2 text-[8px] uppercase tracking-[0.3em]"
           style={{ color: "rgba(255,255,255,0.22)", fontFamily: "var(--font-mono)" }}
         >
           socials
         </p>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-1.5">
           {SOCIALS.map((s, i) => (
             <motion.a
               key={s.label}
@@ -135,7 +74,7 @@ export function HomeTab() {
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25, ease, delay: i * 0.05 }}
-              className="group flex flex-col items-center gap-1.5 rounded-xl py-3 transition-all duration-200"
+              className="group flex flex-col items-center gap-1.5 rounded-xl py-2.5 transition-all duration-200"
               style={{
                 background: "rgba(255,255,255,0.03)",
                 border: "1px solid rgba(255,255,255,0.06)",
@@ -172,9 +111,6 @@ export function HomeTab() {
           ))}
         </div>
       </div>
-
-      {/* ── Discord presence ── */}
-      <DiscordCard userId={DISCORD_ID} />
     </motion.div>
   );
 }

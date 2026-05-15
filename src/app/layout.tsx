@@ -61,6 +61,12 @@ export default function RootLayout({
       )}
     >
       <head>
+        {/* Restore theme before first paint — no flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light')document.documentElement.classList.add('light');}catch(e){}})();`,
+          }}
+        />
         <link
           rel="icon"
           href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23a855f7'/><stop offset='1' stop-color='%238b5cf6'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='%2306040f'/><rect x='6' y='6' width='88' height='88' rx='16' fill='none' stroke='url(%23g)' stroke-width='3' opacity='.9'/><path d='M28 72 L50 30 L72 72' stroke='url(%23g)' stroke-width='8' fill='none' stroke-linejoin='round'/></svg>"
