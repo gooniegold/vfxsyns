@@ -24,7 +24,7 @@ const PRODUCTS = [
     handle: "automve",
     title: "VFXSYN AUTOMVE",
     desc: "Automatic motion for music videos. Shakes, zooms, hit stops.",
-    price: "SOON",
+    price: "$49",
     badge: "PLUGIN",
   },
 ] as const;

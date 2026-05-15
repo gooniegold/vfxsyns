@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { DiscordCard } from "../DiscordCard";
-import { SoundCloudWidget } from "../SoundCloudWidget";
 
 const DISCORD_ID = process.env.NEXT_PUBLIC_DISCORD_USER_ID ?? "855141280945143828";
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -32,18 +31,20 @@ export function HomeTab() {
           style={{ color: "rgba(255,255,255,0.45)", fontFamily: "var(--font-inter), sans-serif" }}
         >
           vfx / 3D artist · Web &amp; C++ dev
-          <br />
-          <a
-            href="https://instagram.com/vfxsyn"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-white"
-            style={{ color: "rgba(255,255,255,0.35)" }}
-          >
-            @vfxsyn
-          </a>{" "}
-          <span style={{ color: "rgba(255,255,255,0.2)" }}>on IG</span>
         </p>
+        <a
+          href="https://instagram.com/vfxsyn"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-1 inline-block text-[12px] underline underline-offset-2 transition-colors hover:text-white"
+          style={{
+            color: "rgba(255,255,255,0.4)",
+            fontFamily: "var(--font-inter), sans-serif",
+            textDecorationColor: "rgba(255,255,255,0.25)",
+          }}
+        >
+          @vfxsyn on IG
+        </a>
 
         {/* Quick stats */}
         <div
@@ -53,7 +54,7 @@ export function HomeTab() {
           {[
             { v: "90M+", l: "views" },
             { v: "500+", l: "videos" },
-            { v: "6+", l: "years" },
+            { v: "6+",   l: "years"  },
           ].map(({ v, l }) => (
             <div key={l}>
               <p
@@ -75,9 +76,6 @@ export function HomeTab() {
 
       {/* Discord presence */}
       <DiscordCard userId={DISCORD_ID} />
-
-      {/* SoundCloud now playing */}
-      <SoundCloudWidget />
     </motion.div>
   );
 }

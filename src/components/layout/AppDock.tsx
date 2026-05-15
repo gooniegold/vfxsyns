@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Home, Film, ShoppingBag, Mail, Shield } from "lucide-react";
+import { Home, Film, ShoppingBag, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -11,7 +11,6 @@ const NAV = [
   { path: "/portfolio", label: "Work", Icon: Film },
   { path: "/shop", label: "Shop", Icon: ShoppingBag },
   { path: "/contact", label: "Contact", Icon: Mail },
-  { path: "/vfxsyn-control", label: "Admin", Icon: Shield },
 ] as const;
 
 export function AppDock() {

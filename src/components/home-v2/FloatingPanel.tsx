@@ -7,6 +7,7 @@ import { WorkTab } from "./tabs/WorkTab";
 import { ShopTab } from "./tabs/ShopTab";
 import { LinksTab } from "./tabs/LinksTab";
 import { ViewCounter } from "./ViewCounter";
+import { SoundCloudWidget } from "./SoundCloudWidget";
 
 type Tab = "home" | "work" | "shop" | "links";
 
@@ -25,19 +26,20 @@ export function FloatingPanel() {
       initial={{ opacity: 0, y: 16, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="relative w-full max-w-[420px] overflow-hidden rounded-2xl"
+      className="relative mx-auto w-full max-w-[420px] overflow-hidden rounded-2xl flex flex-col"
       style={{
-        background: "rgba(10, 10, 10, 0.92)",
+        background: "rgba(10, 10, 10, 0.88)",
         border: "1px solid rgba(255,255,255,0.08)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
         boxShadow: "0 32px 80px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.04)",
+        maxHeight: "92vh",
       }}
     >
-      {/* Nav bar */}
+      {/* ── Nav bar ── */}
       <div
-        className="flex items-center justify-between border-b px-4 py-2"
-        style={{ borderColor: "rgba(255,255,255,0.07)", background: "rgba(0,0,0,0.4)" }}
+        className="flex shrink-0 items-center justify-between border-b px-4 py-2"
+        style={{ borderColor: "rgba(255,255,255,0.07)", background: "rgba(0,0,0,0.35)" }}
       >
         <div className="flex items-center gap-0.5">
           {TABS.map((t) => (
@@ -66,10 +68,10 @@ export function FloatingPanel() {
         <ViewCounter />
       </div>
 
-      {/* Content */}
+      {/* ── Scrollable tab content ── */}
       <div
-        className="overflow-y-auto p-4"
-        style={{ maxHeight: "72vh", scrollbarWidth: "none" }}
+        className="flex-1 overflow-y-auto p-4"
+        style={{ scrollbarWidth: "none" }}
       >
         <AnimatePresence mode="wait">
           <motion.div
@@ -79,12 +81,20 @@ export function FloatingPanel() {
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            {tab === "home" && <HomeTab />}
-            {tab === "work" && <WorkTab />}
-            {tab === "shop" && <ShopTab />}
+            {tab === "home"  && <HomeTab />}
+            {tab === "work"  && <WorkTab />}
+            {tab === "shop"  && <ShopTab />}
             {tab === "links" && <LinksTab />}
           </motion.div>
         </AnimatePresence>
+      </div>
+
+      {/* ── Persistent music player — always visible at bottom ── */}
+      <div
+        className="shrink-0 border-t px-3 py-3"
+        style={{ borderColor: "rgba(255,255,255,0.06)", background: "rgba(0,0,0,0.3)" }}
+      >
+        <SoundCloudWidget />
       </div>
     </motion.div>
   );
