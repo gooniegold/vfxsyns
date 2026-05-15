@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { DiscordCard } from "../DiscordCard";
 import { SoundCloudWidget } from "../SoundCloudWidget";
 
-const DISCORD_ID = (typeof window !== "undefined" ? "" : "") + (process.env.NEXT_PUBLIC_DISCORD_USER_ID ?? "YOUR_DISCORD_ID");
+const DISCORD_ID = process.env.NEXT_PUBLIC_DISCORD_USER_ID ?? "855141280945143828";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
