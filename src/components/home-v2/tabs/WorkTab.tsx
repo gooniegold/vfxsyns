@@ -6,11 +6,36 @@ import Link from "next/link";
 const ease = [0.16, 1, 0.3, 1] as const;
 
 const WORKS = [
-  { title: "JAKK MOVE", artist: "LAZERDIM700", cat: "MUSIC VIDEO", href: "/portfolio" },
-  { title: "DREAM", artist: "SIYAH XO", cat: "MUSIC VIDEO", href: "/portfolio" },
-  { title: "SHOWREEL", artist: "VFXSYN", cat: "VFX SHOWCASE", href: "/portfolio" },
-  { title: "BOUGEE", artist: "INWINTR", cat: "MUSIC VIDEO", href: "/portfolio" },
-  { title: "MONEY", artist: "LORSKEEZY", cat: "MUSIC VIDEO", href: "/portfolio" },
+  {
+    title: "JAKK MOVE",
+    artist: "LAZERDIM700",
+    cat: "MUSIC VIDEO",
+    slug: "JAKK MOVE",
+  },
+  {
+    title: "DREAM",
+    artist: "SIYAH XO",
+    cat: "MUSIC VIDEO",
+    slug: "DREAM",
+  },
+  {
+    title: "SHOWREEL",
+    artist: "VFXSYN",
+    cat: "VFX SHOWCASE",
+    slug: "SHOWREEL",
+  },
+  {
+    title: "BOUGEE",
+    artist: "INWINTR",
+    cat: "MUSIC VIDEO",
+    slug: "BOUGEE",
+  },
+  {
+    title: "MONEY",
+    artist: "LORSKEEZY",
+    cat: "MUSIC VIDEO",
+    slug: "MONEY",
+  },
 ] as const;
 
 export function WorkTab() {
@@ -20,13 +45,22 @@ export function WorkTab() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -6 }}
       transition={{ duration: 0.4, ease }}
-      className="space-y-2"
+      className="space-y-1.5"
     >
+      {/* Header */}
       <div className="mb-3 flex items-center justify-between">
-        <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-[rgba(34,197,94,0.5)]">selected cuts</p>
+        <p
+          className="text-[9px] uppercase tracking-[0.3em]"
+          style={{ color: "rgba(255,255,255,0.25)", fontFamily: "var(--font-mono)" }}
+        >
+          selected cuts
+        </p>
         <Link
           href="/portfolio"
-          className="font-mono text-[9px] text-[rgba(255,255,255,0.3)] transition-colors hover:text-[rgba(34,197,94,0.7)]"
+          className="text-[9px] transition-colors"
+          style={{ color: "rgba(255,255,255,0.25)", fontFamily: "var(--font-mono)" }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.25)"; }}
         >
           all work →
         </Link>
@@ -35,39 +69,92 @@ export function WorkTab() {
       {WORKS.map((w, i) => (
         <motion.div
           key={w.title}
-          initial={{ opacity: 0, x: -8 }}
+          initial={{ opacity: 0, x: -6 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.35, ease, delay: i * 0.05 }}
+          transition={{ duration: 0.3, ease, delay: i * 0.05 }}
         >
           <Link
-            href={w.href}
-            className="group flex items-center justify-between rounded-lg border border-[rgba(34,197,94,0.1)] bg-[rgba(0,0,0,0.4)] px-4 py-3 transition-all duration-200 hover:border-[rgba(34,197,94,0.3)] hover:bg-[rgba(34,197,94,0.04)] hover:shadow-[0_0_16px_rgba(34,197,94,0.08)]"
+            href={`/portfolio?open=${encodeURIComponent(w.slug)}`}
+            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200"
+            style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = "rgba(255,255,255,0.05)";
+              el.style.borderColor = "rgba(255,255,255,0.1)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = "rgba(255,255,255,0.02)";
+              el.style.borderColor = "rgba(255,255,255,0.05)";
+            }}
           >
-            <div className="flex items-center gap-3">
-              <div className="h-1.5 w-1.5 rounded-full bg-[rgba(34,197,94,0.4)] group-hover:bg-[#22c55e] transition-colors" />
-              <div>
-                <p className="font-mono text-[12px] font-medium text-[rgba(255,255,255,0.85)] group-hover:text-white transition-colors">
-                  {w.title}
-                </p>
-                <p className="font-mono text-[10px] text-[rgba(255,255,255,0.3)]">{w.artist}</p>
-              </div>
+            {/* Dot indicator */}
+            <div
+              className="h-1.5 w-1.5 shrink-0 rounded-full transition-colors duration-200"
+              style={{ background: "rgba(255,255,255,0.2)" }}
+            />
+
+            {/* Title + artist */}
+            <div className="min-w-0 flex-1">
+              <p
+                className="text-[12px] font-medium text-white leading-none"
+                style={{ fontFamily: "var(--font-inter), sans-serif" }}
+              >
+                {w.title}
+              </p>
+              <p
+                className="mt-[3px] text-[10px] leading-none"
+                style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-mono)" }}
+              >
+                {w.artist}
+              </p>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-[rgba(34,197,94,0.4)]">
+
+            {/* Category + arrow */}
+            <div className="flex shrink-0 items-center gap-2">
+              <span
+                className="text-[8px] uppercase tracking-[0.2em] hidden sm:block"
+                style={{ color: "rgba(255,255,255,0.22)", fontFamily: "var(--font-mono)" }}
+              >
                 {w.cat}
               </span>
-              <svg className="h-3 w-3 text-[rgba(34,197,94,0.3)] transition-transform group-hover:translate-x-0.5 group-hover:text-[rgba(34,197,94,0.7)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                <path d="M5 12h14M12 5l7 7-7 7"/>
+              <svg
+                className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5"
+                style={{ color: "rgba(255,255,255,0.22)" }}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </div>
           </Link>
         </motion.div>
       ))}
 
+      {/* Full portfolio button */}
       <div className="pt-2">
         <Link
           href="/portfolio"
-          className="flex w-full items-center justify-center rounded-lg border border-[rgba(34,197,94,0.2)] py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-[rgba(34,197,94,0.6)] transition-all hover:border-[rgba(34,197,94,0.4)] hover:bg-[rgba(34,197,94,0.04)] hover:text-[#4ade80]"
+          className="flex w-full items-center justify-center rounded-xl py-3 text-[10px] uppercase tracking-[0.2em] transition-all duration-200"
+          style={{
+            border: "1px solid rgba(255,255,255,0.08)",
+            color: "rgba(255,255,255,0.3)",
+            fontFamily: "var(--font-mono)",
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.background = "rgba(255,255,255,0.04)";
+            el.style.borderColor = "rgba(255,255,255,0.14)";
+            el.style.color = "rgba(255,255,255,0.7)";
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget as HTMLElement;
+            el.style.background = "transparent";
+            el.style.borderColor = "rgba(255,255,255,0.08)";
+            el.style.color = "rgba(255,255,255,0.3)";
+          }}
         >
           view full portfolio
         </Link>

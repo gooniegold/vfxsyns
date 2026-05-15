@@ -1,9 +1,11 @@
+import { Suspense } from "react";
 import { PortfolioView } from "@/components/pages/PortfolioView";
 import { HeroGeometric } from "@/components/ui/shape-landing-hero";
 import { PageBreadcrumb } from "@/components/layout/PageBreadcrumb";
 
 export default function PortfolioPage() {
   return (
+    <Suspense fallback={null}>
     <PortfolioView
       pageHeader={
         <div className="relative">
@@ -20,5 +22,6 @@ export default function PortfolioPage() {
         </div>
       }
     />
+    </Suspense>
   );
 }

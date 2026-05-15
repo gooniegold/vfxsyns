@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Oswald, Outfit, JetBrains_Mono } from "next/font/google";
+import { Oswald, Outfit, JetBrains_Mono, Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { getSiteOrigin } from "@/lib/site";
 import "./globals.css";
-import { AppDock } from "@/components/layout/AppDock";
-import { SiteShell } from "@/components/layout/SiteShell";
+import { ConditionalShell } from "@/components/layout/ConditionalShell";
 import { GlobalSiteEffects } from "@/components/layout/GlobalSiteEffects";
 import MaintenancePage from "@/components/pages/MaintenancePage";
 
@@ -18,6 +17,12 @@ const fontSans = Outfit({
   subsets: ["latin"],
   variable: "--font-ui",
   weight: ["400", "500", "600", "700"],
+});
+
+const fontInter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const fontMono = JetBrains_Mono({
@@ -52,6 +57,7 @@ export default function RootLayout({
         fontDisplay.variable,
         fontSans.variable,
         fontMono.variable,
+        fontInter.variable,
       )}
     >
       <head>
@@ -66,8 +72,7 @@ export default function RootLayout({
         ) : (
           <>
             <GlobalSiteEffects />
-            <AppDock />
-            <SiteShell>{children}</SiteShell>
+            <ConditionalShell>{children}</ConditionalShell>
           </>
         )}
       </body>

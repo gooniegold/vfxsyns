@@ -11,40 +11,39 @@
 }
 
 :root {
-  /* ─── VFXSYN — toxic green / black ─── */
+  /* ─── VFXSYN — apple white / pure black ─── */
   --bg-base: #000000;
-  --bg-elevated: #050a05;
-  --bg-card: rgba(0, 10, 0, 0.75);
+  --bg-elevated: #0a0a0a;
+  --bg-card: rgba(13, 13, 13, 0.95);
 
-  --accent: #22c55e;
-  --accent-secondary: #4ade80;
-  --accent-bright: #86efac;
-  --accent-dim: rgba(34, 197, 94, 0.15);
-  --accent-glow: rgba(34, 197, 94, 0.35);
-  --accent-neon: #39ff14;
+  --accent: #ffffff;
+  --accent-secondary: rgba(255, 255, 255, 0.65);
+  --accent-bright: #ffffff;
+  --accent-dim: rgba(255, 255, 255, 0.06);
+  --accent-glow: rgba(255, 255, 255, 0.08);
 
-  /* keep gold for shop/premium feel */
   --gold: #fbbf24;
   --gold-bright: #fde68a;
-  --gold-dim: rgba(251, 191, 36, 0.2);
-  --gold-glow: rgba(251, 191, 36, 0.25);
+  --gold-dim: rgba(251, 191, 36, 0.15);
+  --gold-glow: rgba(251, 191, 36, 0.2);
 
-  --text-primary: #f0fdf4;
-  --text-secondary: rgba(187, 247, 208, 0.85);
-  --text-dim: rgba(134, 239, 172, 0.45);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.55);
+  --text-dim: rgba(255, 255, 255, 0.28);
 
-  --border-subtle: rgba(34, 197, 94, 0.12);
-  --border-accent: rgba(34, 197, 94, 0.35);
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-accent: rgba(255, 255, 255, 0.12);
   --border-gold: rgba(251, 191, 36, 0.3);
 
-  --glass-bg: rgba(0, 0, 0, 0.55);
-  --glass-blur: blur(20px) saturate(120%);
-  --glass-edge: 1px solid rgba(34, 197, 94, 0.18);
-  --glass-elev-shadow: 0 28px 90px rgba(0, 0, 0, 0.8), 0 0 60px rgba(34, 197, 94, 0.05), inset 0 1px 0 rgba(34, 197, 94, 0.08);
+  --glass-bg: rgba(10, 10, 10, 0.94);
+  --glass-blur: blur(12px);
+  --glass-edge: 1px solid rgba(255, 255, 255, 0.08);
+  --glass-elev-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
-  --hud-line: rgba(34, 197, 94, 0.15);
+  --hud-line: rgba(255, 255, 255, 0.08);
   --hud-text: var(--accent);
 
+  --font-inter: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-hero: var(--font-display), Oswald, ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-display), Oswald, ui-sans-serif, system-ui, sans-serif;
   --ease-ultra: cubic-bezier(0.16, 1, 0.3, 1);
@@ -66,8 +65,8 @@
 /* ─── thin scrollbar ─── */
 .scrollbar-thin::-webkit-scrollbar { width: 4px; }
 .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(34,197,94,0.2); border-radius: 9999px; }
-.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: rgba(34,197,94,0.4); }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 9999px; }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
 
 
 /**

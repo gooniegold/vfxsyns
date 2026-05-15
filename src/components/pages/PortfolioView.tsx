@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import type { CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Play, X } from "lucide-react";
@@ -139,9 +140,11 @@ function GridCard({
 }
 
 export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) {
+  const searchParams = useSearchParams();
   const [filter, setFilter] = useState<PortfolioFilter>("ALL");
   const [openId, setOpenId] = useState<string | null>(null);
   const [uploadedProjects, setUploadedProjects] = useState<PortfolioProject[] | null>(null);
+  const autoOpenedRef = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -161,6 +164,21 @@ export function PortfolioView({ pageHeader }: { pageHeader?: React.ReactNode }) 
       cancelled = true;
     };
   }, []);
+
+  /* Auto-open a project if ?open= param is present */
+  useEffect(() => {
+    if (autoOpenedRef.current) return;
+    if (!uploadedProjects) return;
+    const slug = searchParams.get("open");
+    if (!slug) return;
+    const match = uploadedProjects.find(
+      (p) => p.title.toLowerCase() === decodeURIComponent(slug).toLowerCase(),
+    );
+    if (match) {
+      autoOpenedRef.current = true;
+      setOpenId(match.title);
+    }
+  }, [uploadedProjects, searchParams]);
 
   const projectSource = uploadedProjects || [];
   const showreel = projectSource[0] || null;
