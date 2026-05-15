@@ -12,7 +12,7 @@ export function HomePage() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[100000] flex items-center justify-center overflow-hidden">
+    <div className="homepage-cursor-scope fixed inset-0 z-[100000] flex items-center justify-center overflow-hidden">
       {/* Starfield lives absolutely inside this container */}
       <StarField />
 
