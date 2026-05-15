@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { VfxsynCard } from "../VfxsynCard";
+import { DiscordMini } from "../DiscordMini";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -52,6 +53,9 @@ export function HomeTab() {
     >
       {/* ── VfxsynCard — profile + live presence + stats ── */}
       <VfxsynCard />
+
+      {/* ── Discord mini card ── */}
+      <DiscordMini />
 
       {/* ── Socials ── */}
       <div

@@ -171,6 +171,19 @@ export function SoundCloudWidget() {
         widget.getPosition((p) => setPosition(p));
       });
 
+      /* Force autoplay on first user interaction — bypasses browser autoplay policy */
+      const tryPlay = () => {
+        if (!playingRef.current && widgetRef.current) {
+          fadingRef.current = false;
+          widgetRef.current.setVolume(volumeRef.current);
+          try { widgetRef.current.play(); } catch { /* blocked */ }
+        }
+        document.removeEventListener("pointerdown", tryPlay, { capture: true });
+        document.removeEventListener("keydown",     tryPlay, { capture: true });
+      };
+      document.addEventListener("pointerdown", tryPlay, { capture: true, once: true });
+      document.addEventListener("keydown",     tryPlay, { capture: true, once: true });
+
       setTimeout(() => {
         if (!playingRef.current) setNeedsClick(true);
       }, 2800);
@@ -303,9 +316,10 @@ export function SoundCloudWidget() {
           href="https://soundcloud.com/vfxsyn"
           target="_blank"
           rel="noopener noreferrer"
-          className="shrink-0 transition-opacity hover:opacity-70"
+          className="shrink-0 p-0.5 transition-opacity hover:opacity-70"
+          style={{ lineHeight: 0 }}
         >
-          <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="#f47521">
+          <svg className="h-4 w-4 overflow-visible" viewBox="0 0 24 24" fill="#f47521">
             <path d="M1.175 12.225C.528 12.225 0 12.75 0 13.39v.214c0 .639.528 1.163 1.175 1.163.646 0 1.175-.524 1.175-1.163v-.214c0-.638-.53-1.165-1.175-1.165zm2.138 0c-.646 0-1.174.527-1.174 1.165v1.34c0 .64.528 1.164 1.174 1.164.647 0 1.175-.525 1.175-1.164v-1.34c0-.638-.528-1.165-1.175-1.165zm2.138-.878c-.647 0-1.175.525-1.175 1.164v2.218c0 .638.528 1.163 1.175 1.163.646 0 1.174-.525 1.174-1.163v-2.218c0-.64-.528-1.164-1.174-1.164zm2.138-1.006c-.646 0-1.174.525-1.174 1.164v3.224c0 .638.528 1.163 1.174 1.163.648 0 1.175-.525 1.175-1.163V11.505c0-.639-.527-1.164-1.175-1.164zm2.165-.7c-.648 0-1.175.525-1.175 1.163v3.924c0 .639.527 1.164 1.175 1.164.646 0 1.174-.525 1.174-1.164V10.804c0-.638-.528-1.163-1.174-1.163zm2.138.234c-.647 0-1.175.526-1.175 1.164v3.689c0 .638.528 1.163 1.175 1.163.647 0 1.174-.525 1.174-1.163v-3.69c0-.637-.527-1.163-1.174-1.163zm2.137-.584c-.647 0-1.174.526-1.174 1.164v4.274c0 .638.527 1.163 1.174 1.163.648 0 1.175-.525 1.175-1.163V10.459c0-.638-.527-1.164-1.175-1.164zM24 9.34c0-2.474-2.014-4.48-4.5-4.48-1.213 0-2.31.48-3.124 1.261A6.978 6.978 0 0 0 12 4.86a6.967 6.967 0 0 0-6.975 6.952c0 .24.015.476.042.708a1.163 1.163 0 1 0 .008 2.326h15.85A3.597 3.597 0 0 0 24 11.25v-1.91z"/>
           </svg>
         </a>
