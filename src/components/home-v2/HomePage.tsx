@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import { StarField } from "./StarField";
-import { FloatingPanel } from "./FloatingPanel";
 import { CustomCursor } from "./CustomCursor";
+import { BentoHome } from "./BentoHome";
 
 export function HomePage() {
   useEffect(() => {
@@ -12,21 +12,26 @@ export function HomePage() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black overflow-auto">
       {/* Vignette */}
       <div
-        className="pointer-events-none absolute inset-0 z-[1]"
+        className="pointer-events-none fixed inset-0 z-[1]"
         style={{
-          background: "radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.7) 100%)",
+          background:
+            "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.75) 100%)",
         }}
       />
 
+      {/* Starfield */}
       <StarField />
       <CustomCursor />
 
-      {/* Panel */}
-      <div className="relative z-[10] w-full max-w-[420px] px-4">
-        <FloatingPanel />
+      {/* Bento grid — centered, scroll if needed on small screens */}
+      <div
+        className="relative z-[10] w-full px-4 py-6"
+        style={{ maxWidth: 896 }}
+      >
+        <BentoHome />
       </div>
     </div>
   );
