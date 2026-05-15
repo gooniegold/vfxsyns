@@ -10,6 +10,7 @@ interface GlowCardProps {
   width?: string | number;
   height?: string | number;
   customSize?: boolean; // When true, ignores size prop and uses width/height or className
+  backdrop?: string; // Override the backdrop color, e.g. "transparent" or "rgba(0,0,0,0.1)"
 }
 
 const glowColorMap = {
@@ -28,14 +29,15 @@ const sizeMap = {
   lg: 'w-80 h-96'
 };
 
-const GlowCard: React.FC<GlowCardProps> = ({ 
-  children, 
-  className = '', 
+const GlowCard: React.FC<GlowCardProps> = ({
+  children,
+  className = '',
   glowColor = 'cyan',
   size = 'md',
   width,
   height,
-  customSize = true
+  customSize = true,
+  backdrop,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
@@ -72,7 +74,7 @@ const GlowCard: React.FC<GlowCardProps> = ({
       '--spread': spread,
       '--radius': '14',
       '--border': '1',
-      '--backdrop': 'rgba(15, 23, 42, 0.4)',
+      '--backdrop': backdrop ?? 'rgba(15, 23, 42, 0.4)',
       '--backup-border': 'var(--border-subtle, rgba(255,255,255,0.05))',
       '--size': '250',
       '--outer': '1',

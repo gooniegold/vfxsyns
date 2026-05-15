@@ -228,85 +228,106 @@ export function VfxsynCard() {
   const isOnline    = status !== "offline";
 
   return (
-    <GlowCard glowColor="red" className="w-full" customSize>
-      {/* Wave canvas background */}
-      <div className="pointer-events-none absolute inset-0">
-        <WaveCanvas />
-        {/* Red gradient overlay */}
-        <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(140,10,10,0.25), transparent 60%)",
-        }} />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 p-4">
-        {/* Avatar + identity */}
-        <div className="flex items-start gap-3">
-          <div className="relative shrink-0">
-            <div className="h-16 w-16 overflow-hidden rounded-full"
-              style={{ boxShadow: "0 0 0 2px rgba(180,20,20,0.6), 0 0 20px rgba(180,20,20,0.3), 0 0 40px rgba(180,20,20,0.1)" }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/pfp.jpg" alt="vfxsyn" className="h-full w-full object-cover" />
-            </div>
-            {/* Status dot */}
-            <span className="absolute -bottom-0.5 -right-0.5 block h-4 w-4 rounded-full"
-              style={{ background: statusColor, border: "2.5px solid rgba(8,8,12,0.95)", boxShadow: `0 0 8px ${statusColor}80` }}
-              title={status} />
-          </div>
-
-          <div className="min-w-0 flex-1 pt-0.5">
-            <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-[18px] font-bold leading-none text-white"
-                style={{ fontFamily: "var(--font-display)", letterSpacing: "-0.02em" }}>
-                vfxsyn
-              </span>
-              <BraveryBadge />
-              {/* Live pulse when online */}
-              {isOnline && (
-                <div className="flex items-end gap-[2px]">
-                  {[0,1,2].map((i) => (
-                    <div key={i} className="rounded-full bg-[#23a559]"
-                      style={{ width: 2, height: 7, animation: `bounce 0.6s ease-in-out ${i * 0.15}s infinite alternate`, opacity: 0.8 }} />
-                  ))}
-                </div>
-              )}
-            </div>
-            <p className="mt-0.5 text-[10px]"
-              style={{ color: "rgba(255,255,255,0.38)", fontFamily: "var(--font-mono)" }}>
-              vfx / 3D · web &amp; C++ dev
-            </p>
-            <p className="text-[9px] uppercase tracking-[0.15em]"
-              style={{ color: "rgba(255,255,255,0.2)", fontFamily: "var(--font-mono)" }}>
-              ATL, GA
-            </p>
-          </div>
+    /* Rotating red glow border wrapper */
+    <div className="relative w-full">
+      {/* Spinning conic glow behind the card */}
+      <div
+        className="pointer-events-none absolute -inset-[2px] rounded-2xl"
+        style={{
+          background: "conic-gradient(from 0deg, transparent 0deg, rgba(220,40,40,0.9) 60deg, rgba(255,80,80,0.6) 90deg, transparent 150deg)",
+          animation: "spin-glow 3s linear infinite",
+          filter: "blur(6px)",
+          opacity: 0.7,
+        }}
+      />
+      <GlowCard glowColor="red" className="w-full relative" customSize backdrop="rgba(5,2,2,0.55)">
+        {/* Wave canvas background */}
+        <div className="pointer-events-none absolute inset-0">
+          <WaveCanvas />
+          {/* Red gradient overlay */}
+          <div className="absolute inset-0" style={{
+            background: "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(140,10,10,0.22), transparent 65%)",
+          }} />
         </div>
 
-        {/* Stats */}
-        <div className="mt-3 grid grid-cols-3 rounded-xl overflow-hidden"
-          style={{ background: "rgba(0,0,0,0.3)", border: "1px solid rgba(255,255,255,0.06)" }}>
-          {[
-            { v: "90M+", l: "views" },
-            { v: "500+", l: "videos" },
-            { v: "6+",   l: "years" },
-          ].map(({ v, l }) => (
-            <div key={l} className="flex flex-col items-center py-2.5"
-              style={{ borderRight: "1px solid rgba(255,255,255,0.06)" }}>
-              <span className="text-[15px] font-bold leading-none text-white"
-                style={{ fontFamily: "var(--font-display)" }}>{v}</span>
-              <span className="mt-1 text-[7px] uppercase tracking-[0.2em]"
-                style={{ color: "rgba(255,255,255,0.28)", fontFamily: "var(--font-mono)" }}>{l}</span>
+        {/* Content */}
+        <div className="relative z-10 p-4">
+          {/* Avatar + identity */}
+          <div className="flex items-start gap-3">
+            <div className="relative shrink-0">
+              <div className="h-16 w-16 overflow-hidden rounded-full"
+                style={{ boxShadow: "0 0 0 2px rgba(180,20,20,0.6), 0 0 20px rgba(180,20,20,0.3), 0 0 40px rgba(180,20,20,0.1)" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/pfp.jpg" alt="vfxsyn" className="h-full w-full object-cover" />
+              </div>
+              {/* Status dot — dark subtle style */}
+              <span
+                className="absolute -bottom-0.5 -right-0.5 block h-3.5 w-3.5 rounded-full"
+                style={{
+                  background: statusColor,
+                  border: "2px solid rgba(5,2,2,0.9)",
+                  opacity: 0.75,
+                  boxShadow: `0 0 5px ${statusColor}60`,
+                }}
+                title={status}
+              />
             </div>
-          ))}
+
+            <div className="min-w-0 flex-1 pt-0.5">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span
+                  className="text-[13px] leading-none text-white"
+                  style={{ fontFamily: "var(--font-pixel)", letterSpacing: "0.01em", textShadow: "0 0 12px rgba(220,50,50,0.6)" }}>
+                  vfxsyn
+                </span>
+                <BraveryBadge />
+                {/* Live pulse when online */}
+                {isOnline && (
+                  <div className="flex items-end gap-[2px]">
+                    {[0,1,2].map((i) => (
+                      <div key={i} className="rounded-full bg-[#23a559]"
+                        style={{ width: 2, height: 6, animation: `bounce 0.6s ease-in-out ${i * 0.15}s infinite alternate`, opacity: 0.7 }} />
+                    ))}
+                  </div>
+                )}
+              </div>
+              <p className="mt-1 text-[10px]"
+                style={{ color: "rgba(255,255,255,0.38)", fontFamily: "var(--font-mono)" }}>
+                vfx / 3D · web &amp; C++ dev
+              </p>
+              <p className="text-[9px] uppercase tracking-[0.15em]"
+                style={{ color: "rgba(255,255,255,0.2)", fontFamily: "var(--font-mono)" }}>
+                ATL, GA
+              </p>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="mt-3 grid grid-cols-3 rounded-xl overflow-hidden"
+            style={{ background: "rgba(0,0,0,0.35)", border: "1px solid rgba(255,255,255,0.05)" }}>
+            {[
+              { v: "90M+", l: "views" },
+              { v: "500+", l: "videos" },
+              { v: "6+",   l: "years" },
+            ].map(({ v, l }, idx) => (
+              <div key={l} className="flex flex-col items-center py-2.5"
+                style={{ borderRight: idx < 2 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
+                <span className="text-[15px] font-bold leading-none text-white"
+                  style={{ fontFamily: "var(--font-display)" }}>{v}</span>
+                <span className="mt-1 text-[7px] uppercase tracking-[0.2em]"
+                  style={{ color: "rgba(255,255,255,0.25)", fontFamily: "var(--font-mono)" }}>{l}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Live activity */}
+          {presence && <ActivityPill data={presence} />}
         </div>
 
-        {/* Live activity */}
-        {presence && <ActivityPill data={presence} />}
-      </div>
-
-      {/* Bottom shimmer */}
-      <div className="absolute bottom-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(180,20,20,0.5), rgba(255,80,80,0.3), rgba(180,20,20,0.5), transparent)", animation: "shimmer 3s linear infinite", backgroundSize: "200% 100%" }} />
-    </GlowCard>
+        {/* Bottom shimmer */}
+        <div className="absolute bottom-0 left-0 right-0 h-px"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(180,20,20,0.5), rgba(255,80,80,0.3), rgba(180,20,20,0.5), transparent)", animation: "shimmer 3s linear infinite", backgroundSize: "200% 100%" }} />
+      </GlowCard>
+    </div>
   );
 }

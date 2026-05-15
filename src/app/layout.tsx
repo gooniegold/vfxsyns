@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Syne, Space_Grotesk, JetBrains_Mono, Inter } from "next/font/google";
+import { Syne, Space_Grotesk, JetBrains_Mono, Inter, Press_Start_2P } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { getSiteOrigin } from "@/lib/site";
 import "./globals.css";
@@ -23,6 +23,12 @@ const fontInter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   weight: ["300", "400", "500", "600", "700"],
+});
+
+const fontPixel = Press_Start_2P({
+  subsets: ["latin"],
+  variable: "--font-pixel",
+  weight: ["400"],
 });
 
 const fontMono = JetBrains_Mono({
@@ -58,6 +64,7 @@ export default function RootLayout({
         fontSans.variable,
         fontMono.variable,
         fontInter.variable,
+        fontPixel.variable,
       )}
     >
       <head>
