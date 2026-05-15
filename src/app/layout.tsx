@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Oswald, Outfit, JetBrains_Mono, Inter } from "next/font/google";
+import { Syne, Space_Grotesk, JetBrains_Mono, Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { getSiteOrigin } from "@/lib/site";
 import "./globals.css";
@@ -7,16 +7,16 @@ import { ConditionalShell } from "@/components/layout/ConditionalShell";
 import { GlobalSiteEffects } from "@/components/layout/GlobalSiteEffects";
 import MaintenancePage from "@/components/pages/MaintenancePage";
 
-const fontDisplay = Oswald({
+const fontDisplay = Syne({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const fontSans = Outfit({
+const fontSans = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-ui",
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const fontInter = Inter({

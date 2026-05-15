@@ -37,11 +37,12 @@ const MANUAL_PRODUCTS: ManualProduct[] = [
     title: "VFXSYN AUTOMVE",
     description:
       "Automatic motion for music videos: shakes, zoom outs, punch ins, and hit stops that follow your audio so you spend less time keyframing.",
-    handle: "vfxsyn-automve",
-    priceLabel: "COMING SOON",
+    handle: "automve",
+    priceLabel: "$49",
     imagePath: "/api/product-image/automve",
     badge: "PLUGIN",
-    comingSoon: true,
+    directBuyUrl: "https://buy.stripe.com/automve",
+    comingSoon: false,
     mediaFit: "cover",
   },
   {
@@ -53,7 +54,7 @@ const MANUAL_PRODUCTS: ManualProduct[] = [
     imagePath: "/api/product-image/free",
     badge: "FREE BUILD",
     directBuyUrl: "https://buy.stripe.com/cNi5kw1gV0mOdYYbek77O00",
-    comingSoon: true,
+    comingSoon: false,
     mediaFit: "cover",
   },
   {
@@ -64,7 +65,8 @@ const MANUAL_PRODUCTS: ManualProduct[] = [
     priceLabel: "$29",
     imagePath: "/api/product-image/pro",
     badge: "PRO LICENSE",
-    comingSoon: true,
+    directBuyUrl: "https://buy.stripe.com/quickdraft-pro",
+    comingSoon: false,
     mediaFit: "contain",
   },
 ];
@@ -248,11 +250,10 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
                 <button
                   type="button"
                   data-cursor="hover"
-                  disabled
                   onClick={() => handleManualBuyNow("quickdraft-free")}
-                  className="font-ui inline-flex min-h-[48px] cursor-not-allowed items-center justify-center rounded-[6px] border border-[var(--border-subtle)] bg-[var(--bg-card)] px-8 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--text-secondary)] opacity-80"
+                  className="font-ui inline-flex min-h-[48px] items-center justify-center rounded-[6px] border border-white bg-transparent px-8 text-[11px] font-bold uppercase tracking-[0.24em] text-white transition-all hover:bg-white hover:text-black"
                 >
-                  COMING SOON
+                  DOWNLOAD FREE
                 </button>
               </div>
             </div>
@@ -304,17 +305,19 @@ export function ShopView({ pageHeader }: { pageHeader?: ReactNode }) {
                         <button
                           type="button"
                           data-cursor="hover"
-                          disabled={busy || Boolean(p.comingSoon)}
+                          disabled={busy}
                           onClick={() => handleManualBuyNow(p.handle)}
-                          className="font-ui mt-8 flex min-h-[52px] w-full items-center justify-center rounded-[4px] border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[11px] font-bold uppercase tracking-[0.3em] text-[var(--text-secondary)] transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-70"
+                          className="font-ui mt-8 flex min-h-[52px] w-full items-center justify-center rounded-[4px] border border-[var(--border-accent)] bg-[var(--bg-card)] text-[11px] font-bold uppercase tracking-[0.3em] text-white transition-all duration-300 hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-70"
                         >
                           {busy ? (
                             <span className="inline-flex items-center gap-2">
                               <SynSpinner className="h-4 w-4 border border-[rgba(120,103,255,0.35)] border-t-white" />
                               SECURE CHECKOUT...
                             </span>
+                          ) : p.priceLabel === "FREE" ? (
+                            "DOWNLOAD FREE"
                           ) : (
-                            "COMING SOON"
+                            `BUY — ${p.priceLabel}`
                           )}
                         </button>
                       </div>

@@ -6,11 +6,12 @@ type SCWidgetInstance = {
   bind: (event: string, cb: (data?: unknown) => void) => void;
   getCurrentSound: (cb: (sound: { title?: string; artwork_url?: string; user?: { username?: string } }) => void) => void;
   getPosition: (cb: (pos: number) => void) => void;
-  getDuration: (cb: (dur: number) => void) => void;
-  setVolume: (vol: number) => void;
-  play: () => void;
+  getDuration:  (cb: (dur: number) => void) => void;
+  getVolume:    (cb: (vol: number) => void) => void;
+  setVolume:    (vol: number) => void;
+  play:  () => void;
   pause: () => void;
-  load: (url: string, options?: { auto_play?: boolean; hide_related?: boolean; show_comments?: boolean; show_user?: boolean; visual?: boolean }) => void;
+  load:  (url: string, options?: { auto_play?: boolean; hide_related?: boolean; show_comments?: boolean; show_user?: boolean; visual?: boolean }) => void;
 };
 
 type SCWidgetConstructor = {
@@ -19,9 +20,7 @@ type SCWidgetConstructor = {
 };
 
 declare global {
-  interface Window {
-    SC?: { Widget: SCWidgetConstructor };
-  }
+  interface Window { SC?: { Widget: SCWidgetConstructor }; }
 }
 
 /* ── 15-track playlist ── */
@@ -43,7 +42,7 @@ const TRACKS = [
   "https://soundcloud.com/pocketsfullaguap/cake-batter-swish-hitec",
 ];
 
-function shuffle<T>(arr: T[]): T[] {
+function shuffled(arr: string[]): string[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -52,37 +51,36 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-/* BUG FIX: shuffle at module initialisation so the FIRST render already has
-   the randomised list — no stale-ref problem from doing it in useEffect */
-function makePlaylist() { return shuffle(TRACKS); }
-
 function fmt(ms: number) {
   const s = Math.floor(Math.max(ms, 0) / 1000);
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 }
 
 function buildWidgetUrl(trackUrl: string) {
-  return `https://w.soundcloud.com/player/?url=${encodeURIComponent(trackUrl)}&color=%23ffffff&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false`;
+  return `https://w.soundcloud.com/player/?url=${encodeURIComponent(trackUrl)}&color=%23ffffff&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false`;
 }
 
 export function SoundCloudWidget() {
-  const iframeRef    = useRef<HTMLIFrameElement>(null);
-  const widgetRef    = useRef<SCWidgetInstance | null>(null);
-  /* BUG FIX: initialise with a shuffled list so iframe src is correct on
-     the very first render — no race condition with useEffect */
-  const playlistRef  = useRef<string[]>(makePlaylist());
-  const indexRef     = useRef(0);
-  /* BUG FIX: track play state in a ref so async setTimeout closures see
-     the current value instead of the stale initial false */
-  const playingRef   = useRef(false);
+  const iframeRef   = useRef<HTMLIFrameElement>(null);
+  const widgetRef   = useRef<SCWidgetInstance | null>(null);
+  /* Shuffle once per component mount — useState lazy init guarantees client-side random */
+  const [playlist]  = useState<string[]>(() => shuffled(TRACKS));
+  const playlistRef = useRef<string[]>([]);
+  const indexRef    = useRef(0);
+  const playingRef  = useRef(false);
+  const volumeRef   = useRef(75);
+  const fadingRef   = useRef(false);
 
-  const [playing, setPlaying]         = useState(false);
-  const [track, setTrack]             = useState<{ title: string; artist: string; art: string } | null>(null);
-  const [position, setPosition]       = useState(0);
-  const [duration, setDuration]       = useState(0);
-  const [volume, setVolume]           = useState(75);
-  const [showVolume, setShowVolume]   = useState(false);
-  const [needsClick, setNeedsClick]   = useState(false);
+  // Keep playlistRef in sync
+  playlistRef.current = playlist;
+
+  const [playing,    setPlaying]    = useState(false);
+  const [track,      setTrack]      = useState<{ title: string; artist: string; art: string } | null>(null);
+  const [position,   setPosition]   = useState(0);
+  const [duration,   setDuration]   = useState(0);
+  const [volume,     setVolume]     = useState(75);
+  const [showVolume, setShowVolume] = useState(false);
+  const [needsClick, setNeedsClick] = useState(false);
 
   function setPlayingBoth(val: boolean) {
     playingRef.current = val;
@@ -90,29 +88,47 @@ export function SoundCloudWidget() {
   }
 
   function loadTrackMeta(widget: SCWidgetInstance) {
-    widget.getCurrentSound((sound) => {
-      if (sound) {
-        setTrack({
-          title: sound.title ?? "—",
-          artist: sound.user?.username ?? "—",
-          art: (sound.artwork_url ?? "").replace("-large", "-t300x300"),
-        });
-      }
-    });
-    widget.getDuration((d) => setDuration(d));
+    setTimeout(() => {
+      widget.getCurrentSound((sound) => {
+        if (sound) {
+          setTrack({
+            title:  sound.title ?? "—",
+            artist: sound.user?.username ?? "—",
+            art:    (sound.artwork_url ?? "").replace("-large", "-t300x300"),
+          });
+        }
+      });
+      widget.getDuration((d) => setDuration(d));
+    }, 350);
     setPosition(0);
   }
 
   function loadNextTrack(widget: SCWidgetInstance) {
     indexRef.current = (indexRef.current + 1) % playlistRef.current.length;
-    const nextUrl = playlistRef.current[indexRef.current];
-    widget.load(nextUrl, {
+    widget.load(playlistRef.current[indexRef.current], {
       auto_play: true,
       hide_related: true,
       show_comments: false,
       show_user: false,
       visual: false,
     });
+  }
+
+  /* ── Smooth volume fade helper ── */
+  function fadeVolumeTo(widget: SCWidgetInstance, target: number, durationMs = 800, onDone?: () => void) {
+    const steps = 20;
+    const interval = durationMs / steps;
+    let step = 0;
+    const start = volumeRef.current;
+    const id = setInterval(() => {
+      step++;
+      const v = start + (target - start) * (step / steps);
+      widget.setVolume(Math.max(0, Math.min(100, v)));
+      if (step >= steps) {
+        clearInterval(id);
+        onDone?.();
+      }
+    }, interval);
   }
 
   useEffect(() => {
@@ -126,17 +142,22 @@ export function SoundCloudWidget() {
       widgetRef.current = widget;
 
       widget.bind(window.SC.Widget.Events.READY, () => {
-        loadTrackMeta(widget);
         widget.setVolume(75);
-        try { widget.play(); } catch { /* autoplay blocked — show tap hint */ }
+        /* Force-load the shuffled track 0 so SC doesn't play its cached state */
+        widget.load(playlistRef.current[0], {
+          auto_play: true,
+          hide_related: true,
+          show_comments: false,
+          show_user: false,
+          visual: false,
+        });
+        loadTrackMeta(widget);
       });
 
       widget.bind(window.SC.Widget.Events.PLAY, () => {
         setPlayingBoth(true);
         setNeedsClick(false);
-        /* Delay meta fetch — widget.getCurrentSound() still returns the
-           previous track for ~200 ms after a PLAY event on a new load */
-        setTimeout(() => loadTrackMeta(widget), 350);
+        loadTrackMeta(widget);
       });
 
       widget.bind(window.SC.Widget.Events.PAUSE, () => setPlayingBoth(false));
@@ -150,23 +171,61 @@ export function SoundCloudWidget() {
         widget.getPosition((p) => setPosition(p));
       });
 
-      /* BUG FIX: read from ref, not stale state closure */
       setTimeout(() => {
         if (!playingRef.current) setNeedsClick(true);
       }, 2800);
     };
 
     document.head.appendChild(script);
-    return () => { script.remove(); };
+
+    /* ── Fade out on navigation (page hide / beforeunload) ── */
+    const handleHide = () => {
+      const w = widgetRef.current;
+      if (w && playingRef.current && !fadingRef.current) {
+        fadingRef.current = true;
+        fadeVolumeTo(w, 0, 600);
+      }
+    };
+
+    /* Intercept any anchor click that navigates away */
+    const handleLinkClick = (e: MouseEvent) => {
+      const anchor = (e.target as Element).closest("a[href]") as HTMLAnchorElement | null;
+      if (!anchor) return;
+      const href = anchor.getAttribute("href") ?? "";
+      const isInternal = href.startsWith("/") || href.startsWith("#");
+      const isSamePage = href === window.location.pathname;
+      if (isInternal && !isSamePage) {
+        const w = widgetRef.current;
+        if (w && playingRef.current && !fadingRef.current) {
+          fadingRef.current = true;
+          fadeVolumeTo(w, 0, 700);
+        }
+      }
+    };
+
+    window.addEventListener("pagehide",      handleHide);
+    window.addEventListener("beforeunload",   handleHide);
+    document.addEventListener("click",        handleLinkClick, true);
+
+    return () => {
+      script.remove();
+      window.removeEventListener("pagehide",    handleHide);
+      window.removeEventListener("beforeunload", handleHide);
+      document.removeEventListener("click",      handleLinkClick, true);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleVolumeChange = (v: number) => {
+    volumeRef.current = v;
     setVolume(v);
     widgetRef.current?.setVolume(v);
   };
 
   const handlePlayPause = () => {
+    fadingRef.current = false;
     if (!playingRef.current) {
+      widgetRef.current?.setVolume(volumeRef.current);
       widgetRef.current?.play();
       setNeedsClick(false);
     } else {
@@ -180,18 +239,18 @@ export function SoundCloudWidget() {
 
   const pct = duration > 0 ? (position / duration) * 100 : 0;
 
-  /* Use the already-shuffled first track as the initial iframe src */
-  const initialUrl = playlistRef.current[0] ?? TRACKS[0];
+  /* Use playlist[0] as iframe src — on READY we force-load it anyway */
+  const seedUrl = playlist[0] ?? TRACKS[0];
 
   return (
     <div
       className="rounded-xl p-3"
       style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
     >
-      {/* Hidden SC iframe — source is the shuffled track 0 */}
+      {/* Hidden SC iframe */}
       <iframe
         ref={iframeRef}
-        src={buildWidgetUrl(initialUrl)}
+        src={buildWidgetUrl(seedUrl)}
         allow="autoplay"
         className="pointer-events-none absolute h-0 w-0 opacity-0"
         aria-hidden
@@ -218,10 +277,7 @@ export function SoundCloudWidget() {
                 <div
                   key={i}
                   className="w-[2px] rounded-full bg-white opacity-80"
-                  style={{
-                    height: "8px",
-                    animation: `bounce 0.6s ease-in-out ${i * 0.15}s infinite alternate`,
-                  }}
+                  style={{ height: "8px", animation: `bounce 0.6s ease-in-out ${i * 0.15}s infinite alternate` }}
                 />
               ))}
             </div>
@@ -229,10 +285,16 @@ export function SoundCloudWidget() {
         </div>
 
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[11px] font-medium leading-tight text-white">
+          <p
+            className="truncate text-[11px] font-medium leading-tight text-white"
+            style={{ fontFamily: "var(--font-ui), sans-serif" }}
+          >
             {track?.title ?? "loading…"}
           </p>
-          <p className="truncate text-[10px] leading-tight" style={{ color: "rgba(255,255,255,0.38)" }}>
+          <p
+            className="truncate text-[10px] leading-tight"
+            style={{ color: "rgba(255,255,255,0.38)", fontFamily: "var(--font-mono)" }}
+          >
             {track?.artist ?? "—"}
           </p>
         </div>
@@ -265,7 +327,6 @@ export function SoundCloudWidget() {
 
       {/* Controls */}
       <div className="mt-2 flex items-center gap-2">
-        {/* Play / Pause */}
         <button
           onClick={handlePlayPause}
           className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full transition-all hover:scale-110 active:scale-95"
@@ -283,7 +344,6 @@ export function SoundCloudWidget() {
           )}
         </button>
 
-        {/* Skip */}
         <button
           onClick={handleNext}
           className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full transition-all hover:scale-110 active:scale-95"
@@ -301,7 +361,6 @@ export function SoundCloudWidget() {
           </span>
         )}
 
-        {/* Volume */}
         <div className="ml-auto flex items-center gap-2">
           <button
             onClick={() => setShowVolume((v) => !v)}
