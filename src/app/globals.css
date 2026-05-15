@@ -11,36 +11,38 @@
 }
 
 :root {
-  /* ─── VFXSYN violet / ink (next/font sets fonts on html) ─── */
-  --bg-base: #06040f;
-  --bg-elevated: #0f0a1a;
-  --bg-card: rgba(22, 16, 38, 0.82);
+  /* ─── VFXSYN — toxic green / black ─── */
+  --bg-base: #000000;
+  --bg-elevated: #050a05;
+  --bg-card: rgba(0, 10, 0, 0.75);
 
-  --accent: #a855f7;
-  --accent-secondary: #c084fc;
-  --accent-bright: #d8b4fe;
-  --accent-dim: rgba(168, 85, 247, 0.18);
-  --accent-glow: rgba(192, 132, 252, 0.45);
+  --accent: #22c55e;
+  --accent-secondary: #4ade80;
+  --accent-bright: #86efac;
+  --accent-dim: rgba(34, 197, 94, 0.15);
+  --accent-glow: rgba(34, 197, 94, 0.35);
+  --accent-neon: #39ff14;
 
-  --gold: #e9d5ff;
-  --gold-bright: #f5f0ff;
-  --gold-dim: rgba(233, 213, 255, 0.2);
-  --gold-glow: rgba(216, 180, 254, 0.35);
+  /* keep gold for shop/premium feel */
+  --gold: #fbbf24;
+  --gold-bright: #fde68a;
+  --gold-dim: rgba(251, 191, 36, 0.2);
+  --gold-glow: rgba(251, 191, 36, 0.25);
 
-  --text-primary: #f5f0ff;
-  --text-secondary: rgba(230, 220, 250, 0.88);
-  --text-dim: rgba(180, 170, 210, 0.55);
+  --text-primary: #f0fdf4;
+  --text-secondary: rgba(187, 247, 208, 0.85);
+  --text-dim: rgba(134, 239, 172, 0.45);
 
-  --border-subtle: rgba(255, 255, 255, 0.1);
-  --border-accent: rgba(168, 85, 247, 0.45);
-  --border-gold: rgba(216, 180, 254, 0.3);
+  --border-subtle: rgba(34, 197, 94, 0.12);
+  --border-accent: rgba(34, 197, 94, 0.35);
+  --border-gold: rgba(251, 191, 36, 0.3);
 
-  --glass-bg: rgba(14, 10, 28, 0.78);
-  --glass-blur: blur(22px) saturate(140%);
-  --glass-edge: 1px solid rgba(168, 85, 247, 0.15);
-  --glass-elev-shadow: 0 28px 90px rgba(0, 0, 0, 0.55), 0 0 60px rgba(168, 85, 247, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --glass-bg: rgba(0, 0, 0, 0.55);
+  --glass-blur: blur(20px) saturate(120%);
+  --glass-edge: 1px solid rgba(34, 197, 94, 0.18);
+  --glass-elev-shadow: 0 28px 90px rgba(0, 0, 0, 0.8), 0 0 60px rgba(34, 197, 94, 0.05), inset 0 1px 0 rgba(34, 197, 94, 0.08);
 
-  --hud-line: rgba(168, 85, 247, 0.15);
+  --hud-line: rgba(34, 197, 94, 0.15);
   --hud-text: var(--accent);
 
   --font-hero: var(--font-display), Oswald, ui-sans-serif, system-ui, sans-serif;
@@ -48,6 +50,24 @@
   --ease-ultra: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-motion: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
+
+/* ─── rainbow / green shift animation (used in panel) ─── */
+@keyframes rainbowShift {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* ─── bounce for soundcloud bars ─── */
+@keyframes bounce {
+  from { transform: scaleY(0.4); }
+  to   { transform: scaleY(1); }
+}
+
+/* ─── thin scrollbar ─── */
+.scrollbar-thin::-webkit-scrollbar { width: 4px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(34,197,94,0.2); border-radius: 9999px; }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: rgba(34,197,94,0.4); }
 
 
 /**
