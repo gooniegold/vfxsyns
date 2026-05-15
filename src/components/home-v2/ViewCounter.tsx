@@ -6,28 +6,29 @@ export function ViewCounter() {
   const [count, setCount] = useState<number | null>(null);
 
   useEffect(() => {
-    // Increment on visit
     fetch("/api/views", { method: "POST" })
       .then((r) => r.json())
-      .then((d) => setCount(d.count))
+      .then((d: { count?: number }) => setCount(d.count ?? 0))
       .catch(() => {
-        // Fallback: just GET
         fetch("/api/views")
           .then((r) => r.json())
-          .then((d) => setCount(d.count));
+          .then((d: { count?: number }) => setCount(d.count ?? 0));
       });
   }, []);
 
-  if (count === null) return (
-    <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "rgba(255,255,255,0.2)" }}>···</span>
-  );
+  if (count === null) {
+    return (
+      <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "rgba(255,255,255,0.18)" }}>
+        ···
+      </span>
+    );
+  }
 
   return (
     <span
-      className="flex items-center gap-1"
-      style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "rgba(255,255,255,0.3)" }}
+      style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "rgba(255,255,255,0.25)", letterSpacing: "0.05em" }}
     >
-      {count.toLocaleString()}
+      {count.toLocaleString()} views
     </span>
   );
 }
