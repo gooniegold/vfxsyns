@@ -8,7 +8,7 @@ interface Star {
   r: number;
   speed: number;
   alpha: number;
-  alphaSpeed: number;
+  alphaDir: number;
 }
 
 export function StarField() {
@@ -21,27 +21,29 @@ export function StarField() {
     if (!ctx) return;
 
     let raf: number;
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const COUNT = 120;
     const stars: Star[] = [];
-    const COUNT = 160;
 
     function resize() {
       if (!canvas || !ctx) return;
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width = window.innerWidth + "px";
-      canvas.style.height = window.innerHeight + "px";
-      ctx.scale(dpr, dpr);
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     function spawn(): Star {
       return {
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        r: Math.random() * 1.4 + 0.3,
-        speed: Math.random() * 0.35 + 0.1,
-        alpha: Math.random() * 0.6 + 0.1,
-        alphaSpeed: (Math.random() * 0.003 + 0.001) * (Math.random() > 0.5 ? 1 : -1),
+        r: Math.random() * 1.2 + 0.2,
+        speed: Math.random() * 0.25 + 0.05,
+        alpha: Math.random() * 0.5 + 0.05,
+        alphaDir: Math.random() > 0.5 ? 1 : -1,
       };
     }
 
@@ -50,23 +52,24 @@ export function StarField() {
     window.addEventListener("resize", resize);
 
     function draw() {
-      if (!ctx || !canvas) return;
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      if (!ctx) return;
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      ctx.clearRect(0, 0, W, H);
 
       for (const s of stars) {
         s.y += s.speed;
-        s.alpha += s.alphaSpeed;
-        if (s.alpha <= 0.05 || s.alpha >= 0.75) s.alphaSpeed *= -1;
-        if (s.y > window.innerHeight + 4) {
+        s.alpha += s.alphaDir * 0.002;
+        if (s.alpha >= 0.65) { s.alpha = 0.65; s.alphaDir = -1; }
+        if (s.alpha <= 0.04) { s.alpha = 0.04; s.alphaDir = 1; }
+        if (s.y > H + 4) {
           s.y = -4;
-          s.x = Math.random() * window.innerWidth;
+          s.x = Math.random() * W;
         }
 
-        // green-tinted stars for vfxsyn theme
-        const tint = Math.random() > 0.85 ? `rgba(74, 222, 128, ${s.alpha})` : `rgba(255,255,255,${s.alpha * 0.7})`;
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fillStyle = tint;
+        ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
         ctx.fill();
       }
 
@@ -84,6 +87,7 @@ export function StarField() {
     <canvas
       ref={canvasRef}
       className="pointer-events-none fixed inset-0 z-0"
+      style={{ willChange: "contents" }}
       aria-hidden
     />
   );

@@ -11,24 +11,21 @@ const PRODUCTS = [
     title: "QuickDraft Free",
     desc: "Watermarked review exports for client passes.",
     price: "FREE",
-    badge: "FREE BUILD",
-    available: false,
+    badge: "FREE",
   },
   {
     handle: "quickdraft-pro",
     title: "QuickDraft Pro",
     desc: "Auto render queue, watermark controls, faster handoffs.",
     price: "$29",
-    badge: "PRO LICENSE",
-    available: false,
+    badge: "PRO",
   },
   {
     handle: "automve",
     title: "VFXSYN AUTOMVE",
-    desc: "Automatic motion for music videos. Shakes, zooms, hit stops timed to audio.",
+    desc: "Automatic motion for music videos. Shakes, zooms, hit stops.",
     price: "SOON",
     badge: "PLUGIN",
-    available: false,
   },
 ] as const;
 
@@ -42,10 +39,16 @@ export function ShopTab() {
       className="space-y-2"
     >
       <div className="mb-3 flex items-center justify-between">
-        <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-[rgba(34,197,94,0.5)]">digital products</p>
+        <p
+          className="text-[9px] uppercase tracking-[0.3em]"
+          style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-mono)" }}
+        >
+          digital products
+        </p>
         <Link
           href="/shop"
-          className="font-mono text-[9px] text-[rgba(255,255,255,0.3)] transition-colors hover:text-[rgba(34,197,94,0.7)]"
+          className="text-[9px] transition-colors"
+          style={{ color: "rgba(255,255,255,0.25)", fontFamily: "var(--font-mono)" }}
         >
           full shop →
         </Link>
@@ -59,23 +62,63 @@ export function ShopTab() {
           transition={{ duration: 0.35, ease, delay: i * 0.06 }}
         >
           <Link
-            href={`/shop`}
-            className="group flex items-center justify-between rounded-lg border border-[rgba(34,197,94,0.1)] bg-[rgba(0,0,0,0.4)] px-4 py-3.5 transition-all duration-200 hover:border-[rgba(34,197,94,0.25)] hover:bg-[rgba(34,197,94,0.03)]"
+            href={`/shop/${p.handle}`}
+            className="group flex items-center justify-between rounded-lg px-4 py-3 transition-all duration-200"
+            style={{
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.06)",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)";
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.1)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.03)";
+              (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.06)";
+            }}
           >
-            <div className="flex-1 min-w-0 pr-3">
+            <div className="min-w-0 flex-1 pr-3">
               <div className="flex items-center gap-2">
-                <p className="font-mono text-[12px] font-medium text-[rgba(255,255,255,0.85)] group-hover:text-white transition-colors">
+                <p
+                  className="text-[12px] font-medium text-white"
+                  style={{ fontFamily: "var(--font-inter), sans-serif" }}
+                >
                   {p.title}
                 </p>
-                <span className="font-mono text-[7px] uppercase tracking-[0.2em] text-[rgba(34,197,94,0.45)] border border-[rgba(34,197,94,0.2)] px-1.5 py-0.5 rounded">
+                <span
+                  className="rounded px-1.5 py-0.5 text-[7px] uppercase tracking-[0.2em]"
+                  style={{
+                    background: "rgba(255,255,255,0.06)",
+                    color: "rgba(255,255,255,0.35)",
+                    fontFamily: "var(--font-mono)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
                   {p.badge}
                 </span>
               </div>
-              <p className="mt-0.5 font-mono text-[10px] text-[rgba(255,255,255,0.3)] truncate">{p.desc}</p>
+              <p
+                className="mt-0.5 truncate text-[10px]"
+                style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-inter), sans-serif" }}
+              >
+                {p.desc}
+              </p>
             </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="font-mono text-[12px] font-bold text-[#4ade80]">{p.price}</span>
-              <svg className="h-3 w-3 text-[rgba(34,197,94,0.3)] transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <div className="flex shrink-0 items-center gap-2">
+              <span
+                className="text-[12px] font-semibold text-white"
+                style={{ fontFamily: "var(--font-inter), sans-serif" }}
+              >
+                {p.price}
+              </span>
+              <svg
+                className="h-3 w-3 transition-transform group-hover:translate-x-0.5"
+                style={{ color: "rgba(255,255,255,0.25)" }}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
             </div>
@@ -83,10 +126,25 @@ export function ShopTab() {
         </motion.div>
       ))}
 
-      <div className="pt-2">
+      <div className="pt-1">
         <Link
           href="/shop"
-          className="flex w-full items-center justify-center rounded-lg border border-[rgba(34,197,94,0.2)] py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-[rgba(34,197,94,0.6)] transition-all hover:border-[rgba(34,197,94,0.4)] hover:bg-[rgba(34,197,94,0.04)] hover:text-[#4ade80]"
+          className="flex w-full items-center justify-center rounded-lg py-3 text-[10px] uppercase tracking-[0.2em] transition-all"
+          style={{
+            border: "1px solid rgba(255,255,255,0.08)",
+            color: "rgba(255,255,255,0.35)",
+            fontFamily: "var(--font-mono)",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)";
+            (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)";
+            (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.14)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.background = "transparent";
+            (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.35)";
+            (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)";
+          }}
         >
           enter shop
         </Link>

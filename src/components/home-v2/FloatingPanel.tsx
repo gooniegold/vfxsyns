@@ -22,83 +22,70 @@ export function FloatingPanel() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.97, y: 12 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="relative z-10 w-full max-w-[420px] overflow-hidden rounded-xl border border-[rgba(34,197,94,0.18)] shadow-[0_0_60px_rgba(34,197,94,0.06),0_32px_80px_rgba(0,0,0,0.7)]"
+      initial={{ opacity: 0, y: 16, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="relative w-full max-w-[420px] overflow-hidden rounded-2xl"
       style={{
-        background: "rgba(0,0,0,0.55)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
+        background: "rgba(10, 10, 10, 0.92)",
+        border: "1px solid rgba(255,255,255,0.08)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        boxShadow: "0 32px 80px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.04)",
       }}
     >
-      {/* Subtle green glow at top */}
+      {/* Nav bar */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(34,197,94,0.5), transparent)" }}
-      />
-
-      {/* Title bar */}
-      <div
-        className="flex items-center justify-between border-b border-[rgba(34,197,94,0.12)] px-4 py-2.5"
-        style={{ background: "rgba(0,0,0,0.6)" }}
+        className="flex items-center justify-between border-b px-4 py-2"
+        style={{ borderColor: "rgba(255,255,255,0.07)", background: "rgba(0,0,0,0.4)" }}
       >
-        {/* Tabs */}
-        <nav className="flex items-center gap-1">
+        <div className="flex items-center gap-0.5">
           {TABS.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`relative rounded px-2.5 py-1 font-mono text-[10px] transition-all duration-200 ${
-                tab === t.id
-                  ? "text-[#4ade80]"
-                  : "text-[rgba(255,255,255,0.35)] hover:text-[rgba(255,255,255,0.65)]"
-              }`}
+              className="relative px-3 py-1.5 text-[11px] transition-colors duration-150"
+              style={{
+                fontFamily: "var(--font-inter), sans-serif",
+                color: tab === t.id ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.3)",
+                fontWeight: tab === t.id ? 500 : 400,
+              }}
             >
               {t.label}
               {tab === t.id && (
                 <motion.div
-                  layoutId="tab-underline"
-                  className="absolute inset-x-0 -bottom-[11px] h-px bg-[#22c55e]"
-                  style={{ boxShadow: "0 0 6px rgba(34,197,94,0.8)" }}
+                  layoutId="tab-indicator"
+                  className="absolute inset-x-2 -bottom-[9px] h-px"
+                  style={{ background: "rgba(255,255,255,0.7)" }}
+                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                 />
               )}
             </button>
           ))}
-        </nav>
-
-        {/* View counter */}
+        </div>
         <ViewCounter />
       </div>
 
-      {/* Rainbow top bar (subtle green variant) */}
-      <div
-        className="h-[2px] w-full"
-        style={{
-          background: "linear-gradient(90deg, #22c55e, #4ade80, #86efac, #22c55e)",
-          backgroundSize: "200% 100%",
-          animation: "rainbowShift 3s linear infinite",
-          boxShadow: "0 0 8px rgba(34,197,94,0.4)",
-        }}
-      />
-
       {/* Content */}
-      <div className="max-h-[70vh] overflow-y-auto p-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[rgba(34,197,94,0.2)]">
+      <div
+        className="overflow-y-auto p-4"
+        style={{ maxHeight: "72vh", scrollbarWidth: "none" }}
+      >
         <AnimatePresence mode="wait">
-          <div key={tab}>
+          <motion.div
+            key={tab}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
             {tab === "home" && <HomeTab />}
             {tab === "work" && <WorkTab />}
             {tab === "shop" && <ShopTab />}
             {tab === "links" && <LinksTab />}
-          </div>
+          </motion.div>
         </AnimatePresence>
       </div>
-
-      {/* Bottom border glow */}
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(34,197,94,0.3), transparent)" }}
-      />
     </motion.div>
   );
 }

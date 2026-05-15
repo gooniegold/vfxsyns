@@ -15,10 +15,8 @@ export function CustomCursor() {
 
     let mx = -100, my = -100;
     let raf: number;
-
-    // trail points
-    const trail: { x: number; y: number; age: number }[] = [];
-    const TRAIL_MAX = 28;
+    const trail: { x: number; y: number }[] = [];
+    const TRAIL_MAX = 24;
 
     function resize() {
       canvas!.width = window.innerWidth;
@@ -30,8 +28,8 @@ export function CustomCursor() {
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
-      dot!.style.transform = `translate(${mx - 2}px, ${my - 2}px)`;
-      trail.push({ x: mx, y: my, age: 0 });
+      dot!.style.transform = `translate(${mx - 2.5}px, ${my - 2.5}px)`;
+      trail.push({ x: mx, y: my });
       if (trail.length > TRAIL_MAX) trail.shift();
     };
 
@@ -48,15 +46,12 @@ export function CustomCursor() {
       for (let i = 1; i < trail.length; i++) {
         const p = trail[i - 1];
         const c = trail[i];
-        const progress = i / trail.length;
-        const alpha = progress * 0.55;
-        const width = progress * 2.5;
-
+        const t = i / trail.length;
         ctx!.beginPath();
         ctx!.moveTo(p.x, p.y);
         ctx!.lineTo(c.x, c.y);
-        ctx!.strokeStyle = `rgba(34, 197, 94, ${alpha})`;
-        ctx!.lineWidth = width;
+        ctx!.strokeStyle = `rgba(255,255,255,${t * 0.45})`;
+        ctx!.lineWidth = t * 2;
         ctx!.lineCap = "round";
         ctx!.stroke();
       }
@@ -78,13 +73,11 @@ export function CustomCursor() {
   return (
     <>
       <style>{`* { cursor: none !important; }`}</style>
-      {/* dot */}
       <div
         ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-[99999] h-[5px] w-[5px] rounded-full bg-[#22C55E] opacity-0 shadow-[0_0_8px_rgba(34,197,94,0.9)]"
-        style={{ willChange: "transform" }}
+        className="pointer-events-none fixed left-0 top-0 z-[99999] h-[5px] w-[5px] rounded-full bg-white opacity-0"
+        style={{ willChange: "transform", boxShadow: "0 0 6px rgba(255,255,255,0.8)" }}
       />
-      {/* trail canvas */}
       <canvas
         ref={canvasRef}
         className="pointer-events-none fixed inset-0 z-[99998]"

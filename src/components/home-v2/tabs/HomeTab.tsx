@@ -5,7 +5,6 @@ import { DiscordCard } from "../DiscordCard";
 import { SoundCloudWidget } from "../SoundCloudWidget";
 
 const DISCORD_ID = process.env.NEXT_PUBLIC_DISCORD_USER_ID ?? "855141280945143828";
-
 const ease = [0.16, 1, 0.3, 1] as const;
 
 export function HomeTab() {
@@ -18,27 +17,57 @@ export function HomeTab() {
       className="space-y-3"
     >
       {/* Identity */}
-      <div className="rounded-xl border border-[rgba(34,197,94,0.18)] bg-[rgba(0,0,0,0.45)] p-4 backdrop-blur-sm">
-        <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-[rgba(34,197,94,0.5)]">
-          atlanta post house
-        </p>
-        <h1 className="mt-1 font-mono text-[22px] font-bold tracking-tight text-white">
+      <div
+        className="rounded-xl p-4"
+        style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+      >
+        <h1
+          className="text-[22px] font-semibold tracking-tight text-white"
+          style={{ fontFamily: "var(--font-inter), sans-serif" }}
+        >
           vfxsyn
         </h1>
-        <p className="mt-1 font-mono text-[11px] text-[rgba(255,255,255,0.45)]">
-          vfx · color · finishing for music videos
+        <p
+          className="mt-1.5 text-[12px] leading-relaxed"
+          style={{ color: "rgba(255,255,255,0.45)", fontFamily: "var(--font-inter), sans-serif" }}
+        >
+          vfx / 3D artist · Web &amp; C++ dev
+          <br />
+          <a
+            href="https://instagram.com/vfxsyn"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-white"
+            style={{ color: "rgba(255,255,255,0.35)" }}
+          >
+            @vfxsyn
+          </a>{" "}
+          <span style={{ color: "rgba(255,255,255,0.2)" }}>on IG</span>
         </p>
 
         {/* Quick stats */}
-        <div className="mt-4 flex gap-5 border-t border-[rgba(34,197,94,0.1)] pt-4">
+        <div
+          className="mt-4 flex gap-6 border-t pt-4"
+          style={{ borderColor: "rgba(255,255,255,0.06)" }}
+        >
           {[
             { v: "90M+", l: "views" },
             { v: "500+", l: "videos" },
             { v: "6+", l: "years" },
           ].map(({ v, l }) => (
             <div key={l}>
-              <p className="font-mono text-[15px] font-bold text-[#4ade80]">{v}</p>
-              <p className="font-mono text-[9px] text-[rgba(255,255,255,0.3)]">{l}</p>
+              <p
+                className="text-[15px] font-semibold text-white"
+                style={{ fontFamily: "var(--font-inter), sans-serif" }}
+              >
+                {v}
+              </p>
+              <p
+                className="text-[9px] uppercase tracking-widest"
+                style={{ color: "rgba(255,255,255,0.28)", fontFamily: "var(--font-mono)" }}
+              >
+                {l}
+              </p>
             </div>
           ))}
         </div>
@@ -47,7 +76,7 @@ export function HomeTab() {
       {/* Discord presence */}
       <DiscordCard userId={DISCORD_ID} />
 
-      {/* SoundCloud */}
+      {/* SoundCloud now playing */}
       <SoundCloudWidget />
     </motion.div>
   );
