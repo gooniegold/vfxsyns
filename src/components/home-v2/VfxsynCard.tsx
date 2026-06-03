@@ -158,21 +158,6 @@ function ActivityPill({ data }: { data: LanyardData }) {
   return null;
 }
 
-/* ── HypeSquad Bravery badge ── */
-function BraveryBadge() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" aria-label="HypeSquad Bravery"
-      style={{ filter: "drop-shadow(0 0 3px rgba(200,80,240,0.7))" }}>
-      <defs>
-        <linearGradient id="bravery" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#e879f9"/>
-          <stop offset="100%" stopColor="#9333ea"/>
-        </linearGradient>
-      </defs>
-      <path d="M12 2 L22 10 V21 H15 V15 H9 V21 H2 V10 Z" fill="url(#bravery)"/>
-    </svg>
-  );
-}
 
 /* ── Lanyard hook ── */
 export function useLanyard() {
@@ -280,7 +265,6 @@ export function VfxsynCard() {
                   style={{ fontFamily: "var(--font-pixel)", letterSpacing: "0.01em", textShadow: "0 0 12px rgba(220,50,50,0.6)" }}>
                   vfxsyn
                 </span>
-                <BraveryBadge />
                 {/* Live pulse when online */}
                 {isOnline && (
                   <div className="flex items-end gap-[2px]">
