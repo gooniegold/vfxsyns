@@ -1,0 +1,5 @@
+Contact: mailto:security@vfxsyn.org
+Expires: 2027-06-05T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://vfxsyn.org/.well-known/security.txt
+Policy: https://vfxsyn.org/privacy
